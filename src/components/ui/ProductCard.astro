@@ -35,6 +35,7 @@ const categoryKey = product.category === 'lupins' ? 'lupins' : 'cherries';
 
 // Size classes
 const sizeClasses = {
+  xs: 'max-w-xs',
   sm: 'max-w-sm',
   md: 'max-w-md',
   lg: 'max-w-lg',
@@ -221,7 +222,9 @@ const formatSpecification = (spec: string) => {
         
         <!-- Secondary CTA -->
         <a 
-          href={`/documents/agracom-ficha-tecnica-${product.category === 'lupins' ? 'lupinos' : 'cerezas'}-${lang}.pdf`}
+          href={product.category === 'cherries' 
+            ? '/documents/datasheets/ficha-tecnica-cerezas-agracom.pdf'
+            : `/documents/agracom-ficha-tecnica-${product.category === 'lupins' ? 'lupinos' : 'cerezas'}-${lang}.pdf`}
           class="btn btn-secondary flex-1 text-center text-sm py-3 group/cta"
           download
           onclick={`gtag && gtag('event', 'resource_download', { event_label: '${product.id}_technical_sheet', custom_parameter_category: '${product.category}' })`}
