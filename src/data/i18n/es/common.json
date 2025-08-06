@@ -1,0 +1,60 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "products": "Productos",
+    "certifications": "Certificaciones",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "regions": "Regiones"
+  },
+  "cta": {
+    "inquire": "Consulte disponibilidad y precios",
+    "download": "Descargar ficha técnica",
+    "contact": "Contactar ahora",
+    "quote": "Solicitar cotización",
+    "learn_more": "Conocer más",
+    "view_gallery": "Ver galería",
+    "get_quote": "Obtener cotización"
+  },
+  "footer": {
+    "tagline": "Lupinos y Cerezas Premium desde Chile",
+    "copyright": "© 2025 Agracom Internacional S.A. Todos los derechos reservados.",
+    "contact_title": "Contacto",
+    "follow_us": "Síguenos",
+    "quick_links": "Enlaces rápidos",
+    "our_products": "Nuestros productos",
+    "certifications": "Certificaciones",
+    "made_in_chile": "Hecho en Chile"
+  },
+  "regions": {
+    "us_east": "Costa Este EE.UU.",
+    "mediterranean": "Mediterráneo",
+    "middle_east": "Medio Oriente"
+  },
+  "status": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "sending": "Enviando...",
+    "sent": "Enviado"
+  },
+  "actions": {
+    "close": "Cerrar",
+    "open": "Abrir",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "download": "Descargar"
+  },
+  "time": {
+    "days": "días",
+    "weeks": "semanas",
+    "months": "meses",
+    "delivery_time": "Tiempo de entrega"
+  }
+}

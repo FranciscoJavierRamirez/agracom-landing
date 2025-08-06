@@ -1,0 +1,60 @@
+{
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "certifications": "Certifications",
+    "about": "About",
+    "contact": "Contact",
+    "regions": "Regions"
+  },
+  "cta": {
+    "inquire": "Inquire about availability and pricing",
+    "download": "Download technical sheet",
+    "contact": "Contact now",
+    "quote": "Request quote",
+    "learn_more": "Learn more",
+    "view_gallery": "View gallery",
+    "get_quote": "Get quote"
+  },
+  "footer": {
+    "tagline": "Premium Lupins and Cherries from Chile",
+    "copyright": "© 2025 Agracom Internacional S.A. All rights reserved.",
+    "contact_title": "Contact",
+    "follow_us": "Follow us",
+    "quick_links": "Quick links",
+    "our_products": "Our products",
+    "certifications": "Certifications",
+    "made_in_chile": "Made in Chile"
+  },
+  "regions": {
+    "us_east": "US East Coast",
+    "mediterranean": "Mediterranean",
+    "middle_east": "Middle East"
+  },
+  "status": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "sending": "Sending...",
+    "sent": "Sent"
+  },
+  "actions": {
+    "close": "Close",
+    "open": "Open",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "download": "Download"
+  },
+  "time": {
+    "days": "days",
+    "weeks": "weeks",
+    "months": "months",
+    "delivery_time": "Delivery time"
+  }
+}

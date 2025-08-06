@@ -1,0 +1,419 @@
+---
+// Agracom Internacional S.A. - Hero Section Component
+// Sección principal con propuesta de valor, CTAs y imagen hero
+
+import type { Locale, Region, CTAButton, ImageAsset } from '../../types/global';
+import { createTranslator } from '../../utils/i18n';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  bgImage?: ImageAsset;
+  primaryCTA?: CTAButton;
+  secondaryCTA?: CTAButton;
+  certificationBadges?: boolean;
+  showStats?: boolean;
+  region?: Region;
+  lang: Locale;
+  class?: string;
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  bgImage,
+  primaryCTA,
+  secondaryCTA,
+  certificationBadges = true,
+  showStats = true,
+  region,
+  lang,
+  class: className = ''
+} = Astro.props;
+
+// Load translations
+const { hero, common } = await createTranslator(lang);
+
+// Default content from translations if not provided
+const heroTitle = title || await hero('title');
+const heroSubtitle = subtitle || await hero('subtitle');
+const heroDescription = description || await hero('description');
+
+// Default CTAs if not provided
+const defaultPrimaryCTA: CTAButton = {
+  text: primaryCTA?.text || await common('cta.inquire'),
+  href: primaryCTA?.href || '#contacto',
+  variant: primaryCTA?.variant || 'primary'
+};
+
+const defaultSecondaryCTA: CTAButton = {
+  text: secondaryCTA?.text || await common('cta.download'),
+  href: secondaryCTA?.href || '#recursos',
+  variant: secondaryCTA?.variant || 'secondary'
+};
+
+// Stats data
+const stats = [
+  {
+    value: '270+',
+    label: lang === 'es' ? 'Embarques exitosos' : 'Successful shipments'
+  },
+  {
+    value: '17',
+    label: lang === 'es' ? 'Países' : 'Countries'
+  },
+  {
+    value: '20+',
+    label: lang === 'es' ? 'Años de experiencia' : 'Years of experience'
+  }
+];
+
+// Certifications
+const certifications = [
+  { name: 'Kosher', class: 'certification-badge--kosher' },
+  { name: 'Halal', class: 'certification-badge--halal' },
+  { name: 'SAG', class: 'certification-badge--sag' }
+];
+---
+
+<section 
+  class={`section--hero bg-gradient-to-br from-primary/5 to-secondary/5 relative overflow-hidden ${className}`}
+  role="banner"
+  aria-label={lang === 'es' ? 'Sección principal' : 'Main hero section'}
+>
+  <!-- Background Pattern (Optional) -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KPGcgZmlsbD0iIzE1NjVDMCIgZmlsbC1vcGFjaXR5PSIwLjEiPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+CjwvZz4KPC9nPgo8L3N2Zz4=')] repeat"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="hero-container">
+      <!-- Content Section -->
+      <div class="space-y-8 flex flex-col justify-center">
+        <!-- Main Content -->
+        <div class="space-y-6">
+          <!-- Title -->
+          <h1 
+            class="text-h1 font-bold text-neutral-900 leading-tight animate-fade-in"
+            style="animation-delay: 0.1s"
+          >
+            {heroTitle}
+          </h1>
+          
+          <!-- Subtitle -->
+          <p 
+            class="text-xl text-neutral-700 max-w-2xl leading-relaxed animate-fade-in"
+            style="animation-delay: 0.2s"
+          >
+            {heroSubtitle}
+          </p>
+
+          <!-- Description (Optional) -->
+          {heroDescription && (
+            <p 
+              class="text-lg text-neutral-600 max-w-xl animate-fade-in"
+              style="animation-delay: 0.3s"
+            >
+              {heroDescription}
+            </p>
+          )}
+          
+          <!-- Certification Badges -->
+          {certificationBadges && (
+            <div 
+              class="flex flex-wrap gap-3 animate-fade-in"
+              style="animation-delay: 0.4s"
+            >
+              {certifications.map((cert) => (
+                <span 
+                  class={`certification-badge ${cert.class}`}
+                  role="img"
+                  aria-label={`${cert.name} certified`}
+                >
+                  {cert.name}
+                </span>
+              ))}
+              
+              <!-- Success metric badge -->
+              <span 
+                class="px-3 py-1 bg-accent/20 text-accent-dark rounded-full text-sm font-semibold border border-accent/30"
+              >
+                270+ {lang === 'es' ? 'Embarques Exitosos' : 'Successful Shipments'}
+              </span>
+            </div>
+          )}
+        </div>
+        
+        <!-- CTAs -->
+        <div 
+          class="flex flex-col sm:flex-row gap-4 animate-fade-in"
+          style="animation-delay: 0.5s"
+        >
+          <a 
+            href={defaultPrimaryCTA.href}
+            class={`btn btn-${defaultPrimaryCTA.variant} px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
+            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'hero_primary', custom_parameter_region: '${region || 'unknown'}' })`}
+          >
+            {defaultPrimaryCTA.text}
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          
+          <a 
+            href={defaultSecondaryCTA.href}
+            class={`btn btn-${defaultSecondaryCTA.variant} px-8 py-4 text-lg hover:shadow-lg transition-all duration-300`}
+            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'hero_secondary', custom_parameter_region: '${region || 'unknown'}' })`}
+          >
+            {defaultSecondaryCTA.text}
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Stats Section -->
+        {showStats && (
+          <div 
+            class="grid grid-cols-3 gap-6 pt-8 border-t border-neutral-200 animate-fade-in"
+            style="animation-delay: 0.6s"
+          >
+            {stats.map((stat, index) => (
+              <div class="text-center">
+                <div 
+                  class="text-3xl md:text-4xl font-bold text-primary mb-1 counter"
+                  data-target={stat.value.replace(/\D/g, '')}
+                  data-suffix={stat.value.replace(/\d/g, '')}
+                >
+                  {stat.value}
+                </div>
+                <div class="text-sm text-neutral-600 font-medium">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      
+      <!-- Image Section -->
+      <div 
+        class="relative animate-fade-in"
+        style="animation-delay: 0.3s"
+      >
+        <!-- Image Container -->
+        <div class="aspect-[4/3] rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-300 relative">
+          
+          {bgImage ? (
+            <!-- Actual Image (when provided) -->
+            <img
+              src={bgImage.src}
+              alt={bgImage.alt}
+              width={bgImage.width || 1200}
+              height={bgImage.height || 900}
+              loading="eager"
+              class="w-full h-full object-cover"
+            />
+          ) : (
+            <!-- Placeholder Image -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center space-y-4">
+                <div class="w-20 h-20 bg-primary/20 rounded-full mx-auto flex items-center justify-center">
+                  <span class="text-4xl">🌾</span>
+                </div>
+                <div class="text-neutral-600 font-medium">
+                  <p class="text-lg font-semibold mb-2">
+                    {lang === 'es' ? 'IMAGEN HERO' : 'HERO IMAGE'}
+                  </p>
+                  <p class="text-sm">
+                    {lang === 'es' 
+                      ? 'Lupinos premium calibres 11-17mm'
+                      : 'Premium lupins 11-17mm caliber'
+                    }
+                  </p>
+                  <p class="text-xs text-neutral-500 mt-2">
+                    agracom-hero-lupins.webp<br/>
+                    (1200x900px)
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <!-- Image Overlay for better text readability -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          
+          <!-- Quality Badge on Image -->
+          <div class="absolute top-4 right-4">
+            <div class="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md">
+              <div class="text-sm font-semibold text-neutral-900">
+                {lang === 'es' ? 'Calidad Premium' : 'Premium Quality'}
+              </div>
+              <div class="text-xs text-neutral-600">
+                {lang === 'es' ? 'Desde Chile' : 'From Chile'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
+        <div class="absolute -top-6 -right-6 w-32 h-32 bg-primary/20 rounded-full blur-xl"></div>
+      </div>
+    </div>
+
+    <!-- Trust indicators -->
+    <div 
+      class="mt-16 text-center animate-fade-in"
+      style="animation-delay: 0.7s"
+    >
+      <p class="text-neutral-600 text-sm mb-4">
+        {lang === 'es' 
+          ? 'Confianza respaldada por certificaciones internacionales'
+          : 'Trust backed by international certifications'
+        }
+      </p>
+      <div class="flex justify-center items-center space-x-8 opacity-60">
+        {/* Certification logos would go here when available */}
+        <div class="text-2xl">🏆</div>
+        <div class="text-2xl">✅</div>
+        <div class="text-2xl">🌍</div>
+        <div class="text-2xl">📋</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JavaScript for animations and interactions -->
+<script>
+  // Counter animation for stats
+  function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    counters.forEach(counter => {
+      const target = parseInt(counter.dataset.target || '0');
+      const suffix = counter.dataset.suffix || '';
+      const duration = 2000; // 2 seconds
+      const increment = target / (duration / 16); // 60fps
+      let current = 0;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        counter.textContent = Math.floor(current) + suffix;
+      }, 16);
+    });
+  }
+
+  // Intersection Observer for animations
+  function observeHero() {
+    const hero = document.querySelector('section[role="banner"]');
+    if (!hero) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Trigger counter animation when hero comes into view
+          setTimeout(animateCounters, 800);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(hero);
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    observeHero();
+  });
+
+  // Parallax effect for background elements (optional)
+  function addParallaxEffect() {
+    const hero = document.querySelector('section[role="banner"]');
+    if (!hero) return;
+
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = hero.querySelectorAll('.absolute');
+      
+      parallaxElements.forEach((element, index) => {
+        const speed = 0.5 + (index * 0.1);
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+  }
+
+  // Uncomment to enable parallax (may affect performance)
+  // addParallaxEffect();
+</script>
+
+<style>
+  /* Custom animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* Enhanced button hover effects */
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  /* Ensure hero takes appropriate height */
+  .section--hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .section--hero {
+      min-height: 70vh;
+    }
+    
+    .hero-container {
+      gap: 2rem;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .certification-badge {
+      border: 2px solid currentColor;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in {
+      animation: none;
+      opacity: 1;
+    }
+    
+    .btn:hover {
+      transform: none;
+    }
+  }
+</style>

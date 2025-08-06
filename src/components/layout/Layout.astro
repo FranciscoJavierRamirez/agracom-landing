@@ -1,0 +1,205 @@
+---
+// Agracom Internacional S.A. - Layout Base Component
+// Componente layout principal con SEO, meta tags y estructura HTML base
+
+import type { LayoutProps } from '../../types/global';
+import { generateHreflangURLs } from '../../utils/i18n';
+
+export interface Props extends LayoutProps {}
+
+const {
+  title,
+  description = 'Agracom Internacional S.A. - Exportadores especializados en lupinos premium y cerezas deshidratadas certificadas desde Chile.',
+  lang = 'es',
+  region,
+  canonicalURL,
+  noindex = false,
+  nofollow = false
+} = Astro.props;
+
+// SEO Configuration
+const siteName = 'Agracom Internacional S.A.';
+const siteURL = 'https://agracom-internacional.com';
+const defaultImage = `${siteURL}/images/agracom-og-image.jpg`;
+
+// Generate canonical URL
+const canonical = canonicalURL || new URL(Astro.url.pathname, siteURL).href;
+
+// Generate hreflang URLs for international SEO
+const hreflangURLs = generateHreflangURLs(Astro.url.pathname, siteURL);
+
+// Schema.org structured data
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Agracom Internacional S.A.",
+  "description": "Exportadores especializados en lupinos premium y cerezas deshidratadas certificadas",
+  "url": siteURL,
+  "logo": `${siteURL}/images/agracom-logo.png`,
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+56-2-1234-5678",
+    "contactType": "sales",
+    "availableLanguage": ["Spanish", "English"]
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "CL",
+    "addressRegion": "Santiago"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/agracom-internacional"
+  ]
+};
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir="ltr">
+  <head>
+    <!-- Basic Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <title>{title} | {siteName}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    
+    <!-- Robots Meta Tags -->
+    {noindex && <meta name="robots" content="noindex" />}
+    {nofollow && <meta name="robots" content="nofollow" />}
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={`${title} | ${siteName}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={defaultImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'es' ? 'es_CL' : 'en_US'} />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | ${siteName}`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={defaultImage} />
+    
+    <!-- Hreflang Links for International SEO -->
+    {Object.entries(hreflangURLs).map(([locale, url]) => (
+      <link rel="alternate" hreflang={locale} href={url} />
+    ))}
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Preconnect to External Domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    
+    <!-- Google Fonts -->
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" 
+      rel="stylesheet" 
+    />
+    
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="/src/styles/globals.css" />
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#1565C0" />
+    
+    <!-- Performance Hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    
+    <!-- Critical CSS will be inlined here by Astro build process -->
+  </head>
+  
+  <body class="font-body text-neutral-900 bg-neutral-100">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded">
+      {lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
+    </a>
+    
+    <!-- Main Layout Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+      <!-- Header will be inserted here -->
+      <slot name="header" />
+      
+      <!-- Main Content Area -->
+      <main id="main-content" role="main" class="flex-1">
+        <slot />
+      </main>
+      
+      <!-- Footer will be inserted here -->
+      <slot name="footer" />
+    </div>
+    
+    <!-- Analytics Scripts (loaded with Partytown for performance) -->
+    <script type="text/partytown">
+      // Google Analytics 4 configuration will be added here
+      // when we implement the Analytics component
+    </script>
+    
+    <!-- Region data for client-side use -->
+    <script define:vars={{ region, lang }}>
+      if (typeof window !== 'undefined') {
+        window.AGRACOM_CONFIG = {
+          region: region || 'us-east',
+          locale: lang || 'es',
+          version: '1.0.0'
+        };
+      }
+    </script>
+    
+    <!-- Service Worker Registration (for future PWA features) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  /* Critical CSS for above-the-fold content */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for sticky header */
+  }
+  
+  body {
+    /* Prevent flash of unstyled content */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  /* Loading state */
+  body.loading {
+    opacity: 0;
+  }
+  
+  /* Focus styles for accessibility */
+  :focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  
+  /* Smooth scrolling for Safari */
+  @supports (scroll-behavior: smooth) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+</style>

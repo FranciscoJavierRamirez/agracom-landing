@@ -1,29 +1,29 @@
 ---
-// Agracom Internacional S.A. - Página Principal (Español)
-import Layout from '../components/layout/Layout.astro';
-import Header from '../components/layout/Header.astro';
-import Hero from '../components/sections/Hero.astro';
-import ProductCard from '../components/ui/ProductCard.astro';
-import Footer from '../components/layout/Footer.astro';
-import { createTranslator } from '../utils/i18n';
+// Agracom Internacional S.A. - Main Page (English)
+import Layout from '../../components/layout/Layout.astro';
+import Header from '../../components/layout/Header.astro';
+import Hero from '../../components/sections/Hero.astro';
+import ProductCard from '../../components/ui/ProductCard.astro';
+import Footer from '../../components/layout/Footer.astro';
+import { createTranslator } from '../../utils/i18n';
 
-const lang = 'es';
+const lang = 'en';
 const { hero, common } = await createTranslator(lang);
 
-const title = 'Lupinos Premium y Cerezas Certificadas desde Chile';
-const description = 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas deshidratadas Santina con certificaciones Kosher y Halal. 20+ años de experiencia.';
+const title = 'Premium Lupins and Certified Cherries from Chile';
+const description = 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.';
 
 // Load product data
-const lupinsData = await import('../data/products/lupins.json');
-const cherriesData = await import('../data/products/cherries.json');
+const lupinsData = await import('../../data/products/lupins.json');
+const cherriesData = await import('../../data/products/cherries.json');
 
-// Create product objects
+// Create product objects with English content
 const lupinsProduct = {
   id: lupinsData.id,
-  name: lupinsData.name,
+  name: lupinsData.nameEn,
   image: lupinsData.image,
-  description: lupinsData.description,
-  specifications: lupinsData.specifications,
+  description: lupinsData.descriptionEn,
+  specifications: lupinsData.specificationsEn,
   certifications: lupinsData.certifications,
   category: lupinsData.category,
   available: lupinsData.available
@@ -31,10 +31,10 @@ const lupinsProduct = {
 
 const cherriesProduct = {
   id: cherriesData.id,
-  name: cherriesData.name,
+  name: cherriesData.nameEn,
   image: cherriesData.image,
-  description: cherriesData.description,
-  specifications: cherriesData.specifications,
+  description: cherriesData.descriptionEn,
+  specifications: cherriesData.specificationsEn,
   certifications: cherriesData.certifications,
   category: cherriesData.category,
   available: cherriesData.available
@@ -45,7 +45,7 @@ const cherriesProduct = {
   title={title}
   description={description}
   lang={lang}
-  canonicalURL="https://agracom-internacional.com/"
+  canonicalURL="https://agracom-internacional.com/en/"
 >
   <!-- Header -->
   <Header slot="header" currentLang={lang} />
@@ -54,20 +54,20 @@ const cherriesProduct = {
   <Hero lang={lang} />
 
   <!-- Products Section -->
-  <section id="productos" class="section bg-white">
+  <section id="products" class="section bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center space-y-6 mb-12">
         <h2 class="text-h2 font-bold text-neutral-900">
-          Nuestros Productos Especializados
+          Our Specialized Products
         </h2>
         <p class="text-xl text-neutral-700 max-w-3xl mx-auto">
-          Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, 
-          con 20+ años de experiencia exportando a mercados exigentes.
+          Boutique specialists in premium lupins and certified dried cherries, 
+          with 20+ years of experience exporting to demanding markets.
         </p>
       </div>
       
       <div class="product-grid">
-        <!-- Lupinos Product Card -->
+        <!-- Lupins Product Card -->
         <ProductCard 
           product={lupinsProduct}
           variant="featured"
@@ -77,7 +77,7 @@ const cherriesProduct = {
           showSpecifications={true}
         />
         
-        <!-- Cerezas Product Card -->
+        <!-- Cherries Product Card -->
         <ProductCard 
           product={cherriesProduct}
           variant="featured"

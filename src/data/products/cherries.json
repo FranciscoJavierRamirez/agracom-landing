@@ -1,0 +1,93 @@
+{
+  "id": "cherries-santina-dried",
+  "name": "Cerezas Deshidratadas Santina",
+  "nameEn": "Santina Dried Cherries",
+  "category": "cherries",
+  "image": "/images/agracom-cherries-santina.webp",
+  "description": "Únicas cerezas deshidratadas con certificación Kosher para Pascua y Halal en Chile.",
+  "descriptionEn": "Unique dried cherries with Kosher for Passover and Halal certification in Chile.",
+  "specifications": [
+    "Variedad Santina exclusiva",
+    "Humedad: 18-22%",
+    "Sin preservantes artificiales",
+    "Certificación Kosher Orthodox Union",
+    "Certificación Halal Centro Islámico"
+  ],
+  "specificationsEn": [
+    "Exclusive Santina variety",
+    "Humidity: 18-22%",
+    "No artificial preservatives",
+    "Kosher Orthodox Union certification",
+    "Halal Islamic Center certification"
+  ],
+  "certifications": [
+    {
+      "id": "kosher-orthodox-union",
+      "name": "Kosher OU",
+      "logo": "/images/cert-kosher-orthodox-union.png",
+      "description": "Orthodox Union Kosher for Passover",
+      "verified": true,
+      "type": "kosher"
+    },
+    {
+      "id": "halal-centro-islamico",
+      "name": "Halal",
+      "logo": "/images/cert-halal-centro-islamico.png",
+      "description": "Centro Islámico de Chile",
+      "verified": true,
+      "type": "halal"
+    },
+    {
+      "id": "sag-chile-cherries",
+      "name": "SAG",
+      "logo": "/images/cert-sag-chile.png",
+      "description": "Servicio Agrícola y Ganadero de Chile",
+      "verified": true,
+      "type": "sag"
+    }
+  ],
+  "benefits": [
+    "Únicas con doble certificación religiosa",
+    "Disponibilidad estacional",
+    "Ideal para mercados especializados",
+    "Empaque según requerimientos"
+  ],
+  "benefitsEn": [
+    "Unique with dual religious certification",
+    "Seasonal availability",
+    "Ideal for specialized markets",
+    "Packaging according to requirements"
+  ],
+  "available": true,
+  "featured": true,
+  "regions": ["us-east", "mediterranean", "middle-east"],
+  "packaging": {
+    "options": ["5kg boxes", "10kg boxes", "20kg boxes"],
+    "customizable": true,
+    "special": "Religious certification labeling"
+  },
+  "nutritionalInfo": {
+    "naturalSugars": "65-70%",
+    "fiber": "6-8%",
+    "antioxidants": "High",
+    "vitaminC": "Present"
+  },
+  "origin": "Región del Maule, Chile",
+  "harvestSeason": "December - February",
+  "dryingProcess": "Natural air drying",
+  "shelfLife": "18 months",
+  "religiousCertifications": {
+    "kosher": {
+      "authority": "Orthodox Union",
+      "validFor": "Passover",
+      "symbol": "OU-P",
+      "renewalDate": "2025-12-31"
+    },
+    "halal": {
+      "authority": "Centro Islámico de Chile",
+      "validFor": "All Islamic requirements",
+      "symbol": "Halal CIC",
+      "renewalDate": "2025-12-31"
+    }
+  }
+}

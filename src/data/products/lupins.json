@@ -1,0 +1,61 @@
+{
+  "id": "lupins-premium-chilean",
+  "name": "Lupinos Premium Chilenos",
+  "nameEn": "Premium Chilean Lupins",
+  "category": "lupins",
+  "image": "/images/agracom-lupins-premium.webp",
+  "description": "Lupinos dulces calibres 11-17mm, procesados y seleccionados con los más altos estándares de calidad.",
+  "descriptionEn": "Sweet lupins 11-17mm caliber, processed and selected with the highest quality standards.",
+  "specifications": [
+    "Calibres 11-17mm disponibles",
+    "Humedad: 12-14%",
+    "Proteína: 36-42%",
+    "Certificación SAG",
+    "Trazabilidad por lote"
+  ],
+  "specificationsEn": [
+    "11-17mm calibers available",
+    "Humidity: 12-14%",
+    "Protein: 36-42%",
+    "SAG certification",
+    "Full batch traceability"
+  ],
+  "certifications": [
+    {
+      "id": "sag-chile",
+      "name": "SAG",
+      "logo": "/images/cert-sag-chile.png",
+      "description": "Servicio Agrícola y Ganadero de Chile",
+      "verified": true,
+      "type": "sag"
+    }
+  ],
+  "benefits": [
+    "270+ embarques exitosos",
+    "Disponible todo el año",
+    "Empaque personalizado",
+    "Tiempos de entrega confiables"
+  ],
+  "benefitsEn": [
+    "270+ successful shipments",
+    "Available year-round",
+    "Customized packaging",
+    "Reliable delivery times"
+  ],
+  "available": true,
+  "featured": true,
+  "regions": ["us-east", "mediterranean", "middle-east"],
+  "packaging": {
+    "options": ["25kg bags", "50kg bags", "1000kg big bags"],
+    "customizable": true
+  },
+  "nutritionalInfo": {
+    "protein": "36-42%",
+    "fat": "9-13%",
+    "fiber": "15-20%",
+    "carbohydrates": "40-45%"
+  },
+  "origin": "Valle Central, Chile",
+  "harvestSeason": "February - April",
+  "shelfLife": "24 months"
+}

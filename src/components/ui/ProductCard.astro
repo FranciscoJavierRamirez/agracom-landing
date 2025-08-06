@@ -1,0 +1,384 @@
+---
+// Agracom Internacional S.A. - Product Card Component
+// Componente reutilizable para mostrar productos (lupinos y cerezas)
+
+import type { Product, Locale, ComponentVariant, ComponentSize } from '../../types/global';
+import { createTranslator } from '../../utils/i18n';
+
+export interface Props {
+  product: Product;
+  variant?: ComponentVariant;
+  size?: ComponentSize;
+  showActions?: boolean;
+  showCertifications?: boolean;
+  showSpecifications?: boolean;
+  lang: Locale;
+  class?: string;
+}
+
+const {
+  product,
+  variant = 'default',
+  size = 'md',
+  showActions = true,
+  showCertifications = true,
+  showSpecifications = true,
+  lang,
+  class: className = ''
+} = Astro.props;
+
+// Load translations
+const { common, products } = await createTranslator(lang);
+
+// Get product-specific translations
+const categoryKey = product.category === 'lupins' ? 'lupins' : 'cherries';
+
+// Size classes
+const sizeClasses = {
+  sm: 'max-w-sm',
+  md: 'max-w-md',
+  lg: 'max-w-lg',
+  xl: 'max-w-xl'
+};
+
+// Variant classes
+const variantClasses = {
+  default: 'bg-white shadow-md hover:shadow-lg',
+  featured: 'bg-white shadow-lg hover:shadow-xl ring-2 ring-primary/20',
+  compact: 'bg-white shadow-sm hover:shadow-md',
+  expanded: 'bg-white shadow-lg hover:shadow-xl'
+};
+
+// Product category styling
+const categoryGradient = product.category === 'lupins' 
+  ? 'from-secondary/20 to-secondary/30'
+  : 'from-kosher/20 to-halal/20';
+
+// Get certification badge classes
+const getCertificationClass = (certType: string) => {
+  switch(certType.toLowerCase()) {
+    case 'kosher': return 'certification-badge--kosher';
+    case 'halal': return 'certification-badge--halal';
+    case 'sag': return 'certification-badge--sag';
+    default: return 'bg-info text-white';
+  }
+};
+
+// Format specification text
+const formatSpecification = (spec: string) => {
+  return spec.charAt(0).toUpperCase() + spec.slice(1);
+};
+---
+
+<article 
+  class={`${variantClasses[variant]} ${sizeClasses[size]} rounded-xl overflow-hidden border border-neutral-200 transition-all duration-300 group ${className}`}
+  itemscope
+  itemtype="https://schema.org/Product"
+  data-product-id={product.id}
+  data-product-category={product.category}
+>
+  <!-- Product Image -->
+  <div class={`aspect-[4/3] bg-gradient-to-br ${categoryGradient} relative overflow-hidden`}>
+    {product.image ? (
+      <!-- Actual Product Image -->
+      <img
+        src={product.image}
+        alt={product.name}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        loading="lazy"
+        itemprop="image"
+      />
+    ) : (
+      <!-- Placeholder Image -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="text-center space-y-3">
+          <span class="text-4xl block">
+            {product.category === 'lupins' ? '🌾' : '🍒'}
+          </span>
+          <div class="text-neutral-600 font-medium">
+            <p class="text-sm">
+              IMAGEN: agracom-{product.category === 'lupins' ? 'lupins' : 'cherries'}-premium.webp
+            </p>
+            <p class="text-xs text-neutral-500">
+              (800x600px)
+            </p>
+          </div>
+        </div>
+      </div>
+    )}
+    
+    <!-- Availability Badge -->
+    <div class="absolute top-3 left-3">
+      <span 
+        class={`px-2 py-1 rounded-full text-xs font-semibold ${
+          product.available 
+            ? 'bg-success/90 text-white' 
+            : 'bg-warning/90 text-white'
+        }`}
+      >
+        {product.available 
+          ? (lang === 'es' ? 'Disponible' : 'Available')
+          : (lang === 'es' ? 'Consultar' : 'Inquire')
+        }
+      </span>
+    </div>
+
+    <!-- Category Badge -->
+    <div class="absolute top-3 right-3">
+      <span class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-neutral-700">
+        {product.category === 'lupins' 
+          ? (lang === 'es' ? 'Lupinos' : 'Lupins')
+          : (lang === 'es' ? 'Cerezas' : 'Cherries')
+        }
+      </span>
+    </div>
+
+    <!-- Hover Overlay -->
+    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+  </div>
+
+  <!-- Product Content -->
+  <div class="p-6 space-y-4">
+    <!-- Product Title -->
+    <div class="space-y-2">
+      <h3 
+        class="text-xl font-bold text-neutral-900 group-hover:text-primary transition-colors"
+        itemprop="name"
+      >
+        {product.name}
+      </h3>
+      
+      <!-- Product Description -->
+      <p 
+        class="text-neutral-700 text-sm leading-relaxed"
+        itemprop="description"
+      >
+        {product.description}
+      </p>
+    </div>
+
+    <!-- Certifications -->
+    {showCertifications && product.certifications.length > 0 && (
+      <div class="space-y-2">
+        <h4 class="text-sm font-semibold text-neutral-800">
+          {lang === 'es' ? 'Certificaciones:' : 'Certifications:'}
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          {product.certifications.slice(0, 3).map((cert) => (
+            <span 
+              class={`certification-badge ${getCertificationClass(cert.type)} text-xs`}
+              title={cert.description}
+              itemprop="certification"
+            >
+              {cert.name}
+            </span>
+          ))}
+          {product.certifications.length > 3 && (
+            <span class="text-xs text-neutral-500 px-2 py-1">
+              +{product.certifications.length - 3} {lang === 'es' ? 'más' : 'more'}
+            </span>
+          )}
+        </div>
+      </div>
+    )}
+
+    <!-- Specifications -->
+    {showSpecifications && product.specifications.length > 0 && (
+      <div class="space-y-2">
+        <h4 class="text-sm font-semibold text-neutral-800">
+          {lang === 'es' ? 'Especificaciones:' : 'Specifications:'}
+        </h4>
+        <ul class="space-y-1">
+          {product.specifications.slice(0, 4).map((spec) => (
+            <li class="flex items-start text-sm text-neutral-600">
+              <span class="text-success mr-2 flex-shrink-0" aria-hidden="true">✓</span>
+              <span itemprop="feature">{formatSpecification(spec)}</span>
+            </li>
+          ))}
+          {product.specifications.length > 4 && (
+            <li class="text-xs text-neutral-500 ml-5">
+              +{product.specifications.length - 4} {lang === 'es' ? 'especificaciones más' : 'more specifications'}
+            </li>
+          )}
+        </ul>
+      </div>
+    )}
+
+    <!-- Actions -->
+    {showActions && (
+      <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-neutral-100">
+        <!-- Primary CTA -->
+        <a 
+          href={`#contacto?product=${product.id}`}
+          class="btn btn-primary flex-1 text-center text-sm py-3 group/cta"
+          onclick={`gtag && gtag('event', 'product_inquiry', { event_label: '${product.id}', custom_parameter_category: '${product.category}' })`}
+        >
+          {lang === 'es' ? 'Cotizar' : 'Get Quote'}
+          <svg class="w-4 h-4 ml-2 group-hover/cta:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        
+        <!-- Secondary CTA -->
+        <a 
+          href={`/documents/agracom-ficha-tecnica-${product.category === 'lupins' ? 'lupinos' : 'cerezas'}-${lang}.pdf`}
+          class="btn btn-secondary flex-1 text-center text-sm py-3 group/cta"
+          download
+          onclick={`gtag && gtag('event', 'resource_download', { event_label: '${product.id}_technical_sheet', custom_parameter_category: '${product.category}' })`}
+        >
+          {lang === 'es' ? 'Ficha Técnica' : 'Technical Sheet'}
+          <svg class="w-4 h-4 ml-2 group-hover/cta:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </a>
+      </div>
+    )}
+
+    <!-- Additional Info (Featured variant only) -->
+    {variant === 'featured' && (
+      <div class="bg-accent/5 rounded-lg p-3 border border-accent/20">
+        <div class="flex items-center space-x-2">
+          <span class="text-accent text-lg" aria-hidden="true">⭐</span>
+          <span class="text-sm font-medium text-accent-dark">
+            {lang === 'es' ? 'Producto Destacado' : 'Featured Product'}
+          </span>
+        </div>
+        {product.region && (
+          <p class="text-xs text-neutral-600 mt-1">
+            {lang === 'es' ? 'Especial para' : 'Special for'} {product.region}
+          </p>
+        )}
+      </div>
+    )}
+  </div>
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "description": product.description,
+    "image": product.image || `/images/agracom-${product.category}-premium.webp`,
+    "brand": {
+      "@type": "Brand",
+      "name": "Agracom Internacional S.A."
+    },
+    "manufacturer": {
+      "@type": "Organization",
+      "name": "Agracom Internacional S.A.",
+      "url": "https://agracom-internacional.com"
+    },
+    "category": product.category,
+    "offers": {
+      "@type": "Offer",
+      "availability": product.available ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+      "priceCurrency": "USD",
+      "seller": {
+        "@type": "Organization",
+        "name": "Agracom Internacional S.A."
+      }
+    }
+  })} />
+</article>
+
+<style>
+  /* Enhanced hover effects */
+  .group:hover .aspect-\[4\/3\] img {
+    transform: scale(1.05);
+  }
+
+  /* Badge hover effects */
+  .certification-badge {
+    transition: all 0.2s ease;
+  }
+
+  .certification-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Button group hover effects */
+  .group/cta:hover svg {
+    animation: bounce 0.3s ease;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(2px) translateY(-1px); }
+  }
+
+  /* Focus styles for accessibility */
+  .group:focus-within {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Featured variant specific styles */
+  .group[data-variant="featured"] {
+    position: relative;
+    overflow: visible;
+  }
+
+  .group[data-variant="featured"]::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .group[data-variant="featured"]:hover::before {
+    opacity: 0.1;
+  }
+
+  /* Compact variant adjustments */
+  .group[data-variant="compact"] .p-6 {
+    padding: 1rem;
+  }
+
+  .group[data-variant="compact"] .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .aspect-\[4\/3\] {
+      aspect-ratio: 1;
+    }
+    
+    .flex-col.sm\:flex-row {
+      flex-direction: column;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .border-neutral-200 {
+      border-color: #000;
+    }
+    
+    .certification-badge {
+      border: 2px solid currentColor;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .aspect-\[4\/3\] img,
+    .certification-badge:hover {
+      transform: none;
+    }
+    
+    .transition-all,
+    .transition-transform,
+    .transition-colors {
+      transition: none;
+    }
+  }
+</style>

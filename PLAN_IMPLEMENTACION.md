@@ -46,7 +46,8 @@ Language:             TypeScript
 Internationalization: Astro i18n
 Image Optimization:   @astrojs/image
 Analytics:            Google Analytics 4
-Deployment:           Vercel/Netlify
+Repository:           GitHub
+Deployment:           Cloudflare
 ```
 
 ### Estructura de Directorios
@@ -359,30 +360,332 @@ interface Props {
 /en/contact/         # Contacto en inglés
 ```
 
-### Sistema de Traducciones
-```typescript
-// src/utils/i18n.ts
-export const translations = {
-  es: {
-    'hero.title': '20+ años exportando lupinos chilenos premium y cerezas deshidratadas certificadas',
-    'hero.subtitle': 'Entregas confiables a EE.UU., Mediterráneo y Medio Oriente',
-    'cta.inquire': 'Consulte disponibilidad y precios',
-    'cta.download': 'Descargar ficha técnica',
-    // ... más traducciones
-  },
-  en: {
-    'hero.title': '20+ years exporting premium Chilean lupins and certified dried cherries',
-    'hero.subtitle': 'Reliable delivery to the US East Coast, Mediterranean & Middle East',
-    'cta.inquire': 'Inquire about availability and pricing',
-    'cta.download': 'Download technical sheet',
-    // ... más traducciones
-  }
-};
+### Sistema de Traducciones con Archivos JSON
 
-export function t(key: string, lang: 'es' | 'en'): string {
-  return translations[lang][key] || key;
+#### Estructura de Archivos i18n
+```
+src/
+├── data/
+│   ├── i18n/
+│   │   ├── es/
+│   │   │   ├── common.json        # Elementos comunes (nav, footer, CTAs)
+│   │   │   ├── hero.json          # Sección hero
+│   │   │   ├── products.json      # Productos y especificaciones
+│   │   │   ├── certifications.json # Certificaciones y badges
+│   │   │   ├── testimonials.json  # Testimonios por región
+│   │   │   ├── forms.json         # Labels y mensajes de formularios
+│   │   │   ├── regions.json       # Contenido específico por región
+│   │   │   └── seo.json           # Meta tags y SEO
+│   │   └── en/
+│   │       ├── common.json
+│   │       ├── hero.json
+│   │       ├── products.json
+│   │       ├── certifications.json
+│   │       ├── testimonials.json
+│   │       ├── forms.json
+│   │       ├── regions.json
+│   │       └── seo.json
+│   └── products/
+│       ├── lupins.json            # Datos productos lupinos
+│       └── cherries.json          # Datos productos cerezas
+```
+
+#### Ejemplos de Archivos JSON
+
+**src/data/i18n/es/common.json**
+```json
+{
+  "navigation": {
+    "home": "Inicio",
+    "products": "Productos",
+    "certifications": "Certificaciones",
+    "contact": "Contacto"
+  },
+  "cta": {
+    "inquire": "Consulte disponibilidad y precios",
+    "download": "Descargar ficha técnica",
+    "contact": "Contactar ahora",
+    "quote": "Solicitar cotización"
+  },
+  "footer": {
+    "tagline": "Lupinos y Cerezas Premium desde Chile",
+    "copyright": "© 2025 Agracom Internacional S.A. Todos los derechos reservados.",
+    "contact_title": "Contacto",
+    "follow_us": "Síguenos"
+  },
+  "regions": {
+    "us_east": "Costa Este EE.UU.",
+    "mediterranean": "Mediterráneo",
+    "middle_east": "Medio Oriente"
+  }
 }
 ```
+
+**src/data/i18n/es/hero.json**
+```json
+{
+  "title": "20+ años exportando lupinos chilenos premium y cerezas deshidratadas certificadas",
+  "subtitle": "Entregas confiables a EE.UU., Mediterráneo y Medio Oriente",
+  "description": "Especialistas boutique en lupinos calibres 11-17mm con certificaciones Kosher, Halal y trazabilidad completa. Contacto directo con ejecutivos.",
+  "stats": {
+    "shipments": "270+ embarques exitosos",
+    "countries": "17 países",
+    "experience": "20+ años de experiencia"
+  },
+  "trust_badges": "Certificaciones: Kosher · Halal · SAG · Trazabilidad completa"
+}
+```
+
+**src/data/i18n/es/products.json**
+```json
+{
+  "categories": {
+    "lupins": "Lupinos",
+    "cherries": "Cerezas Deshidratadas"
+  },
+  "lupins": {
+    "title": "Lupinos Premium Chilenos",
+    "description": "Lupinos dulces calibres 11-17mm, procesados y seleccionados con los más altos estándares de calidad.",
+    "specifications": [
+      "Calibres 11-17mm disponibles",
+      "Humedad: 12-14%",
+      "Proteína: 36-42%",
+      "Certificación SAG",
+      "Trazabilidad por lote"
+    ],
+    "benefits": [
+      "270+ embarques exitosos",
+      "Disponible todo el año",
+      "Empaque personalizado",
+      "Tiempos de entrega confiables"
+    ]
+  },
+  "cherries": {
+    "title": "Cerezas Deshidratadas Santina",
+    "description": "Únicas cerezas deshidratadas con certificación Kosher para Pascua y Halal en Chile.",
+    "specifications": [
+      "Variedad Santina exclusiva",
+      "Humedad: 18-22%",
+      "Sin preservantes artificiales",
+      "Certificación Kosher Orthodox Union",
+      "Certificación Halal Centro Islámico"
+    ],
+    "benefits": [
+      "Únicas con doble certificación religiosa",
+      "Disponibilidad estacional",
+      "Ideal para mercados especializados",
+      "Empaque según requerimientos"
+    ]
+  }
+}
+```
+
+**src/data/i18n/es/regions.json**
+```json
+{
+  "us_east": {
+    "title": "Costa Este de Estados Unidos",
+    "description": "Servicio especializado para el mercado estadounidense con tiempos de entrega optimizados.",
+    "delivery_time": "10-14 días",
+    "contact": {
+      "executive": "Cristián Rodríguez",
+      "email": "cristian@agracom.cl",
+      "phone": "+56 9 1234 5678"
+    },
+    "features": [
+      "Documentación FDA completa",
+      "Logística puerto a puerto",
+      "Seguimiento en tiempo real",
+      "Soporte técnico local"
+    ]
+  },
+  "mediterranean": {
+    "title": "Región Mediterránea",
+    "description": "Adaptación específica para los exigentes mercados mediterráneos con tradición en calidad.",
+    "delivery_time": "15-20 días",
+    "contact": {
+      "executive": "Pedro Mendive",
+      "email": "pedro@agracom.cl", 
+      "phone": "+56 9 8765 4321"
+    },
+    "features": [
+      "Certificaciones UE",
+      "Empaques tradicionales",
+      "Adaptación cultural",
+      "Precios competitivos"
+    ]
+  },
+  "middle_east": {
+    "title": "Medio Oriente",
+    "description": "Especialización en certificaciones religiosas para mercados Halal y Kosher exigentes.",
+    "delivery_time": "18-25 días",
+    "contact": {
+      "executive": "Cristián Rodríguez",
+      "email": "cristian@agracom.cl",
+      "phone": "+56 9 1234 5678"
+    },
+    "features": [
+      "Certificación Halal verificada",
+      "Certificación Kosher Orthodox",
+      "Documentación religiosa",
+      "Cadena de suministro segura"
+    ]
+  }
+}
+```
+
+#### Sistema TypeScript para i18n
+
+**src/utils/i18n.ts**
+```typescript
+// Tipos para las traducciones
+export type Locale = 'es' | 'en';
+
+export interface TranslationKey {
+  [key: string]: string | TranslationKey;
+}
+
+export interface Translations {
+  [locale: string]: TranslationKey;
+}
+
+// Cache para las traducciones cargadas
+const translationCache = new Map<string, TranslationKey>();
+
+/**
+ * Carga un archivo de traducción específico
+ */
+export async function loadTranslation(locale: Locale, namespace: string): Promise<TranslationKey> {
+  const cacheKey = `${locale}-${namespace}`;
+  
+  if (translationCache.has(cacheKey)) {
+    return translationCache.get(cacheKey)!;
+  }
+  
+  try {
+    const module = await import(`../data/i18n/${locale}/${namespace}.json`);
+    const translation = module.default;
+    translationCache.set(cacheKey, translation);
+    return translation;
+  } catch (error) {
+    console.warn(`Translation file not found: ${locale}/${namespace}.json`);
+    return {};
+  }
+}
+
+/**
+ * Función principal de traducción con namespace
+ */
+export async function t(key: string, locale: Locale, namespace: string = 'common'): Promise<string> {
+  const translations = await loadTranslation(locale, namespace);
+  
+  // Navegación anidada por dot notation (ej: "navigation.home")
+  const keys = key.split('.');
+  let result: any = translations;
+  
+  for (const k of keys) {
+    if (result && typeof result === 'object' && k in result) {
+      result = result[k];
+    } else {
+      console.warn(`Translation key not found: ${key} in ${locale}/${namespace}`);
+      return key; // Retorna la key como fallback
+    }
+  }
+  
+  return typeof result === 'string' ? result : key;
+}
+
+/**
+ * Hook para uso en componentes Astro
+ */
+export async function createTranslator(locale: Locale) {
+  return {
+    t: async (key: string, namespace: string = 'common') => 
+      await t(key, locale, namespace),
+    
+    // Helpers específicos para namespaces comunes
+    common: async (key: string) => await t(key, locale, 'common'),
+    hero: async (key: string) => await t(key, locale, 'hero'),
+    products: async (key: string) => await t(key, locale, 'products'),
+    forms: async (key: string) => await t(key, locale, 'forms'),
+    regions: async (key: string) => await t(key, locale, 'regions'),
+  };
+}
+
+/**
+ * Detecta el idioma del navegador
+ */
+export function detectBrowserLanguage(): Locale {
+  if (typeof window !== 'undefined') {
+    const browserLang = window.navigator.language.split('-')[0];
+    return browserLang === 'en' ? 'en' : 'es'; // Default a español
+  }
+  return 'es';
+}
+
+/**
+ * Utilitario para pluralización (español/inglés)
+ */
+export function pluralize(count: number, singular: string, plural: string, locale: Locale): string {
+  if (locale === 'es') {
+    return count === 1 ? singular : plural;
+  } else {
+    return count === 1 ? singular : plural;
+  }
+}
+```
+
+#### Uso en Componentes Astro
+
+**Ejemplo: Hero.astro**
+```astro
+---
+import { createTranslator } from '../utils/i18n';
+
+export interface Props {
+  lang: 'es' | 'en';
+  region?: string;
+}
+
+const { lang, region } = Astro.props;
+const { hero, common, regions } = await createTranslator(lang);
+
+// Cargar contenido específico
+const title = await hero('title');
+const subtitle = await hero('subtitle');
+const ctaInquire = await common('cta.inquire');
+const ctaDownload = await common('cta.download');
+
+// Contenido regional si aplica
+const regionData = region ? await regions(region) : null;
+---
+
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">{title}</h1>
+    <p class="hero-subtitle">{subtitle}</p>
+    
+    <div class="hero-actions">
+      <a href={`/${lang}/contact`} class="btn-primary">
+        {ctaInquire}
+      </a>
+      <a href={`/${lang}/resources`} class="btn-secondary">
+        {ctaDownload}
+      </a>
+    </div>
+  </div>
+</section>
+```
+
+#### Ventajas de este Sistema JSON:
+
+1. **Separación clara:** Cada namespace en su propio archivo
+2. **Mantenibilidad:** Fácil edición sin tocar código
+3. **Escalabilidad:** Agregar idiomas solo requiere nuevas carpetas
+4. **Performance:** Carga lazy de traducciones por namespace
+5. **Tipado:** TypeScript para autocomplete y validación
+6. **Flexibilidad:** Soporte para anidación y dot notation
+7. **Cache:** Sistema de cache para evitar recargas
 
 ### Configuración Astro i18n
 ```js
