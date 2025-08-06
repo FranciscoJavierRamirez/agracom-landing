@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="80" fill="#059669" rx="8"/>
+  <g transform="translate(20, 15)">
+    <path d="M15 5 L25 15 L35 5 L30 5 L30 0 L20 0 L20 5 Z" fill="white"/>
+    <circle cx="25" cy="25" r="8" fill="none" stroke="white" stroke-width="2"/>
+    <text x="40" y="12" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">HALAL</text>
+    <text x="40" y="25" fill="white" font-family="Arial, sans-serif" font-size="8">Centro Islámico</text>
+    <text x="40" y="35" fill="white" font-family="Arial, sans-serif" font-size="8">de Chile</text>
+  </g>
+</svg>

@@ -308,15 +308,18 @@ const currentYear = new Date().getFullYear();
         <!-- Language Switcher -->
         <div class="flex items-center space-x-4">
           <div class="flex items-center space-x-2 bg-neutral-800 rounded-lg p-1">
-            <span 
+            <a 
+              href={lang === 'es' ? '/' : '/'}
               class={`px-3 py-1 rounded-md text-sm font-semibold transition-all ${
                 lang === 'es' 
                   ? 'bg-primary text-white' 
                   : 'text-neutral-400 hover:text-white'
               }`}
+              hreflang="es"
+              aria-label={`${lang === 'es' ? 'Página en español (actual)' : 'Cambiar a español'}`}
             >
               ES
-            </span>
+            </a>
             <span class="text-neutral-600">|</span>
             <a 
               href={lang === 'es' ? '/en' : '/'}
@@ -326,6 +329,7 @@ const currentYear = new Date().getFullYear();
                   : 'text-neutral-400 hover:text-white'
               }`}
               hreflang={lang === 'es' ? 'en' : 'es'}
+              aria-label={`${lang === 'es' ? 'Cambiar a inglés' : 'Switch to English'}`}
             >
               EN
             </a>
@@ -368,7 +372,7 @@ const currentYear = new Date().getFullYear();
 </footer>
 
 <!-- Footer JavaScript -->
-<script>
+<script define:vars={{ currentLang: lang }}>
   // Scroll to top functionality
   document.addEventListener('DOMContentLoaded', function() {
     const scrollButton = document.getElementById('scroll-to-top');
@@ -401,22 +405,25 @@ const currentYear = new Date().getFullYear();
     newsletterForm.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      const email = this.querySelector('input[type="email"]').value;
+      const emailInput = this.querySelector('input[type="email"]');
+      const email = emailInput ? emailInput.value : '';
       
       // Add your newsletter subscription logic here
       console.log('Newsletter subscription:', email);
       
       // Show success message
       const button = this.querySelector('button');
-      const originalText = button.textContent;
-      button.textContent = '{lang === "es" ? "¡Gracias!" : "Thanks!"}';
-      button.disabled = true;
-      
-      setTimeout(() => {
-        button.textContent = originalText;
-        button.disabled = false;
-        this.reset();
-      }, 2000);
+      if (button) {
+        const originalText = button.textContent;
+        button.textContent = currentLang === 'es' ? '¡Gracias!' : 'Thanks!';
+        button.disabled = true;
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+          this.reset();
+        }, 2000);
+      }
     });
   }
 </script>

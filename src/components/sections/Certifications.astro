@@ -221,6 +221,105 @@ const certificationsData = [
     featured: false,
     verified: true,
     renewalDate: '2025-08-01'
+  },
+  {
+    id: 'halal-2025',
+    category: 'religious',
+    name: 'Certificado Halal 2025',
+    nameEn: 'Halal Certificate 2025',
+    authority: 'Centro Islámico de Chile',
+    authorityEn: 'Islamic Center of Chile',
+    logo: '/images/cert-halal-chile.png',
+    icon: '☪️',
+    color: 'halal',
+    bgColor: 'from-halal/10 to-halal/20',
+    description: 'Certificación Halal actualizada para 2025, garantizando el cumplimiento de los estándares islámicos.',
+    descriptionEn: 'Updated Halal certification for 2025, ensuring compliance with Islamic standards.',
+    benefits: [
+      'Acceso a mercados musulmanes',
+      'Supervisión islámica actualizada',
+      'Trazabilidad completa',
+      'Reconocimiento internacional'
+    ],
+    benefitsEn: [
+      'Access to Muslim markets',
+      'Updated Islamic supervision',
+      'Complete traceability',
+      'International recognition'
+    ],
+    products: ['cherries', 'lupins'],
+    regions: ['middle-east', 'mediterranean'],
+    validUntil: '2025-12-31',
+    certNumber: 'HALAL-CIC-2025',
+    featured: false,
+    verified: true,
+    renewalDate: '2025-11-30'
+  },
+  {
+    id: 'fda-bta',
+    category: 'governmental',
+    name: 'FDA BTA Certificate',
+    nameEn: 'FDA BTA Certificate',
+    authority: 'FDA - Food and Drug Administration',
+    authorityEn: 'FDA - Food and Drug Administration',
+    logo: '/images/cert-fda-bta.png',
+    icon: '🏛️',
+    color: 'warning',
+    bgColor: 'from-warning/10 to-warning/20',
+    description: 'Certificación FDA BTA para comercialización en Estados Unidos, garantizando cumplimiento normativo.',
+    descriptionEn: 'FDA BTA certification for commercialization in the United States, ensuring regulatory compliance.',
+    benefits: [
+      'Acceso al mercado estadounidense',
+      'Cumplimiento regulatorio FDA',
+      'Trazabilidad farmacéutica',
+      'Validez hasta 2025'
+    ],
+    benefitsEn: [
+      'US market access',
+      'FDA regulatory compliance',
+      'Pharmaceutical traceability',
+      'Valid until 2025'
+    ],
+    products: ['lupins', 'cherries'],
+    regions: ['us-east'],
+    validUntil: '2025-12-31',
+    certNumber: 'BTA-2216840',
+    featured: false,
+    verified: true,
+    renewalDate: '2025-10-01'
+  },
+  {
+    id: 'brcgs-food',
+    category: 'quality',
+    name: 'BRCGS Food Certificate',
+    nameEn: 'BRCGS Food Certificate',
+    authority: 'BRC Global Standards',
+    authorityEn: 'BRC Global Standards',
+    logo: '/images/cert-brcgs-food.png',
+    icon: '🏅',
+    color: 'primary',
+    bgColor: 'from-primary/10 to-primary/20',
+    description: 'Certificación BRCGS Food para seguridad alimentaria global, reconocida mundialmente.',
+    descriptionEn: 'BRCGS Food certification for global food safety, recognized worldwide.',
+    benefits: [
+      'Estándar global de seguridad',
+      'Reconocimiento en retail',
+      'Mejora continua',
+      'Acceso a mercados premium'
+    ],
+    benefitsEn: [
+      'Global safety standard',
+      'Retail recognition',
+      'Continuous improvement',
+      'Premium market access'
+    ],
+    products: ['lupins', 'cherries'],
+    regions: ['us-east', 'mediterranean', 'middle-east'],
+    validUntil: '2025-12-31',
+    certNumber: 'C0768160',
+    featured: false,
+    verified: true,
+    renewalDate: '2025-09-15'
   }
 ];
 
@@ -399,6 +498,8 @@ const categoryLabels = {
                   {cert.certNumber}
                 </p>
               </div>
+
+
             </div>
           </div>
         ))}
@@ -417,9 +518,9 @@ const categoryLabels = {
           if (categoryData.length === 0) return null;
 
           return (
-            <div key={category} class="space-y-6">
+            <div class="space-y-6">
               <h4 class="text-xl font-semibold text-neutral-900 border-b-2 border-primary/20 pb-2">
-                {categoryLabels[category]}
+                {categoryLabels[category as keyof typeof categoryLabels]}
               </h4>
               
               <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -449,6 +550,8 @@ const categoryLabels = {
                         <p class="text-xs text-neutral-500">
                           {lang === 'es' ? 'Válido hasta:' : 'Valid until:'} {new Date(cert.validUntil).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
                         </p>
+                        
+
                       </div>
 
                       {cert.verified && (
@@ -526,7 +629,7 @@ const categoryLabels = {
             <div class="space-y-3">
               {certificationsData
                 .filter(cert => new Date(cert.renewalDate) > new Date())
-                .sort((a, b) => new Date(a.renewalDate) - new Date(b.renewalDate))
+                .sort((a, b) => new Date(a.renewalDate).getTime() - new Date(b.renewalDate).getTime())
                 .slice(0, 3)
                 .map((cert) => (
                   <div class="flex items-center justify-between py-2 border-b border-neutral-100 last:border-b-0">
@@ -594,14 +697,13 @@ const categoryLabels = {
           </a>
           
           <a 
-            href="/documents/agracom-certificaciones-completas.pdf"
+            href="#certificaciones"
             class="btn btn-secondary px-8 py-4 inline-flex items-center group"
-            download
-            onclick={`gtag && gtag('event', 'resource_download', { event_label: 'certifications_pdf', custom_parameter_section: 'certifications' })`}
+            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'view_certifications', custom_parameter_section: 'certifications' })`}
           >
-            {lang === 'es' ? 'Descargar Certificados' : 'Download Certificates'}
-            <svg class="w-5 h-5 ml-2 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            {lang === 'es' ? 'Ver Certificaciones' : 'View Certifications'}
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
         </div>

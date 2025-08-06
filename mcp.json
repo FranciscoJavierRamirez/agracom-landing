@@ -1,10 +1,5 @@
 {
     "mcpServers": {
-      "starwind-ui": {
-        "command": "npx",
-        "args": ["-y", "@starwind-ui/mcp"],
-        "env": {}
-      },
       "context7": {
         "command": "npx", 
         "args": ["-y", "@upstash/context7"],

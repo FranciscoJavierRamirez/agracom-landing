@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="80" fill="#1e40af" rx="8"/>
+  <text x="60" y="25" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">BRCGS</text>
+  <text x="60" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Food Safety</text>
+  <text x="60" y="60" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">Global Standard</text>
+</svg>
