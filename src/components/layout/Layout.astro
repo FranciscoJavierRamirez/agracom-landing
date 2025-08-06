@@ -3,6 +3,7 @@
 // Componente layout principal con SEO, meta tags y estructura HTML base
 
 import type { Locale, Region } from '../../types/global';
+import '../../styles/globals.css';
 
 export interface Props {
   title: string;
@@ -16,7 +17,7 @@ export interface Props {
 
 const {
   title,
-  description = 'Agracom Internacional S.A. - Exportadores especializados en lupinos premium y cerezas deshidratadas certificadas desde Chile.',
+  description = 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas Santina con certificaciones Kosher y Halal. 270+ embarques exitosos a Costa Este EE.UU., Mediterráneo y Medio Oriente.',
   lang = 'es',
   region,
   canonicalURL,
@@ -121,8 +122,7 @@ const schemaOrg = {
       rel="stylesheet" 
     />
     
-    <!-- Global Styles -->
-    <link rel="stylesheet" href="/src/styles/globals.css" />
+    <!-- Global Styles are imported in the frontmatter -->
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />

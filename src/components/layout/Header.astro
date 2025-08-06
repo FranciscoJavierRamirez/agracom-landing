@@ -22,12 +22,24 @@ const {
 // Load translations
 const { common } = await createTranslator(currentLang);
 
-// Navigation items
+// Navigation items with dynamic IDs based on language
 const navigation = [
-  { key: 'products', href: '#productos' },
-  { key: 'certifications', href: '#certificaciones' },
-  { key: 'regions', href: '#regiones' },
-  { key: 'contact', href: '#contacto' }
+  { 
+    key: 'products', 
+    href: currentLang === 'es' ? '#productos' : '#products' 
+  },
+  { 
+    key: 'certifications', 
+    href: currentLang === 'es' ? '#certificaciones' : '#certifications' 
+  },
+  { 
+    key: 'regions', 
+    href: currentLang === 'es' ? '#regiones' : '#regions' 
+  },
+  { 
+    key: 'contact', 
+    href: currentLang === 'es' ? '#contacto' : '#contact' 
+  }
 ];
 
 // Get alternate language URL
@@ -96,15 +108,18 @@ const tagline = currentLang === 'es'
         
         <!-- Language Switcher -->
         <div class="flex items-center space-x-2 bg-neutral-100 rounded-lg p-1">
-          <span 
+          <a 
+            href={currentLang === 'es' ? '/' : '/'}
             class={`px-3 py-1 rounded-md text-sm font-semibold transition-all ${
               currentLang === 'es' 
                 ? 'bg-primary text-white shadow-sm' 
                 : 'text-neutral-600 hover:text-primary'
             }`}
+            hreflang="es"
+            aria-label={`${currentLang === 'es' ? 'Página en español (actual)' : 'Cambiar a español'}`}
           >
             ES
-          </span>
+          </a>
           <span class="text-neutral-400">|</span>
           <a 
             href={alternateURL}
@@ -122,7 +137,7 @@ const tagline = currentLang === 'es'
 
         <!-- CTA Button (Hidden on small screens) -->
         <a 
-          href="#contacto"
+          href={currentLang === 'es' ? '#contacto' : '#contact'}
           class="hidden md:inline-flex btn btn-primary px-6 py-2"
         >
           {await common('cta.inquire')}
@@ -166,7 +181,7 @@ const tagline = currentLang === 'es'
         <!-- Mobile CTA -->
         <div class="pt-4 border-t border-neutral-200">
           <a 
-            href="#contacto"
+            href={currentLang === 'es' ? '#contacto' : '#contact'}
             class="btn btn-primary w-full text-center py-3"
           >
             {await common('cta.inquire')}
@@ -245,7 +260,7 @@ const tagline = currentLang === 'es'
         if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
           mobileMenu.classList.add('hidden');
           menuTrigger.setAttribute('aria-expanded', 'false');
-          menuTrigger.focus();
+          (menuTrigger as HTMLElement).focus();
         }
       });
     }
@@ -257,8 +272,8 @@ const tagline = currentLang === 'es'
     
     anchorLinks.forEach(link => {
       link.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
+        const targetId = (e.target as HTMLAnchorElement).getAttribute('href');
+        const targetElement = targetId ? document.querySelector(targetId) : null;
         
         if (targetElement) {
           e.preventDefault();

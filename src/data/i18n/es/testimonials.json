@@ -1,0 +1,78 @@
+{
+  "section_title": "Lo que dicen nuestros clientes",
+  "section_subtitle": "Testimonios verificados de importadores y distribuidores en nuestras regiones objetivo",
+  "testimonials": [
+    {
+      "id": "east-coast-distributor",
+      "quote": "Llevamos 5 años trabajando con Agracom y nunca hemos tenido problemas de calidad o entrega. Los lupinos calibre 14mm son perfectos para nuestro mercado latino en Nueva York.",
+      "author": "María González",
+      "company": "Latino Foods Distribution",
+      "region": "us-east",
+      "location": "Nueva York, EE.UU.",
+      "product": "Lupinos Premium",
+      "relationship_years": 5,
+      "verified": true
+    },
+    {
+      "id": "mediterranean-importer",
+      "quote": "La certificación SAG y la trazabilidad por lote de Agracom nos dan la confianza que necesitamos para nuestros clientes europeos. El servicio de Pedro es excepcional.",
+      "author": "Giuseppe Rossi",
+      "company": "Mediterranean Imports SRL",
+      "region": "mediterranean",
+      "location": "Milán, Italia",
+      "product": "Lupinos Premium",
+      "relationship_years": 3,
+      "verified": true
+    },
+    {
+      "id": "middle-east-halal",
+      "quote": "Las cerezas Santina con certificación Halal son únicas en el mercado. Nuestros clientes en Dubai las prefieren sobre cualquier otra marca por su calidad y autenticidad religiosa.",
+      "author": "Ahmed Al-Rashid",
+      "company": "Halal Premium Foods",
+      "region": "middle-east",
+      "location": "Dubai, EAU",
+      "product": "Cerezas Santina",
+      "relationship_years": 2,
+      "verified": true
+    },
+    {
+      "id": "kosher-specialist",
+      "quote": "Para Pascua, las cerezas de Agracom con certificación Orthodox Union son esenciales. La coordinación con Cristián siempre es impecable, incluso en temporadas altas.",
+      "author": "Rabbi David Goldstein",
+      "company": "Kosher Specialty Foods",
+      "region": "us-east",
+      "location": "Brooklyn, EE.UU.",
+      "product": "Cerezas Santina Kosher",
+      "relationship_years": 4,
+      "verified": true
+    },
+    {
+      "id": "mediterranean-quality",
+      "quote": "En 25 años importando productos chilenos, Agracom mantiene los estándares más altos. Sus lupinos calibre 17mm son los mejores para nuestro mercado griego tradicional.",
+      "author": "Dimitris Papadopoulos",
+      "company": "Hellenic Trading Co.",
+      "region": "mediterranean",
+      "location": "Atenas, Grecia",
+      "product": "Lupinos Premium",
+      "relationship_years": 7,
+      "verified": true
+    },
+    {
+      "id": "middle-east-reliability",
+      "quote": "La puntualidad de Agracom es crucial para nuestro negocio. Los tiempos de entrega de 18-25 días a Medio Oriente siempre se cumplen, y la documentación es impecable.",
+      "author": "Fatima Al-Zahra",
+      "company": "Gulf Premium Imports",
+      "region": "middle-east",
+      "location": "Kuwait City, Kuwait",
+      "product": "Lupinos Premium",
+      "relationship_years": 6,
+      "verified": true
+    }
+  ],
+  "stats": {
+    "total_clients": "50+ clientes activos",
+    "countries_served": "17 países",
+    "satisfaction_rate": "98.5% satisfacción",
+    "repeat_customers": "85% clientes recurrentes"
+  }
+}

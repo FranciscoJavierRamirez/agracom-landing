@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="usdaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E7D32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1B5E20;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#usdaBg)" rx="8"/>
+  
+  <!-- Border -->
+  <rect x="4" y="4" width="112" height="72" fill="none" stroke="white" stroke-width="2" rx="4"/>
+  
+  <!-- USDA Seal placeholder -->
+  <circle cx="30" cy="30" r="18" fill="white"/>
+  <text x="30" y="26" text-anchor="middle" fill="#2E7D32" font-family="serif" font-size="8" font-weight="bold">USDA</text>
+  <text x="30" y="36" text-anchor="middle" fill="#2E7D32" font-family="serif" font-size="6">ORGANIC</text>
+  
+  <!-- Main Text -->
+  <text x="85" y="22" text-anchor="middle" fill="white" font-family="serif" font-size="12" font-weight="bold">ORGANIC</text>
+  <text x="85" y="34" text-anchor="middle" fill="white" font-family="serif" font-size="8">CERTIFIED</text>
+  <text x="85" y="44" text-anchor="middle" fill="white" font-family="serif" font-size="8">USDA</text>
+  
+  <!-- Organic symbol -->
+  <path d="M60 55 Q55 50 60 45 Q65 50 60 55" fill="white"/>
+  <circle cx="60" cy="58" r="3" fill="white"/>
+  <text x="60" y="68" text-anchor="middle" fill="white" font-family="serif" font-size="8">100% ORGANIC</text>
+  
+  <!-- Placeholder indicator -->
+  <text x="60" y="75" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="sans-serif" font-size="6">PLACEHOLDER</text>
+</svg>

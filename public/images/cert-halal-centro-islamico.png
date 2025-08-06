@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="halalBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E8B57;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3CB371;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#halalBg)" rx="8"/>
+  
+  <!-- Border -->
+  <rect x="4" y="4" width="112" height="72" fill="none" stroke="white" stroke-width="2" rx="4"/>
+  
+  <!-- Main Text -->
+  <text x="60" y="25" text-anchor="middle" fill="white" font-family="serif" font-size="16" font-weight="bold">HALAL</text>
+  <text x="60" y="40" text-anchor="middle" fill="white" font-family="serif" font-size="9">CENTRO ISLÁMICO</text>
+  <text x="60" y="52" text-anchor="middle" fill="white" font-family="serif" font-size="9">DE CHILE</text>
+  
+  <!-- Crescent symbol -->
+  <path d="M30 60 Q25 55 30 50 Q35 55 30 60" fill="white"/>
+  <circle cx="32" cy="54" r="2" fill="white"/>
+  
+  <!-- Arabic-style decoration -->
+  <path d="M90 55 Q85 50 90 45 Q95 50 90 55 Q85 60 90 65 Q95 60 90 55" fill="white"/>
+  
+  <!-- Placeholder indicator -->
+  <text x="60" y="75" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="sans-serif" font-size="6">PLACEHOLDER</text>
+</svg>

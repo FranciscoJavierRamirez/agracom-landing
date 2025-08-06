@@ -1,3 +1,6 @@
+/* === IMPORTACIÓN DE FUENTES === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+
 /* Agracom Internacional S.A. - Global CSS Variables
  * Based on Brandbook v1.5.0
  * Implementación del sistema de diseño completo
@@ -6,28 +9,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Reset y configuración base */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
-  color: var(--color-neutral-900);
-  background-color: var(--color-neutral-50);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 /* Variables CSS del Brandbook */
 :root {
@@ -86,8 +67,27 @@ body {
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* === IMPORTACIÓN DE FUENTES === */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+/* === RESET Y CONFIGURACIÓN BASE === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 /* === TIPOGRAFÍA GLOBAL === */
 h1, h2, h3, h4, h5, h6 {
@@ -128,62 +128,6 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* === BOTONES BASE === */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: var(--fs-body);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #0D47A1;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 2px solid var(--color-primary);
-}
-
-.btn-secondary:hover {
-  background-color: var(--color-primary);
-  color: white;
-}
-
-.btn-accent {
-  background-color: var(--color-accent);
-  color: var(--color-neutral-900);
-}
-
-.btn-accent:hover {
-  background-color: #FF8F00;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
 /* === BADGES DE CERTIFICACIÓN === */
 .certification-badge {
   display: inline-flex;
@@ -209,42 +153,6 @@ a:focus {
 .certification-badge--sag {
   background-color: var(--color-info);
   color: white;
-}
-
-/* === LAYOUT HELPERS === */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--space-md);
-}
-
-.section {
-  padding: var(--space-xl) 0;
-}
-
-.section--hero {
-  padding: calc(var(--space-xl) * 2) 0;
-}
-
-/* === GRID SYSTEM === */
-.grid {
-  display: grid;
-  gap: var(--space-md);
-}
-
-.grid--2-cols {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.grid--3-cols {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 768px) {
-  .grid--2-cols,
-  .grid--3-cols {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* === UTILIDADES RESPONSIVE === */
@@ -280,6 +188,28 @@ a:focus {
   }
 }
 
+/* === UTILITY CLASSES === */
+.text-h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+
+.text-h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+.text-h3 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  line-height: 1.3;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
 /* === ACCESIBILIDAD === */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -309,58 +239,60 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* === UTILITY CLASSES === */
-.text-h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  line-height: 1.1;
-  font-weight: 700;
-  font-family: var(--font-heading);
-}
-
-.text-h2 {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  line-height: 1.2;
-  font-weight: 600;
-  font-family: var(--font-heading);
-}
-
-.text-h3 {
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  line-height: 1.3;
-  font-weight: 600;
-  font-family: var(--font-heading);
-}
-
 /* === COMPONENT LAYER === */
 @layer components {
-  /* Button styles that work with both custom CSS and Tailwind */
+  /* Layout Components */
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section {
+    @apply py-16 lg:py-24;
+  }
+
+  /* Button Components */
   .btn {
     @apply inline-flex items-center justify-center px-4 py-2 font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    font-family: var(--font-heading);
   }
   
   .btn-primary {
-    @apply bg-primary text-white hover:bg-primary/90 focus:ring-primary/50;
+    @apply bg-primary text-white hover:bg-primary-600 focus:ring-primary focus:ring-opacity-50;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
   }
   
   .btn-secondary {
-    @apply bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white focus:ring-primary/50;
+    @apply bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white focus:ring-primary focus:ring-opacity-50;
+    transition: all var(--duration-fast) var(--ease-out);
   }
   
   .btn-accent {
-    @apply bg-accent text-neutral-900 hover:bg-accent/90 focus:ring-accent/50;
+    @apply bg-accent text-neutral-900 focus:ring-accent focus:ring-opacity-50;
+    box-shadow: var(--shadow-sm);
   }
   
-  /* Form styles */
+  .btn-accent:hover {
+    background-color: #FF8F00;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Form Components */
   .form-input {
-    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white text-neutral-900;
+    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:ring-opacity-20 focus:border-primary transition-colors bg-white text-neutral-900;
   }
   
   .form-select {
-    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white text-neutral-900;
+    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:ring-opacity-20 focus:border-primary transition-colors bg-white text-neutral-900;
   }
   
   .form-textarea {
-    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white text-neutral-900 resize-vertical;
+    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:ring-opacity-20 focus:border-primary transition-colors bg-white text-neutral-900 resize-y;
   }
   
   .form-label {
@@ -371,26 +303,17 @@ a:focus {
     @apply mt-1 text-sm text-error;
   }
   
-  /* Alert styles */
+  /* Alert Components */
   .alert {
     @apply flex items-center p-4 rounded-lg border;
   }
   
   .alert-success {
-    @apply bg-success/10 text-success border-success/20;
+    @apply bg-success bg-opacity-10 text-success border-success border-opacity-20;
   }
   
   .alert-error {
-    @apply bg-error/10 text-error border-error/20;
-  }
-  
-  /* Section and layout utilities */
-  .section {
-    @apply py-16 lg:py-24;
-  }
-  
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply bg-error bg-opacity-10 text-error border-error border-opacity-20;
   }
 }
 

@@ -4,6 +4,9 @@ import Layout from '../components/layout/Layout.astro';
 import Header from '../components/layout/Header.astro';
 import Hero from '../components/sections/Hero.astro';
 import ProductCard from '../components/ui/ProductCard.astro';
+import Certifications from '../components/sections/Certifications.astro';
+import Regions from '../components/sections/Regions.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
 import Footer from '../components/layout/Footer.astro';
 import { createTranslator } from '../utils/i18n';
 
@@ -89,6 +92,15 @@ const cherriesProduct = {
       </div>
     </div>
   </section>
+
+  <!-- Certifications Section -->
+  <Certifications lang={lang} />
+
+  <!-- Regions Section -->
+  <Regions lang={lang} />
+
+  <!-- Contact Section -->
+  <ContactForm lang={lang} />
 
   <!-- Footer -->
   <Footer slot="footer" lang={lang} showSocial={true} />

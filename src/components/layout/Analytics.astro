@@ -53,7 +53,7 @@ const isDev = import.meta.env.DEV;
           });
 
           // Debug mode for development
-          if ({isDev && debug}) {
+          if (isDev && debug) {
             gtag('config', '{gtagId}', {
               debug_mode: true
             });
@@ -83,7 +83,7 @@ const isDev = import.meta.env.DEV;
             allow_ad_personalization_signals: false
           });
 
-          if ({isDev && debug}) {
+          if (isDev && debug) {
             gtag('config', '{gtagId}', {
               debug_mode: true
             });
@@ -351,7 +351,7 @@ const isDev = import.meta.env.DEV;
       });
 
       // Debug function for development
-      if ({isDev && debug}) {
+      if (isDev && debug) {
         window.agracomAnalytics = {
           trackEvent: function(eventName, parameters) {
             console.log('Analytics Event:', eventName, parameters);

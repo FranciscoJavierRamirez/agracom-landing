@@ -68,7 +68,7 @@ const currentExecutive = region ? regionalExecutives[region] : null;
 ---
 
 <section 
-  id="contacto"
+  id={lang === 'es' ? 'contacto' : 'contact'}
   class={`section bg-gradient-to-br from-neutral-50 to-white ${className}`}
   aria-label={lang === 'es' ? 'Formulario de contacto' : 'Contact form'}
 >
@@ -660,19 +660,19 @@ const currentExecutive = region ? regionalExecutives[region] : null;
   }
 
   .form-input {
-    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white text-neutral-900 placeholder-neutral-500;
+    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:ring-opacity-20 focus:border-primary transition-colors bg-white text-neutral-900 placeholder-neutral-500;
   }
 
   .form-select {
-    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white text-neutral-900;
+    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:ring-opacity-20 focus:border-primary transition-colors bg-white text-neutral-900;
   }
 
   .form-textarea {
-    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-white text-neutral-900 placeholder-neutral-500 resize-vertical;
+    @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:ring-opacity-20 focus:border-primary transition-colors bg-white text-neutral-900 placeholder-neutral-500 resize-y;
   }
 
   .form-input--error {
-    @apply border-error focus:ring-error/20 focus:border-error;
+    @apply border-error focus:ring-error focus:ring-opacity-20 focus:border-error;
   }
 
   .form-error {
@@ -685,11 +685,11 @@ const currentExecutive = region ? regionalExecutives[region] : null;
   }
 
   .alert-success {
-    @apply bg-success/10 text-success border-success/20;
+    @apply bg-success bg-opacity-10 text-success border-success border-opacity-20;
   }
 
   .alert-error {
-    @apply bg-error/10 text-error border-error/20;
+    @apply bg-error bg-opacity-10 text-error border-error border-opacity-20;
   }
 
   /* Enhanced focus styles for accessibility */

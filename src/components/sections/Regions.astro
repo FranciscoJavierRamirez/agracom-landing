@@ -235,10 +235,11 @@ const regionsData = [
 
 // Get current region data
 const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRegion) : null;
+const displayRegion = currentRegion || (!selectedRegion ? regionsData[0] : null);
 ---
 
 <section 
-  id="regiones"
+  id={lang === 'es' ? 'regiones' : 'regions'}
   class={`section bg-gradient-to-br from-neutral-50 to-white ${className}`}
   aria-label={lang === 'es' ? 'Regiones y mercados' : 'Regions and markets'}
 >
@@ -253,7 +254,7 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
         <p class="text-xl text-neutral-700 max-w-3xl mx-auto leading-relaxed">
           {lang === 'es' 
             ? 'Conectamos la calidad chilena con mercados especializados alrededor del mundo, con ejecutivos dedicados que entienden cada región.'
-            : 'We connect Chilean quality with specialized markets around the world, with dedicated executives who understand each region.'
+            : 'We connect Chilean quality with specialized markets around the world, with dedicated executives who understand each displayRegion.'
           }
         </p>
       </div>
@@ -315,17 +316,14 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
     )}
 
     <!-- Featured Region Details (if selected) -->
-    {(currentRegion || (!selectedRegion && regionsData[0])) && (
+    {displayRegion && (
       <div class="mb-16" id="region-details">
-        {(() => {
-          const region = currentRegion || regionsData[0];
-          return (
-            <div class={`bg-gradient-to-br ${region.bgGradient} rounded-3xl p-8 lg:p-12 border-2 border-${region.color}/20 relative overflow-hidden`}>
+        <div class={`bg-gradient-to-br ${displayRegion.bgGradient} rounded-3xl p-8 lg:p-12 border-2 border-${displayRegion.color}/20 relative overflow-hidden`}>
               
               <!-- Background Pattern -->
               <div class="absolute inset-0 opacity-5">
                 <div class="text-9xl absolute top-8 right-8 transform rotate-12">
-                  {region.flag}
+                  {displayRegion.flag}
                 </div>
               </div>
 
@@ -335,13 +333,13 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                 <div class="space-y-6">
                   <div class="space-y-4">
                     <div class="flex items-center space-x-4">
-                      <div class="text-4xl">{region.flag}</div>
+                      <div class="text-4xl">{displayRegion.flag}</div>
                       <div>
                         <h3 class="text-3xl font-bold text-neutral-900">
-                          {lang === 'es' ? region.name : region.nameEn}
+                          {lang === 'es' ? displayRegion.name : displayRegion.nameEn}
                         </h3>
                         <p class="text-lg text-neutral-600">
-                          {lang === 'es' ? region.description : region.descriptionEn}
+                          {lang === 'es' ? displayRegion.description : displayRegion.descriptionEn}
                         </p>
                       </div>
                     </div>
@@ -355,25 +353,25 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                     
                     <div class="grid grid-cols-2 gap-4">
                       <div>
-                        <div class="text-2xl font-bold text-primary">{region.marketSize}</div>
+                        <div class="text-2xl font-bold text-primary">{displayRegion.marketSize}</div>
                         <div class="text-sm text-neutral-600">
                           {lang === 'es' ? 'Tamaño de Mercado' : 'Market Size'}
                         </div>
                       </div>
                       <div>
-                        <div class="text-2xl font-bold text-success">{region.growthRate}</div>
+                        <div class="text-2xl font-bold text-success">{displayRegion.growthRate}</div>
                         <div class="text-sm text-neutral-600">
                           {lang === 'es' ? 'Crecimiento Anual' : 'Annual Growth'}
                         </div>
                       </div>
                       <div>
-                        <div class="text-2xl font-bold text-accent">{region.clients}</div>
+                        <div class="text-2xl font-bold text-accent">{displayRegion.clients}</div>
                         <div class="text-sm text-neutral-600">
                           {lang === 'es' ? 'Clientes Activos' : 'Active Clients'}
                         </div>
                       </div>
                       <div>
-                        <div class="text-2xl font-bold text-info">{region.established}</div>
+                        <div class="text-2xl font-bold text-info">{displayRegion.established}</div>
                         <div class="text-sm text-neutral-600">
                           {lang === 'es' ? 'Año de Inicio' : 'Established'}
                         </div>
@@ -387,7 +385,7 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                       {lang === 'es' ? 'Tendencias Clave' : 'Key Insights'}
                     </h4>
                     <div class="grid gap-3">
-                      {region.insights.map((insight) => (
+                      {displayRegion.insights.map((insight) => (
                         <div class="bg-white/60 rounded-lg p-4 flex items-center justify-between">
                           <div>
                             <div class="font-medium text-neutral-900">{insight.title}</div>
@@ -415,19 +413,19 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                     <div class="space-y-3">
                       <div class="flex justify-between">
                         <span class="text-neutral-600">{lang === 'es' ? 'Tiempo de tránsito:' : 'Transit time:'}</span>
-                        <span class="font-medium">{region.shipping.transit} {region.shipping.transitUnit}</span>
+                        <span class="font-medium">{displayRegion.shipping.transit} {displayRegion.shipping.transitUnit}</span>
                       </div>
                       <div class="flex justify-between">
                         <span class="text-neutral-600">{lang === 'es' ? 'Frecuencia:' : 'Frequency:'}</span>
-                        <span class="font-medium">{region.shipping.frequency}</span>
+                        <span class="font-medium">{displayRegion.shipping.frequency}</span>
                       </div>
                       <div class="flex justify-between">
                         <span class="text-neutral-600">{lang === 'es' ? 'Método:' : 'Method:'}</span>
-                        <span class="font-medium">{region.shipping.method}</span>
+                        <span class="font-medium">{displayRegion.shipping.method}</span>
                       </div>
                       <div class="flex justify-between">
                         <span class="text-neutral-600">Incoterm:</span>
-                        <span class="font-medium">{region.shipping.incoterm}</span>
+                        <span class="font-medium">{displayRegion.shipping.incoterm}</span>
                       </div>
                     </div>
 
@@ -436,7 +434,7 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                         {lang === 'es' ? 'Puertos Principales:' : 'Main Ports:'}
                       </h5>
                       <div class="flex flex-wrap gap-2">
-                        {(lang === 'es' ? region.keyPorts : region.keyPortsEn).map((port) => (
+                        {(lang === 'es' ? displayRegion.keyPorts : displayRegion.keyPortsEn).map((port) => (
                           <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
                             {port}
                           </span>
@@ -462,19 +460,19 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                             {lang === 'es' ? 'Lupinos' : 'Lupins'}
                           </h5>
                           <span class={`px-2 py-1 rounded-full text-xs font-medium ${
-                            region.products.lupins.demand === 'very-high' ? 'bg-success/20 text-success' :
-                            region.products.lupins.demand === 'high' ? 'bg-accent/20 text-accent' :
+                            displayRegion.products.lupins.demand === 'very-high' ? 'bg-success/20 text-success' :
+                            displayRegion.products.lupins.demand === 'high' ? 'bg-accent/20 text-accent' :
                             'bg-info/20 text-info'
                           }`}>
-                            {region.products.lupins.demand === 'very-high' ? (lang === 'es' ? 'Muy Alta' : 'Very High') :
-                             region.products.lupins.demand === 'high' ? (lang === 'es' ? 'Alta' : 'High') :
+                            {displayRegion.products.lupins.demand === 'very-high' ? (lang === 'es' ? 'Muy Alta' : 'Very High') :
+                             displayRegion.products.lupins.demand === 'high' ? (lang === 'es' ? 'Alta' : 'High') :
                              (lang === 'es' ? 'Media' : 'Medium')}
                           </span>
                         </div>
                         <div class="text-sm text-neutral-600 space-y-1">
-                          <div><strong>{lang === 'es' ? 'Calibres:' : 'Calibers:'}</strong> {region.products.lupins.calibers.join(', ')}</div>
-                          <div><strong>{lang === 'es' ? 'Empaque:' : 'Packaging:'}</strong> {region.products.lupins.packaging.join(', ')}</div>
-                          <div><strong>{lang === 'es' ? 'Temporada:' : 'Season:'}</strong> {region.products.lupins.seasonality}</div>
+                          <div><strong>{lang === 'es' ? 'Calibres:' : 'Calibers:'}</strong> {displayRegion.products.lupins.calibers.join(', ')}</div>
+                          <div><strong>{lang === 'es' ? 'Empaque:' : 'Packaging:'}</strong> {displayRegion.products.lupins.packaging.join(', ')}</div>
+                          <div><strong>{lang === 'es' ? 'Temporada:' : 'Season:'}</strong> {displayRegion.products.lupins.seasonality}</div>
                         </div>
                       </div>
 
@@ -485,18 +483,18 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                             {lang === 'es' ? 'Cerezas' : 'Cherries'}
                           </h5>
                           <span class={`px-2 py-1 rounded-full text-xs font-medium ${
-                            region.products.cherries.demand === 'very-high' ? 'bg-success/20 text-success' :
-                            region.products.cherries.demand === 'high' ? 'bg-accent/20 text-accent' :
+                            displayRegion.products.cherries.demand === 'very-high' ? 'bg-success/20 text-success' :
+                            displayRegion.products.cherries.demand === 'high' ? 'bg-accent/20 text-accent' :
                             'bg-info/20 text-info'
                           }`}>
-                            {region.products.cherries.demand === 'very-high' ? (lang === 'es' ? 'Muy Alta' : 'Very High') :
-                             region.products.cherries.demand === 'high' ? (lang === 'es' ? 'Alta' : 'High') :
+                            {displayRegion.products.cherries.demand === 'very-high' ? (lang === 'es' ? 'Muy Alta' : 'Very High') :
+                             displayRegion.products.cherries.demand === 'high' ? (lang === 'es' ? 'Alta' : 'High') :
                              (lang === 'es' ? 'Media' : 'Medium')}
                           </span>
                         </div>
                         <div class="text-sm text-neutral-600 space-y-1">
-                          <div><strong>{lang === 'es' ? 'Empaque:' : 'Packaging:'}</strong> {region.products.cherries.packaging.join(', ')}</div>
-                          <div><strong>{lang === 'es' ? 'Temporada:' : 'Season:'}</strong> {region.products.cherries.seasonality}</div>
+                          <div><strong>{lang === 'es' ? 'Empaque:' : 'Packaging:'}</strong> {displayRegion.products.cherries.packaging.join(', ')}</div>
+                          <div><strong>{lang === 'es' ? 'Temporada:' : 'Season:'}</strong> {displayRegion.products.cherries.seasonality}</div>
                         </div>
                       </div>
                     </div>
@@ -514,14 +512,14 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                     <div class="flex items-start space-x-4">
                       <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
                         <span class="text-2xl font-bold text-primary">
-                          {region.executive.name.split(' ').map(n => n[0]).join('')}
+                          {displayRegion.executive.name.split(' ').map(n => n[0]).join('')}
                         </span>
                       </div>
                       
                       <div class="flex-grow space-y-2">
                         <div>
-                          <h5 class="font-semibold text-neutral-900">{region.executive.name}</h5>
-                          <p class="text-sm text-neutral-600">{region.executive.title}</p>
+                          <h5 class="font-semibold text-neutral-900">{displayRegion.executive.name}</h5>
+                          <p class="text-sm text-neutral-600">{displayRegion.executive.title}</p>
                         </div>
                         
                         <div class="space-y-1 text-sm">
@@ -529,23 +527,23 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                             <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <a href={`mailto:${region.executive.email}`} class="text-primary hover:underline">
-                              {region.executive.email}
+                            <a href={`mailto:${displayRegion.executive.email}`} class="text-primary hover:underline">
+                              {displayRegion.executive.email}
                             </a>
                           </div>
                           <div class="flex items-center space-x-2">
                             <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
-                            <a href={`tel:${region.executive.phone}`} class="text-secondary hover:underline">
-                              {region.executive.phone}
+                            <a href={`tel:${displayRegion.executive.phone}`} class="text-secondary hover:underline">
+                              {displayRegion.executive.phone}
                             </a>
                           </div>
                           <div class="text-neutral-600">
-                            <strong>{lang === 'es' ? 'Idiomas:' : 'Languages:'}</strong> {region.executive.languages.join(', ')}
+                            <strong>{lang === 'es' ? 'Idiomas:' : 'Languages:'}</strong> {displayRegion.executive.languages.join(', ')}
                           </div>
                           <div class="text-neutral-600">
-                            <strong>{lang === 'es' ? 'Experiencia:' : 'Experience:'}</strong> {region.executive.experience}
+                            <strong>{lang === 'es' ? 'Experiencia:' : 'Experience:'}</strong> {displayRegion.executive.experience}
                           </div>
                         </div>
                       </div>
@@ -554,8 +552,7 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
                 </div>
               </div>
             </div>
-          );
-        })()}
+        </div>
       </div>
     )}
 
@@ -680,11 +677,12 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
     const regionCards = document.querySelectorAll('[data-region-card]');
 
     // Region selector functionality
-    function selectRegion(regionId) {
+    function selectRegion(regionId: string) {
       // Update button states
       regionSelectors.forEach(btn => {
-        const btnRegion = btn.dataset.region;
-        const btnColor = btn.dataset.color;
+        const btnElement = btn as HTMLElement;
+        const btnRegion = btnElement.dataset.region;
+        const btnColor = btnElement.dataset.color;
         
         if (btnRegion === regionId) {
           btn.className = `region-selector px-6 py-4 rounded-xl font-medium transition-all duration-300 flex items-center space-x-3 bg-${btnColor} text-white shadow-md`;
@@ -694,9 +692,9 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
       });
 
       // Update URL without page reload
-      const url = new URL(window.location);
+      const url = new URL(window.location.href);
       url.searchParams.set('region', regionId);
-      window.history.pushState({}, '', url);
+      window.history.pushState({}, '', url.toString());
 
       // Scroll to details if they exist
       if (regionDetails) {
@@ -704,8 +702,8 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
       }
 
       // Track region selection
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'region_select', {
+      if (typeof (window as any).gtag !== 'undefined') {
+        (window as any).gtag('event', 'region_select', {
           event_category: 'Regions',
           event_label: regionId
         });
@@ -713,20 +711,23 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
     }
 
     // Make selectRegion globally available
-    window.selectRegion = selectRegion;
+    (window as any).selectRegion = selectRegion;
 
     // Add click listeners to region selectors
     regionSelectors.forEach(btn => {
       btn.addEventListener('click', () => {
-        selectRegion(btn.dataset.region);
+        const btnElement = btn as HTMLElement;
+        const regionId = btnElement.dataset.region;
+        if (regionId) selectRegion(regionId);
       });
     });
 
     // Add click listeners to region cards
     regionCards.forEach(card => {
       card.addEventListener('click', () => {
-        const regionId = card.dataset.regionCard;
-        selectRegion(regionId);
+        const cardElement = card as HTMLElement;
+        const regionId = cardElement.dataset.regionCard;
+        if (regionId) selectRegion(regionId);
       });
     });
 
@@ -741,8 +742,8 @@ const currentRegion = selectedRegion ? regionsData.find(r => r.id === selectedRe
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'regions_section_view', {
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'regions_section_view', {
               event_category: 'Regions',
               event_label: 'section_viewed'
             });

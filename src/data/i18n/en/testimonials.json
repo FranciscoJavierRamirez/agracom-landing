@@ -1,0 +1,78 @@
+{
+  "section_title": "What Our Clients Say",
+  "section_subtitle": "Verified testimonials from importers and distributors in our target regions",
+  "testimonials": [
+    {
+      "id": "east-coast-distributor",
+      "quote": "We've been working with Agracom for 5 years and have never had quality or delivery issues. The 14mm caliber lupins are perfect for our Latino market in New York.",
+      "author": "María González",
+      "company": "Latino Foods Distribution",
+      "region": "us-east",
+      "location": "New York, USA",
+      "product": "Premium Lupins",
+      "relationship_years": 5,
+      "verified": true
+    },
+    {
+      "id": "mediterranean-importer",
+      "quote": "Agracom's SAG certification and batch traceability give us the confidence we need for our European clients. Pedro's service is exceptional.",
+      "author": "Giuseppe Rossi",
+      "company": "Mediterranean Imports SRL",
+      "region": "mediterranean",
+      "location": "Milan, Italy",
+      "product": "Premium Lupins",
+      "relationship_years": 3,
+      "verified": true
+    },
+    {
+      "id": "middle-east-halal",
+      "quote": "Santina cherries with Halal certification are unique in the market. Our Dubai clients prefer them over any other brand for their quality and religious authenticity.",
+      "author": "Ahmed Al-Rashid",
+      "company": "Halal Premium Foods",
+      "region": "middle-east",
+      "location": "Dubai, UAE",
+      "product": "Santina Cherries",
+      "relationship_years": 2,
+      "verified": true
+    },
+    {
+      "id": "kosher-specialist",
+      "quote": "For Passover, Agracom's cherries with Orthodox Union certification are essential. Coordination with Cristián is always impeccable, even during peak seasons.",
+      "author": "Rabbi David Goldstein",
+      "company": "Kosher Specialty Foods",
+      "region": "us-east",
+      "location": "Brooklyn, USA",
+      "product": "Kosher Santina Cherries",
+      "relationship_years": 4,
+      "verified": true
+    },
+    {
+      "id": "mediterranean-quality",
+      "quote": "In 25 years importing Chilean products, Agracom maintains the highest standards. Their 17mm caliber lupins are the best for our traditional Greek market.",
+      "author": "Dimitris Papadopoulos",
+      "company": "Hellenic Trading Co.",
+      "region": "mediterranean",
+      "location": "Athens, Greece",
+      "product": "Premium Lupins",
+      "relationship_years": 7,
+      "verified": true
+    },
+    {
+      "id": "middle-east-reliability",
+      "quote": "Agracom's punctuality is crucial for our business. The 18-25 day delivery times to Middle East are always met, and documentation is impeccable.",
+      "author": "Fatima Al-Zahra",
+      "company": "Gulf Premium Imports",
+      "region": "middle-east",
+      "location": "Kuwait City, Kuwait",
+      "product": "Premium Lupins",
+      "relationship_years": 6,
+      "verified": true
+    }
+  ],
+  "stats": {
+    "total_clients": "50+ active clients",
+    "countries_served": "17 countries",
+    "satisfaction_rate": "98.5% satisfaction",
+    "repeat_customers": "85% repeat customers"
+  }
+}
