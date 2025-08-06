@@ -1,0 +1,687 @@
+---
+// Agracom Internacional S.A. - Certifications Section
+// Sección expandida de certificaciones con detalles completos
+
+import type { Locale } from '../../types/global';
+import { createTranslator } from '../../utils/i18n';
+
+export interface Props {
+  lang: Locale;
+  showDetails?: boolean;
+  featured?: string[]; // Featured certification IDs
+  class?: string;
+}
+
+const {
+  lang,
+  showDetails = true,
+  featured = ['kosher-ou', 'halal-cic', 'sag-chile'],
+  class: className = ''
+} = Astro.props;
+
+// Load translations
+const { certifications, common } = await createTranslator(lang);
+
+// Comprehensive certifications data
+const certificationsData = [
+  {
+    id: 'kosher-ou',
+    category: 'religious',
+    name: 'Kosher Orthodox Union',
+    nameEn: 'Kosher Orthodox Union',
+    authority: 'Orthodox Union',
+    authorityEn: 'Orthodox Union',
+    logo: '/images/cert-kosher-orthodox-union.png',
+    icon: '✡️',
+    color: 'kosher',
+    bgColor: 'from-kosher/10 to-kosher/20',
+    description: 'Certificación Kosher para Pascua (Pesaj) más estricta del mundo, supervisada por la Orthodox Union.',
+    descriptionEn: 'The world\'s strictest Kosher for Passover certification, supervised by the Orthodox Union.',
+    benefits: [
+      'Acceso a mercados kosher globales',
+      'Supervisión rabínica estricta',
+      'Válido para Pascua (Pesaj)',
+      'Reconocimiento internacional'
+    ],
+    benefitsEn: [
+      'Access to global kosher markets',
+      'Strict rabbinical supervision',
+      'Valid for Passover',
+      'International recognition'
+    ],
+    products: ['cherries'],
+    regions: ['us-east', 'mediterranean'],
+    validUntil: '2025-12-31',
+    certNumber: 'OU-P-2024-1234',
+    featured: true,
+    verified: true,
+    renewalDate: '2025-10-01'
+  },
+  {
+    id: 'halal-cic',
+    category: 'religious',
+    name: 'Halal Centro Islámico',
+    nameEn: 'Halal Islamic Center',
+    authority: 'Centro Islámico de Chile',
+    authorityEn: 'Islamic Center of Chile',
+    logo: '/images/cert-halal-centro-islamico.png',
+    icon: '☪️',
+    color: 'halal',
+    bgColor: 'from-halal/10 to-halal/20',
+    description: 'Certificación Halal completa supervisada por el Centro Islámico de Chile, reconocida internacionalmente.',
+    descriptionEn: 'Complete Halal certification supervised by the Islamic Center of Chile, internationally recognized.',
+    benefits: [
+      'Acceso a mercados musulmanes',
+      'Supervisión islámica completa',
+      'Trazabilidad desde origen',
+      'Reconocimiento MUIS'
+    ],
+    benefitsEn: [
+      'Access to Muslim markets',
+      'Complete Islamic supervision',
+      'Traceability from origin',
+      'MUIS recognition'
+    ],
+    products: ['cherries'],
+    regions: ['middle-east', 'mediterranean'],
+    validUntil: '2025-12-31',
+    certNumber: 'CIC-HAL-2024-567',
+    featured: true,
+    verified: true,
+    renewalDate: '2025-11-15'
+  },
+  {
+    id: 'sag-chile',
+    category: 'governmental',
+    name: 'SAG Chile',
+    nameEn: 'SAG Chile',
+    authority: 'Servicio Agrícola y Ganadero',
+    authorityEn: 'Agricultural and Livestock Service',
+    logo: '/images/cert-sag-chile.png',
+    icon: '🛡️',
+    color: 'secondary',
+    bgColor: 'from-secondary/10 to-secondary/20',
+    description: 'Certificación oficial del gobierno chileno que garantiza la calidad y seguridad alimentaria de nuestros productos.',
+    descriptionEn: 'Official Chilean government certification guaranteeing the quality and food safety of our products.',
+    benefits: [
+      'Garantía gubernamental',
+      'Trazabilidad completa',
+      'Inspecciones regulares',
+      'Reconocimiento internacional'
+    ],
+    benefitsEn: [
+      'Government guarantee',
+      'Complete traceability',
+      'Regular inspections',
+      'International recognition'
+    ],
+    products: ['lupins', 'cherries'],
+    regions: ['us-east', 'mediterranean', 'middle-east'],
+    validUntil: '2025-06-30',
+    certNumber: 'SAG-EXP-2024-890',
+    featured: true,
+    verified: true,
+    renewalDate: '2025-05-01'
+  },
+  {
+    id: 'haccp',
+    category: 'quality',
+    name: 'HACCP',
+    nameEn: 'HACCP',
+    authority: 'SGS Chile',
+    authorityEn: 'SGS Chile',
+    logo: '/images/cert-haccp-sgs.png',
+    icon: '🔬',
+    color: 'info',
+    bgColor: 'from-info/10 to-info/20',
+    description: 'Sistema de Análisis de Peligros y Puntos Críticos de Control para máxima seguridad alimentaria.',
+    descriptionEn: 'Hazard Analysis and Critical Control Points system for maximum food safety.',
+    benefits: [
+      'Control de puntos críticos',
+      'Prevención de riesgos',
+      'Documentación completa',
+      'Mejora continua'
+    ],
+    benefitsEn: [
+      'Critical control points',
+      'Risk prevention',
+      'Complete documentation',
+      'Continuous improvement'
+    ],
+    products: ['lupins', 'cherries'],
+    regions: ['us-east', 'mediterranean', 'middle-east'],
+    validUntil: '2025-08-15',
+    certNumber: 'SGS-HACCP-2024-321',
+    featured: false,
+    verified: true,
+    renewalDate: '2025-07-01'
+  },
+  {
+    id: 'iso22000',
+    category: 'quality',
+    name: 'ISO 22000',
+    nameEn: 'ISO 22000',
+    authority: 'Bureau Veritas',
+    authorityEn: 'Bureau Veritas',
+    logo: '/images/cert-iso22000-bv.png',
+    icon: '🏆',
+    color: 'accent',
+    bgColor: 'from-accent/10 to-accent/20',
+    description: 'Norma internacional de gestión de seguridad alimentaria que garantiza la inocuidad de nuestros productos.',
+    descriptionEn: 'International food safety management standard that guarantees the safety of our products.',
+    benefits: [
+      'Gestión integral',
+      'Mejora continua',
+      'Reconocimiento global',
+      'Integración con HACCP'
+    ],
+    benefitsEn: [
+      'Comprehensive management',
+      'Continuous improvement',
+      'Global recognition',
+      'HACCP integration'
+    ],
+    products: ['lupins', 'cherries'],
+    regions: ['us-east', 'mediterranean', 'middle-east'],
+    validUntil: '2026-03-20',
+    certNumber: 'BV-ISO22000-2024-789',
+    featured: false,
+    verified: true,
+    renewalDate: '2026-01-15'
+  },
+  {
+    id: 'organic-usda',
+    category: 'organic',
+    name: 'USDA Organic',
+    nameEn: 'USDA Organic',
+    authority: 'USDA',
+    authorityEn: 'USDA',
+    logo: '/images/cert-usda-organic.png',
+    icon: '🌱',
+    color: 'success',
+    bgColor: 'from-success/10 to-success/20',
+    description: 'Certificación orgánica del Departamento de Agricultura de EE.UU. para productos libres de químicos.',
+    descriptionEn: 'USDA organic certification for chemical-free products from the US Department of Agriculture.',
+    benefits: [
+      'Libre de químicos',
+      'Prácticas sostenibles',
+      'Premium en mercado US',
+      'Trazabilidad orgánica'
+    ],
+    benefitsEn: [
+      'Chemical-free',
+      'Sustainable practices',
+      'Premium in US market',
+      'Organic traceability'
+    ],
+    products: ['lupins'],
+    regions: ['us-east'],
+    validUntil: '2025-09-10',
+    certNumber: 'USDA-ORG-2024-456',
+    featured: false,
+    verified: true,
+    renewalDate: '2025-08-01'
+  }
+];
+
+// Filter featured certifications
+const featuredCerts = certificationsData.filter(cert => featured.includes(cert.id));
+const otherCerts = certificationsData.filter(cert => !featured.includes(cert.id));
+
+// Group certifications by category
+const certsByCategory = {
+  religious: certificationsData.filter(cert => cert.category === 'religious'),
+  governmental: certificationsData.filter(cert => cert.category === 'governmental'),
+  quality: certificationsData.filter(cert => cert.category === 'quality'),
+  organic: certificationsData.filter(cert => cert.category === 'organic')
+};
+
+const categoryLabels = {
+  religious: lang === 'es' ? 'Certificaciones Religiosas' : 'Religious Certifications',
+  governmental: lang === 'es' ? 'Certificaciones Gubernamentales' : 'Government Certifications',
+  quality: lang === 'es' ? 'Certificaciones de Calidad' : 'Quality Certifications',
+  organic: lang === 'es' ? 'Certificaciones Orgánicas' : 'Organic Certifications'
+};
+---
+
+<section 
+  id="certificaciones"
+  class={`section bg-white ${className}`}
+  aria-label={lang === 'es' ? 'Certificaciones y calidad' : 'Certifications and quality'}
+>
+  <div class="container mx-auto px-4">
+    
+    <!-- Section Header -->
+    <div class="text-center space-y-6 mb-16">
+      <div class="space-y-4">
+        <h2 class="text-h2 font-bold text-neutral-900">
+          {lang === 'es' ? 'Certificaciones que Garantizan Excelencia' : 'Certifications that Guarantee Excellence'}
+        </h2>
+        <p class="text-xl text-neutral-700 max-w-3xl mx-auto leading-relaxed">
+          {lang === 'es' 
+            ? 'Nuestros productos cumplen con los más altos estándares internacionales, respaldados por certificaciones de organismos reconocidos mundialmente.'
+            : 'Our products meet the highest international standards, backed by certifications from globally recognized organizations.'
+          }
+        </p>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="flex flex-wrap justify-center items-center gap-8 pt-8">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-primary">{certificationsData.length}+</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Certificaciones Activas' : 'Active Certifications'}
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-secondary">100%</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Cumplimiento' : 'Compliance'}
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-accent">20+</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Años de Experiencia' : 'Years of Experience'}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Certifications -->
+    <div class="mb-16">
+      <h3 class="text-2xl font-bold text-neutral-900 mb-8 text-center">
+        {lang === 'es' ? 'Certificaciones Principales' : 'Main Certifications'}
+      </h3>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        {featuredCerts.map((cert) => (
+          <div class={`bg-gradient-to-br ${cert.bgColor} rounded-2xl p-8 border-2 border-transparent hover:border-${cert.color}/30 transition-all duration-300 group relative overflow-hidden`}>
+            
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-5">
+              <div class="text-8xl absolute top-4 right-4 transform rotate-12">
+                {cert.icon}
+              </div>
+            </div>
+
+            <div class="relative z-10 space-y-6">
+              <!-- Certification Header -->
+              <div class="space-y-4">
+                <div class="flex items-start justify-between">
+                  <div class={`w-16 h-16 bg-white rounded-xl shadow-md flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <img
+                      src={cert.logo}
+                      alt={`${cert.name} logo`}
+                      class="w-12 h-12 object-contain"
+                      loading="lazy"
+                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                    />
+                    <div class="hidden w-12 h-12 items-center justify-center text-2xl">
+                      {cert.icon}
+                    </div>
+                  </div>
+                  
+                  {cert.verified && (
+                    <div class="flex items-center space-x-1 text-success text-sm font-medium bg-white/80 rounded-full px-3 py-1">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      <span>{lang === 'es' ? 'Verificado' : 'Verified'}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div class="space-y-2">
+                  <h4 class="text-xl font-bold text-neutral-900">
+                    {lang === 'es' ? cert.name : cert.nameEn}
+                  </h4>
+                  <p class="text-sm text-neutral-600 font-medium">
+                    {lang === 'es' ? cert.authority : cert.authorityEn}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <p class="text-neutral-700 leading-relaxed">
+                {lang === 'es' ? cert.description : cert.descriptionEn}
+              </p>
+
+              <!-- Benefits -->
+              <div class="space-y-3">
+                <h5 class="font-semibold text-neutral-900">
+                  {lang === 'es' ? 'Beneficios:' : 'Benefits:'}
+                </h5>
+                <ul class="space-y-2">
+                  {(lang === 'es' ? cert.benefits : cert.benefitsEn).slice(0, 3).map((benefit) => (
+                    <li class="flex items-start space-x-2 text-sm text-neutral-700">
+                      <span class="text-success mt-0.5 flex-shrink-0">✓</span>
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Products & Validity -->
+              <div class="flex items-center justify-between pt-4 border-t border-white/50">
+                <div class="space-y-1">
+                  <p class="text-xs text-neutral-600 font-medium">
+                    {lang === 'es' ? 'Productos:' : 'Products:'}
+                  </p>
+                  <div class="flex flex-wrap gap-1">
+                    {cert.products.map((product) => (
+                      <span class="px-2 py-1 bg-white/60 rounded text-xs font-medium">
+                        {product === 'lupins' 
+                          ? (lang === 'es' ? 'Lupinos' : 'Lupins')
+                          : (lang === 'es' ? 'Cerezas' : 'Cherries')
+                        }
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div class="text-right">
+                  <p class="text-xs text-neutral-600 font-medium">
+                    {lang === 'es' ? 'Válido hasta:' : 'Valid until:'}
+                  </p>
+                  <p class="text-sm font-semibold text-neutral-900">
+                    {new Date(cert.validUntil).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Certificate Number -->
+              <div class="bg-white/60 rounded-lg p-3">
+                <p class="text-xs text-neutral-600 font-medium mb-1">
+                  {lang === 'es' ? 'Número de Certificado:' : 'Certificate Number:'}
+                </p>
+                <p class="font-mono text-sm font-semibold text-neutral-900">
+                  {cert.certNumber}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Additional Certifications by Category -->
+    {showDetails && (
+      <div class="space-y-12">
+        <h3 class="text-2xl font-bold text-neutral-900 text-center">
+          {lang === 'es' ? 'Certificaciones Adicionales' : 'Additional Certifications'}
+        </h3>
+
+        {Object.entries(certsByCategory).map(([category, certs]) => {
+          const categoryData = certs.filter(cert => !featured.includes(cert.id));
+          if (categoryData.length === 0) return null;
+
+          return (
+            <div key={category} class="space-y-6">
+              <h4 class="text-xl font-semibold text-neutral-900 border-b-2 border-primary/20 pb-2">
+                {categoryLabels[category]}
+              </h4>
+              
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {categoryData.map((cert) => (
+                  <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start space-x-4">
+                      <div class="w-12 h-12 bg-neutral-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <img
+                          src={cert.logo}
+                          alt={`${cert.name} logo`}
+                          class="w-8 h-8 object-contain"
+                          loading="lazy"
+                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                        />
+                        <div class="hidden items-center justify-center text-lg">
+                          {cert.icon}
+                        </div>
+                      </div>
+                      
+                      <div class="flex-grow space-y-2">
+                        <h5 class="font-semibold text-neutral-900">
+                          {lang === 'es' ? cert.name : cert.nameEn}
+                        </h5>
+                        <p class="text-sm text-neutral-600">
+                          {lang === 'es' ? cert.authority : cert.authorityEn}
+                        </p>
+                        <p class="text-xs text-neutral-500">
+                          {lang === 'es' ? 'Válido hasta:' : 'Valid until:'} {new Date(cert.validUntil).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
+                        </p>
+                      </div>
+
+                      {cert.verified && (
+                        <div class="text-success">
+                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Quality Assurance Process -->
+    <div class="mt-16 bg-gradient-to-r from-neutral-50 to-white rounded-2xl p-8 border border-neutral-200">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div class="space-y-6">
+          <h3 class="text-2xl font-bold text-neutral-900">
+            {lang === 'es' ? 'Proceso de Aseguramiento de Calidad' : 'Quality Assurance Process'}
+          </h3>
+          <p class="text-neutral-700 leading-relaxed">
+            {lang === 'es' 
+              ? 'Nuestro compromiso con la excelencia va más allá de las certificaciones. Implementamos un proceso integral de control de calidad en cada etapa.'
+              : 'Our commitment to excellence goes beyond certifications. We implement a comprehensive quality control process at every stage.'
+            }
+          </p>
+          
+          <div class="space-y-4">
+            {[
+              {
+                step: '01',
+                title: lang === 'es' ? 'Selección de Proveedores' : 'Supplier Selection',
+                desc: lang === 'es' ? 'Evaluación rigurosa de productores' : 'Rigorous evaluation of producers'
+              },
+              {
+                step: '02',
+                title: lang === 'es' ? 'Control en Planta' : 'Plant Control',
+                desc: lang === 'es' ? 'Monitoreo continuo del procesamiento' : 'Continuous processing monitoring'
+              },
+              {
+                step: '03',
+                title: lang === 'es' ? 'Inspección Final' : 'Final Inspection',
+                desc: lang === 'es' ? 'Verificación antes del embarque' : 'Verification before shipment'
+              },
+              {
+                step: '04',
+                title: lang === 'es' ? 'Trazabilidad' : 'Traceability',
+                desc: lang === 'es' ? 'Seguimiento desde origen hasta destino' : 'Tracking from origin to destination'
+              }
+            ].map((item) => (
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  {item.step}
+                </div>
+                <div>
+                  <h4 class="font-semibold text-neutral-900">{item.title}</h4>
+                  <p class="text-sm text-neutral-600">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h4 class="font-semibold text-neutral-900 mb-4">
+              {lang === 'es' ? 'Próximas Renovaciones' : 'Upcoming Renewals'}
+            </h4>
+            <div class="space-y-3">
+              {certificationsData
+                .filter(cert => new Date(cert.renewalDate) > new Date())
+                .sort((a, b) => new Date(a.renewalDate) - new Date(b.renewalDate))
+                .slice(0, 3)
+                .map((cert) => (
+                  <div class="flex items-center justify-between py-2 border-b border-neutral-100 last:border-b-0">
+                    <div class="flex items-center space-x-3">
+                      <span class="text-lg">{cert.icon}</span>
+                      <span class="text-sm font-medium text-neutral-900">
+                        {lang === 'es' ? cert.name : cert.nameEn}
+                      </span>
+                    </div>
+                    <span class="text-xs text-neutral-600">
+                      {new Date(cert.renewalDate).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="bg-success/10 rounded-xl p-6 border border-success/20">
+            <div class="flex items-start space-x-3">
+              <div class="w-8 h-8 bg-success text-white rounded-full flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-success mb-2">
+                  {lang === 'es' ? 'Garantía de Calidad' : 'Quality Guarantee'}
+                </h4>
+                <p class="text-sm text-neutral-700">
+                  {lang === 'es' 
+                    ? 'Todas nuestras certificaciones están vigentes y son verificables. Ofrecemos garantía total de cumplimiento.'
+                    : 'All our certifications are current and verifiable. We offer full compliance guarantee.'
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-16">
+      <div class="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 border border-primary/20">
+        <h3 class="text-2xl font-bold text-neutral-900 mb-4">
+          {lang === 'es' ? '¿Necesitas certificaciones específicas?' : 'Need specific certifications?'}
+        </h3>
+        <p class="text-neutral-700 mb-6 max-w-2xl mx-auto">
+          {lang === 'es' 
+            ? 'Podemos obtener certificaciones adicionales según los requerimientos de tu mercado. Consulta con nuestros especialistas.'
+            : 'We can obtain additional certifications according to your market requirements. Consult with our specialists.'
+          }
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="#contacto"
+            class="btn btn-primary px-8 py-4 inline-flex items-center group"
+            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'certifications_contact', custom_parameter_section: 'certifications' })`}
+          >
+            {lang === 'es' ? 'Consultar Certificaciones' : 'Inquire About Certifications'}
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          
+          <a 
+            href="/documents/agracom-certificaciones-completas.pdf"
+            class="btn btn-secondary px-8 py-4 inline-flex items-center group"
+            download
+            onclick={`gtag && gtag('event', 'resource_download', { event_label: 'certifications_pdf', custom_parameter_section: 'certifications' })`}
+          >
+            {lang === 'es' ? 'Descargar Certificados' : 'Download Certificates'}
+            <svg class="w-5 h-5 ml-2 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Certification Card Hover Effects */
+  .group:hover .w-16 {
+    transform: scale(1.1);
+  }
+
+  /* Enhanced gradient backgrounds for featured certs */
+  .bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+  }
+
+  /* Pulse animation for verified badges */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .text-success svg {
+    animation: pulse 2s infinite;
+  }
+
+  /* Step indicator styling */
+  .bg-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .grid.md\\:grid-cols-3 {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .grid.lg\\:grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bg-white,
+    .bg-gradient-to-br {
+      border: 2px solid #000;
+    }
+    
+    .border-neutral-200 {
+      border-color: #000;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .w-16,
+    .transition-all,
+    .transition-transform,
+    .transition-shadow {
+      transition: none;
+      transform: none;
+    }
+    
+    .text-success svg {
+      animation: none;
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .btn:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+</style>

@@ -1,0 +1,515 @@
+---
+// Agracom Internacional S.A. - Analytics Component
+// Google Analytics 4 integration with Partytown for performance
+
+export interface Props {
+  gtagId?: string;
+  debug?: boolean;
+  partytown?: boolean;
+}
+
+const {
+  gtagId = 'G-XXXXXXXXXX', // Replace with actual Google Analytics ID
+  debug = false,
+  partytown = true
+} = Astro.props;
+
+// Only render in production or when debug is enabled
+const shouldRender = import.meta.env.PROD || debug;
+const isDev = import.meta.env.DEV;
+---
+
+{shouldRender && (
+  <>
+    <!-- Google Analytics 4 with Partytown -->
+    {partytown ? (
+      <>
+        <!-- Partytown Google Analytics -->
+        <script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}></script>
+        <script type="text/partytown">
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          
+          gtag('config', '{gtagId}', {
+            // Enhanced e-commerce and custom parameters
+            send_page_view: true,
+            anonymize_ip: true,
+            cookie_flags: 'SameSite=Strict;Secure',
+            custom_map: {
+              'custom_parameter_region': 'region',
+              'custom_parameter_product': 'product',
+              'custom_parameter_category': 'category'
+            },
+            // GDPR compliance
+            allow_google_signals: false,
+            allow_ad_personalization_signals: false
+          });
+
+          // Enhanced measurements for business tracking
+          gtag('config', '{gtagId}', {
+            enhanced_conversions: true,
+            conversion_linker: true
+          });
+
+          // Debug mode for development
+          if ({isDev && debug}) {
+            gtag('config', '{gtagId}', {
+              debug_mode: true
+            });
+            console.log('Google Analytics Debug Mode Enabled');
+          }
+        </script>
+      </>
+    ) : (
+      <>
+        <!-- Standard Google Analytics (without Partytown) -->
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          
+          gtag('config', '{gtagId}', {
+            send_page_view: true,
+            anonymize_ip: true,
+            cookie_flags: 'SameSite=Strict;Secure',
+            custom_map: {
+              'custom_parameter_region': 'region',
+              'custom_parameter_product': 'product', 
+              'custom_parameter_category': 'category'
+            },
+            allow_google_signals: false,
+            allow_ad_personalization_signals: false
+          });
+
+          if ({isDev && debug}) {
+            gtag('config', '{gtagId}', {
+              debug_mode: true
+            });
+            console.log('Google Analytics Debug Mode Enabled');
+          }
+        </script>
+      </>
+    )}
+
+    <!-- Custom Analytics Events for Agracom -->
+    <script>
+      // Enhanced tracking for B2B lead generation
+      document.addEventListener('DOMContentLoaded', function() {
+        
+        // Track page views with additional context
+        if (typeof gtag !== 'undefined') {
+          // Get page context
+          const pageTitle = document.title;
+          const pagePath = window.location.pathname;
+          const pageLanguage = document.documentElement.lang || 'es';
+          
+          // Track enhanced page view
+          gtag('event', 'page_view_enhanced', {
+            event_category: 'Page View',
+            event_label: pageTitle,
+            custom_parameter_language: pageLanguage,
+            custom_parameter_path: pagePath
+          });
+
+          // Track user engagement milestones
+          let engagementTracked = false;
+          let deepEngagementTracked = false;
+          
+          // Track 30 seconds engagement
+          setTimeout(() => {
+            if (!engagementTracked) {
+              gtag('event', 'engagement_30s', {
+                event_category: 'Engagement',
+                event_label: 'page_engagement_30s'
+              });
+              engagementTracked = true;
+            }
+          }, 30000);
+
+          // Track 2 minutes deep engagement
+          setTimeout(() => {
+            if (!deepEngagementTracked) {
+              gtag('event', 'engagement_2m', {
+                event_category: 'Engagement', 
+                event_label: 'page_engagement_2m'
+              });
+              deepEngagementTracked = true;
+            }
+          }, 120000);
+
+          // Track scroll depth
+          let scrollDepths = [25, 50, 75, 90];
+          let trackedDepths = new Set();
+          
+          function trackScrollDepth() {
+            const scrollPercent = Math.round(
+              (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+            );
+            
+            scrollDepths.forEach(depth => {
+              if (scrollPercent >= depth && !trackedDepths.has(depth)) {
+                gtag('event', 'scroll_depth', {
+                  event_category: 'Engagement',
+                  event_label: `scroll_${depth}%`,
+                  value: depth
+                });
+                trackedDepths.add(depth);
+              }
+            });
+          }
+
+          window.addEventListener('scroll', trackScrollDepth, { passive: true });
+
+          // Track external link clicks
+          document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href) {
+              const url = new URL(link.href);
+              
+              // Track external links
+              if (url.hostname !== window.location.hostname) {
+                gtag('event', 'click', {
+                  event_category: 'External Link',
+                  event_label: url.hostname,
+                  custom_parameter_url: link.href
+                });
+              }
+
+              // Track mailto links
+              if (link.href.startsWith('mailto:')) {
+                gtag('event', 'contact', {
+                  event_category: 'Contact',
+                  event_label: 'email_click',
+                  custom_parameter_email: link.href.replace('mailto:', '')
+                });
+              }
+
+              // Track tel links
+              if (link.href.startsWith('tel:')) {
+                gtag('event', 'contact', {
+                  event_category: 'Contact',
+                  event_label: 'phone_click',
+                  custom_parameter_phone: link.href.replace('tel:', '')
+                });
+              }
+
+              // Track downloads
+              if (link.download || link.href.match(/\.(pdf|doc|docx|xls|xlsx|zip)$/i)) {
+                const fileName = link.href.split('/').pop() || 'unknown_file';
+                gtag('event', 'file_download', {
+                  event_category: 'Downloads',
+                  event_label: fileName,
+                  custom_parameter_file_type: fileName.split('.').pop() || 'unknown'
+                });
+              }
+            }
+          });
+
+          // Track video interactions (if any)
+          document.querySelectorAll('video').forEach(video => {
+            let quartiles = [25, 50, 75, 100];
+            let trackedQuartiles = new Set();
+            
+            video.addEventListener('timeupdate', function() {
+              const percent = Math.round((video.currentTime / video.duration) * 100);
+              
+              quartiles.forEach(quartile => {
+                if (percent >= quartile && !trackedQuartiles.has(quartile)) {
+                  gtag('event', 'video_progress', {
+                    event_category: 'Video',
+                    event_label: `video_${quartile}%`,
+                    value: quartile
+                  });
+                  trackedQuartiles.add(quartile);
+                }
+              });
+            });
+
+            video.addEventListener('play', () => {
+              gtag('event', 'video_play', {
+                event_category: 'Video',
+                event_label: 'video_start'
+              });
+            });
+          });
+
+          // Track form interactions
+          document.querySelectorAll('form').forEach(form => {
+            const formId = form.id || 'unknown_form';
+            let formStarted = false;
+            
+            form.addEventListener('input', function() {
+              if (!formStarted) {
+                gtag('event', 'form_start', {
+                  event_category: 'Forms',
+                  event_label: formId
+                });
+                formStarted = true;
+              }
+            });
+
+            form.addEventListener('submit', function() {
+              gtag('event', 'form_submit_attempt', {
+                event_category: 'Forms',
+                event_label: formId
+              });
+            });
+          });
+
+          // Track search if search functionality exists
+          document.querySelectorAll('input[type="search"], input[name*="search"], input[id*="search"]').forEach(searchInput => {
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function() {
+              clearTimeout(searchTimeout);
+              searchTimeout = setTimeout(() => {
+                if (this.value.length >= 3) {
+                  gtag('event', 'search', {
+                    event_category: 'Search',
+                    event_label: 'site_search',
+                    search_term: this.value
+                  });
+                }
+              }, 1000);
+            });
+          });
+
+          // Track language changes
+          document.querySelectorAll('[hreflang]').forEach(langLink => {
+            langLink.addEventListener('click', function() {
+              gtag('event', 'language_change', {
+                event_category: 'Language',
+                event_label: this.hreflang || 'unknown',
+                custom_parameter_from_lang: pageLanguage
+              });
+            });
+          });
+
+          // Track region selections (if region selector exists)
+          document.querySelectorAll('[data-region]').forEach(regionBtn => {
+            regionBtn.addEventListener('click', function() {
+              gtag('event', 'region_interaction', {
+                event_category: 'Region',
+                event_label: this.dataset.region || 'unknown'
+              });
+            });
+          });
+
+          // Track product card interactions
+          document.querySelectorAll('[data-product-id]').forEach(productCard => {
+            const productId = productCard.dataset.productId;
+            const productCategory = productCard.dataset.productCategory;
+            
+            // Track product view (when scrolled into view)
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  gtag('event', 'view_item', {
+                    event_category: 'Products',
+                    event_label: productId,
+                    custom_parameter_product: productId,
+                    custom_parameter_category: productCategory
+                  });
+                  observer.unobserve(entry.target);
+                }
+              });
+            }, { threshold: 0.5 });
+            
+            observer.observe(productCard);
+          });
+
+          // Error tracking
+          window.addEventListener('error', function(e) {
+            gtag('event', 'exception', {
+              description: e.message,
+              fatal: false,
+              custom_parameter_error_source: e.filename,
+              custom_parameter_error_line: e.lineno
+            });
+          });
+
+          // Track page performance (Core Web Vitals)
+          if ('web-vital' in window) {
+            // This would require web-vitals library
+            // For now, we'll use basic performance tracking
+            window.addEventListener('load', function() {
+              setTimeout(() => {
+                const navigation = performance.getEntriesByType('navigation')[0];
+                if (navigation) {
+                  gtag('event', 'page_performance', {
+                    event_category: 'Performance',
+                    event_label: 'page_load_time',
+                    value: Math.round(navigation.loadEventEnd - navigation.loadEventStart)
+                  });
+                }
+              }, 0);
+            });
+          }
+        }
+      });
+
+      // Debug function for development
+      if ({isDev && debug}) {
+        window.agracomAnalytics = {
+          trackEvent: function(eventName, parameters) {
+            console.log('Analytics Event:', eventName, parameters);
+            if (typeof gtag !== 'undefined') {
+              gtag('event', eventName, parameters);
+            }
+          },
+          trackConversion: function(conversionId, parameters) {
+            console.log('Analytics Conversion:', conversionId, parameters);
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'conversion', { send_to: conversionId, ...parameters });
+            }
+          }
+        };
+        
+        console.log('Agracom Analytics Debug Mode: window.agracomAnalytics available');
+      }
+    </script>
+
+    <!-- GDPR/Privacy Compliance -->
+    <script>
+      // Basic privacy compliance
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check for consent (you may want to integrate with a consent management platform)
+        const hasConsent = localStorage.getItem('analytics_consent') === 'granted';
+        
+        if (!hasConsent && !{isDev}) {
+          // Show consent banner or disable tracking
+          console.log('Analytics consent not granted');
+          
+          // Disable Google Analytics
+          window['ga-disable-{gtagId}'] = true;
+          
+          // You can show a consent banner here
+          // showConsentBanner();
+        }
+      });
+
+      // Function to grant consent (call this from your consent banner)
+      window.grantAnalyticsConsent = function() {
+        localStorage.setItem('analytics_consent', 'granted');
+        window['ga-disable-{gtagId}'] = false;
+        
+        // Reinitialize Analytics
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            analytics_storage: 'granted'
+          });
+        }
+        
+        console.log('Analytics consent granted');
+      };
+
+      // Function to revoke consent
+      window.revokeAnalyticsConsent = function() {
+        localStorage.setItem('analytics_consent', 'denied');
+        window['ga-disable-{gtagId}'] = true;
+        
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            analytics_storage: 'denied'
+          });
+        }
+        
+        console.log('Analytics consent revoked');
+      };
+    </script>
+  </>
+)}
+
+<!-- Development Mode Notice -->
+{isDev && debug && (
+  <script>
+    console.log(`%c🚀 Agracom Analytics Debug Mode`, 'color: #1565C0; font-weight: bold; font-size: 14px;');
+    console.log(`%cGoogle Analytics ID: ${gtagId}`, 'color: #2E7D32;');
+    console.log(`%cPartytown: ${partytown ? 'Enabled' : 'Disabled'}`, 'color: #FFA000;');
+    console.log(`%cCustom events and tracking initialized`, 'color: #666;');
+  </script>
+)}
+
+<!-- Structured Data for Business -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Agracom Internacional S.A.",
+  "url": "https://agracom-internacional.com",
+  "logo": "https://agracom-internacional.com/images/agracom-logo.png",
+  "description": "Exportadores especializados en lupinos premium y cerezas deshidratadas certificadas desde Chile",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "Chile",
+    "addressLocality": "Santiago",
+    "addressRegion": "Región Metropolitana"
+  },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+56-2-1234-5678",
+      "contactType": "sales",
+      "areaServed": ["US", "EU", "AE"],
+      "availableLanguage": ["Spanish", "English"]
+    }
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/company/agracom-internacional"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Premium Agricultural Products",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Premium Chilean Lupins",
+        "description": "Sweet lupins 11-17mm caliber with SAG certification",
+        "category": "Agricultural Products"
+      },
+      {
+        "@type": "Offer", 
+        "name": "Santina Dried Cherries",
+        "description": "Kosher and Halal certified dried cherries",
+        "category": "Agricultural Products"
+      }
+    ]
+  }
+})} />
+
+<!-- Performance Monitoring -->
+{shouldRender && (
+  <script>
+    // Basic performance monitoring
+    window.addEventListener('load', function() {
+      // Track key performance metrics
+      setTimeout(() => {
+        if ('performance' in window) {
+          const perfData = performance.getEntriesByType('navigation')[0];
+          
+          if (perfData && typeof gtag !== 'undefined') {
+            // Track Core Web Vitals approximation
+            gtag('event', 'performance_timing', {
+              event_category: 'Performance',
+              event_label: 'page_load_complete',
+              value: Math.round(perfData.loadEventEnd - perfData.loadEventStart),
+              custom_parameter_dns: Math.round(perfData.domainLookupEnd - perfData.domainLookupStart),
+              custom_parameter_tcp: Math.round(perfData.connectEnd - perfData.connectStart),
+              custom_parameter_ttfb: Math.round(perfData.responseStart - perfData.requestStart)
+            });
+          }
+        }
+      }, 100);
+    });
+  </script>
+)}
+
+<style>
+  /* Hide analytics console logs in production */
+  @media not all and (min-width: 0) {
+    .analytics-debug {
+      display: none !important;
+    }
+  }
+</style>

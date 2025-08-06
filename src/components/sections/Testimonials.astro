@@ -1,0 +1,743 @@
+---
+// Agracom Internacional S.A. - Testimonials Section
+// Carrusel de testimonios organizados por región
+
+import type { Locale, Region } from '../../types/global';
+import { createTranslator } from '../../utils/i18n';
+
+export interface Props {
+  lang: Locale;
+  region?: Region;
+  showAll?: boolean;
+  autoplay?: boolean;
+  class?: string;
+}
+
+const {
+  lang,
+  region,
+  showAll = false,
+  autoplay = true,
+  class: className = ''
+} = Astro.props;
+
+// Load translations
+const { testimonials, common } = await createTranslator(lang);
+
+// Testimonials data organized by region
+const testimonialsData = [
+  {
+    id: 'mediterranean-1',
+    region: 'mediterranean',
+    name: 'Marco Rossi',
+    company: 'Mediter Food Trading',
+    country: 'Italia',
+    countryEn: 'Italy',
+    flag: '🇮🇹',
+    rating: 5,
+    quote: 'La calidad de los lupinos de Agracom es excepcional. Llevamos 3 años trabajando juntos y nunca hemos tenido problemas de calidad.',
+    quoteEn: 'The quality of Agracom lupins is exceptional. We have been working together for 3 years and have never had quality issues.',
+    product: 'lupins',
+    verified: true,
+    date: '2024-11'
+  },
+  {
+    id: 'us-east-1',
+    region: 'us-east',
+    name: 'Sarah Johnson',
+    company: 'Premium Nuts & Legumes Inc.',
+    country: 'Estados Unidos',
+    countryEn: 'United States',
+    flag: '🇺🇸',
+    rating: 5,
+    quote: 'Cristián y su equipo son muy profesionales. Los tiempos de entrega siempre se cumplen y la documentación es impecable.',
+    quoteEn: 'Cristián and his team are very professional. Delivery times are always met and documentation is impeccable.',
+    product: 'lupins',
+    verified: true,
+    date: '2024-10'
+  },
+  {
+    id: 'middle-east-1',
+    region: 'middle-east',
+    name: 'Ahmed Al-Rashid',
+    company: 'Halal Foods Distribution',
+    country: 'Emiratos Árabes Unidos',
+    countryEn: 'United Arab Emirates',
+    flag: '🇦🇪',
+    rating: 5,
+    quote: 'Las cerezas certificadas Halal de Agracom son únicas en el mercado. Excelente para nuestro segmento premium.',
+    quoteEn: 'Agracom\'s Halal certified cherries are unique in the market. Excellent for our premium segment.',
+    product: 'cherries',
+    verified: true,
+    date: '2024-09'
+  },
+  {
+    id: 'mediterranean-2',
+    region: 'mediterranean',
+    name: 'Elena Papadopoulos',
+    company: 'Greek Premium Foods',
+    country: 'Grecia',
+    countryEn: 'Greece',
+    flag: '🇬🇷',
+    rating: 5,
+    quote: 'Pedro nos brinda un servicio personalizado excepcional. Conoce perfectamente nuestras necesidades del mercado griego.',
+    quoteEn: 'Pedro provides us with exceptional personalized service. He knows our Greek market needs perfectly.',
+    product: 'lupins',
+    verified: true,
+    date: '2024-08'
+  },
+  {
+    id: 'us-east-2',
+    region: 'us-east',
+    name: 'Rabbi David Cohen',
+    company: 'Kosher Specialty Foods',
+    country: 'Estados Unidos',
+    countryEn: 'United States',
+    flag: '🇺🇸',
+    rating: 5,
+    quote: 'La certificación Kosher para Pascua de las cerezas es auténtica y confiable. Perfecto para nuestros clientes observantes.',
+    quoteEn: 'The Kosher for Passover certification of the cherries is authentic and reliable. Perfect for our observant customers.',
+    product: 'cherries',
+    verified: true,
+    date: '2024-07'
+  },
+  {
+    id: 'middle-east-2',
+    region: 'middle-east',
+    name: 'Fatima Al-Zahra',
+    company: 'Middle East Premium Trading',
+    country: 'Catar',
+    countryEn: 'Qatar',
+    flag: '🇶🇦',
+    rating: 5,
+    quote: 'Agracom entiende los requerimientos específicos de nuestro mercado. La trazabilidad completa nos da mucha confianza.',
+    quoteEn: 'Agracom understands the specific requirements of our market. Complete traceability gives us great confidence.',
+    product: 'lupins',
+    verified: true,
+    date: '2024-06'
+  }
+];
+
+// Filter testimonials by region if specified
+let displayTestimonials = showAll ? testimonialsData : 
+  (region ? testimonialsData.filter(t => t.region === region) : testimonialsData);
+
+// Ensure we have at least 3 testimonials for display
+if (displayTestimonials.length < 3) {
+  displayTestimonials = testimonialsData.slice(0, 6);
+}
+
+// Get regional stats
+const regionStats = {
+  'us-east': { clients: '15+', years: '8+' },
+  'mediterranean': { clients: '20+', years: '12+' },
+  'middle-east': { clients: '8+', years: '5+' }
+};
+
+const currentStats = region ? regionStats[region] : { clients: '40+', years: '20+' };
+---
+
+<section 
+  class={`section bg-gradient-to-br from-neutral-50 to-white relative overflow-hidden ${className}`}
+  aria-label={lang === 'es' ? 'Testimonios de clientes' : 'Customer testimonials'}
+>
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KPGcgZmlsbD0iIzE1NjVDMCIgZmlsbC1vcGFjaXR5PSIwLjA1Ij4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iNCIvPgo8L2c+CjwvZz4KPHN2Zz4=')] repeat"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    
+    <!-- Section Header -->
+    <div class="text-center space-y-6 mb-16">
+      <div class="space-y-4">
+        <h2 class="text-h2 font-bold text-neutral-900">
+          {lang === 'es' ? 'Lo Que Dicen Nuestros Clientes' : 'What Our Clients Say'}
+        </h2>
+        <p class="text-xl text-neutral-700 max-w-3xl mx-auto leading-relaxed">
+          {lang === 'es' 
+            ? 'Testimonios reales de empresas que confían en la calidad y servicio de Agracom en más de 17 países.'
+            : 'Real testimonials from companies that trust Agracom\'s quality and service in over 17 countries.'
+          }
+        </p>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="flex flex-wrap justify-center items-center gap-8 pt-8">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-primary">{currentStats.clients}</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Clientes Activos' : 'Active Clients'}
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-secondary">{currentStats.years}</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Años de Experiencia' : 'Years of Experience'}
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-accent">270+</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Embarques Exitosos' : 'Successful Shipments'}
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-info">17</div>
+          <div class="text-sm text-neutral-600 font-medium">
+            {lang === 'es' ? 'Países' : 'Countries'}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div class="relative">
+      
+      <!-- Carousel Container -->
+      <div 
+        class="testimonials-carousel overflow-hidden"
+        data-autoplay={autoplay}
+        data-region={region}
+      >
+        <div class="testimonials-track flex transition-transform duration-500 ease-in-out">
+          {displayTestimonials.map((testimonial, index) => (
+            <div 
+              class="testimonial-card flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4"
+              data-index={index}
+              data-region={testimonial.region}
+            >
+              <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-neutral-100 hover:shadow-xl transition-shadow duration-300">
+                
+                <!-- Quote Icon -->
+                <div class="flex justify-between items-start mb-6">
+                  <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
+                    </svg>
+                  </div>
+                  
+                  <!-- Verified Badge -->
+                  {testimonial.verified && (
+                    <div class="flex items-center space-x-1 text-success text-sm font-medium">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      <span>{lang === 'es' ? 'Verificado' : 'Verified'}</span>
+                    </div>
+                  )}
+                </div>
+
+                <!-- Quote -->
+                <blockquote class="text-neutral-700 leading-relaxed mb-6 flex-grow">
+                  "{lang === 'es' ? testimonial.quote : testimonial.quoteEn}"
+                </blockquote>
+
+                <!-- Rating -->
+                <div class="flex items-center space-x-1 mb-4">
+                  {Array.from({ length: testimonial.rating }, (_, i) => (
+                    <svg key={i} class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+
+                <!-- Client Information -->
+                <div class="border-t border-neutral-100 pt-6">
+                  <div class="flex items-center space-x-4">
+                    <!-- Avatar Placeholder -->
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-lg font-semibold text-primary">
+                        {testimonial.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                      <div class="font-semibold text-neutral-900">{testimonial.name}</div>
+                      <div class="text-sm text-neutral-600">{testimonial.company}</div>
+                      <div class="flex items-center space-x-2 text-sm text-neutral-500">
+                        <span>{testimonial.flag}</span>
+                        <span>{lang === 'es' ? testimonial.country : testimonial.countryEn}</span>
+                        <span>•</span>
+                        <span>
+                          {testimonial.product === 'lupins' 
+                            ? (lang === 'es' ? 'Lupinos' : 'Lupins')
+                            : (lang === 'es' ? 'Cerezas' : 'Cherries')
+                          }
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button
+        type="button"
+        class="carousel-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-neutral-600 hover:text-primary hover:shadow-xl transition-all duration-300 z-10"
+        aria-label={lang === 'es' ? 'Testimonio anterior' : 'Previous testimonial'}
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="carousel-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-neutral-600 hover:text-primary hover:shadow-xl transition-all duration-300 z-10"
+        aria-label={lang === 'es' ? 'Siguiente testimonio' : 'Next testimonial'}
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Carousel Indicators -->
+    <div class="flex justify-center space-x-2 mt-8">
+      {displayTestimonials.map((_, index) => (
+        <button
+          type="button"
+          class={`carousel-indicator w-3 h-3 rounded-full transition-all duration-300 ${
+            index === 0 ? 'bg-primary' : 'bg-neutral-300'
+          }`}
+          data-index={index}
+          aria-label={`${lang === 'es' ? 'Ir al testimonio' : 'Go to testimonial'} ${index + 1}`}
+        />
+      ))}
+    </div>
+
+    <!-- Regional Filter (if showAll is true) -->
+    {showAll && (
+      <div class="flex justify-center mt-12">
+        <div class="flex flex-wrap gap-4 bg-white rounded-xl p-2 shadow-md">
+          <button
+            type="button"
+            class="region-filter px-6 py-3 rounded-lg font-medium transition-all duration-300 bg-primary text-white"
+            data-region="all"
+          >
+            {lang === 'es' ? 'Todas las Regiones' : 'All Regions'}
+          </button>
+          <button
+            type="button"
+            class="region-filter px-6 py-3 rounded-lg font-medium transition-all duration-300 text-neutral-600 hover:bg-neutral-100"
+            data-region="us-east"
+          >
+            🇺🇸 {lang === 'es' ? 'Costa Este EE.UU.' : 'US East Coast'}
+          </button>
+          <button
+            type="button"
+            class="region-filter px-6 py-3 rounded-lg font-medium transition-all duration-300 text-neutral-600 hover:bg-neutral-100"
+            data-region="mediterranean"
+          >
+            🌊 {lang === 'es' ? 'Mediterráneo' : 'Mediterranean'}
+          </button>
+          <button
+            type="button"
+            class="region-filter px-6 py-3 rounded-lg font-medium transition-all duration-300 text-neutral-600 hover:bg-neutral-100"
+            data-region="middle-east"
+          >
+            🕌 {lang === 'es' ? 'Medio Oriente' : 'Middle East'}
+          </button>
+        </div>
+      </div>
+    )}
+
+    <!-- Call to Action -->
+    <div class="text-center mt-16">
+      <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 border border-primary/20">
+        <h3 class="text-2xl font-bold text-neutral-900 mb-4">
+          {lang === 'es' ? '¿Listo para unirte a nuestros clientes satisfechos?' : 'Ready to join our satisfied customers?'}
+        </h3>
+        <p class="text-neutral-700 mb-6 max-w-2xl mx-auto">
+          {lang === 'es' 
+            ? 'Descubre por qué empresas de todo el mundo confían en Agracom para sus necesidades de lupinos premium y cerezas certificadas.'
+            : 'Discover why companies worldwide trust Agracom for their premium lupins and certified cherries needs.'
+          }
+        </p>
+        <a 
+          href="#contacto"
+          class="btn btn-primary px-8 py-4 text-lg inline-flex items-center group"
+          onclick={`gtag && gtag('event', 'cta_click', { event_label: 'testimonials_section', custom_parameter_region: '${region || 'all'}' })`}
+        >
+          {lang === 'es' ? 'Solicitar Cotización' : 'Request Quote'}
+          <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Carousel JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.testimonials-carousel');
+    const track = document.querySelector('.testimonials-track');
+    const cards = document.querySelectorAll('.testimonial-card');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    const regionFilters = document.querySelectorAll('.region-filter');
+
+    if (!carousel || !track || cards.length === 0) return;
+
+    let currentIndex = 0;
+    let autoplayInterval;
+    const autoplay = carousel.dataset.autoplay === 'true';
+    const autoplayDelay = 5000;
+
+    // Calculate cards per view based on screen size
+    function getCardsPerView() {
+      const width = window.innerWidth;
+      if (width >= 1024) return 3; // lg
+      if (width >= 768) return 2;  // md
+      return 1; // sm
+    }
+
+    let cardsPerView = getCardsPerView();
+    const totalCards = cards.length;
+    const maxIndex = Math.max(0, totalCards - cardsPerView);
+
+    // Update carousel position
+    function updateCarousel() {
+      const translateX = -(currentIndex * (100 / cardsPerView));
+      track.style.transform = `translateX(${translateX}%)`;
+
+      // Update indicators
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.remove('bg-neutral-300');
+          indicator.classList.add('bg-primary');
+        } else {
+          indicator.classList.remove('bg-primary');
+          indicator.classList.add('bg-neutral-300');
+        }
+      });
+
+      // Update navigation buttons
+      if (prevBtn) {
+        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        prevBtn.disabled = currentIndex === 0;
+      }
+
+      if (nextBtn) {
+        nextBtn.style.opacity = currentIndex === maxIndex ? '0.5' : '1';
+        nextBtn.disabled = currentIndex === maxIndex;
+      }
+    }
+
+    // Go to specific slide
+    function goToSlide(index) {
+      currentIndex = Math.max(0, Math.min(index, maxIndex));
+      updateCarousel();
+    }
+
+    // Next slide
+    function nextSlide() {
+      if (currentIndex < maxIndex) {
+        goToSlide(currentIndex + 1);
+      } else if (autoplay) {
+        goToSlide(0); // Loop back to start
+      }
+    }
+
+    // Previous slide
+    function prevSlide() {
+      if (currentIndex > 0) {
+        goToSlide(currentIndex - 1);
+      } else if (autoplay) {
+        goToSlide(maxIndex); // Loop to end
+      }
+    }
+
+    // Start autoplay
+    function startAutoplay() {
+      if (autoplay && totalCards > cardsPerView) {
+        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+      }
+    }
+
+    // Stop autoplay
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    // Event listeners
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        stopAutoplay();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        stopAutoplay();
+      });
+    }
+
+    // Indicator clicks
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        goToSlide(index);
+        stopAutoplay();
+      });
+    });
+
+    // Touch/swipe support
+    let startX = 0;
+    let isDragging = false;
+
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+      stopAutoplay();
+    });
+
+    track.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+    });
+
+    track.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+      const threshold = 50;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+
+      isDragging = false;
+    });
+
+    // Mouse events for desktop
+    track.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+      isDragging = true;
+      stopAutoplay();
+    });
+
+    track.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+    });
+
+    track.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.clientX;
+      const diff = startX - endX;
+      const threshold = 50;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+
+      isDragging = false;
+    });
+
+    // Regional filtering (if available)
+    regionFilters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        const targetRegion = filter.dataset.region;
+        
+        // Update active filter button
+        regionFilters.forEach(f => {
+          f.classList.remove('bg-primary', 'text-white');
+          f.classList.add('text-neutral-600');
+        });
+        filter.classList.add('bg-primary', 'text-white');
+        filter.classList.remove('text-neutral-600');
+
+        // Filter testimonials
+        cards.forEach(card => {
+          const cardRegion = card.dataset.region;
+          if (targetRegion === 'all' || cardRegion === targetRegion) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Reset carousel
+        currentIndex = 0;
+        updateCarousel();
+        stopAutoplay();
+        
+        // Track filter usage
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'testimonial_filter', {
+            event_category: 'Testimonials',
+            event_label: targetRegion
+          });
+        }
+      });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.target.closest('.testimonials-carousel')) {
+        if (e.key === 'ArrowLeft') {
+          prevSlide();
+          stopAutoplay();
+        } else if (e.key === 'ArrowRight') {
+          nextSlide();
+          stopAutoplay();
+        }
+      }
+    });
+
+    // Pause autoplay on hover
+    carousel.addEventListener('mouseenter', stopAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+
+    // Responsive handling
+    window.addEventListener('resize', () => {
+      const newCardsPerView = getCardsPerView();
+      if (newCardsPerView !== cardsPerView) {
+        cardsPerView = newCardsPerView;
+        currentIndex = Math.min(currentIndex, Math.max(0, totalCards - cardsPerView));
+        updateCarousel();
+      }
+    });
+
+    // Initialize
+    updateCarousel();
+    startAutoplay();
+
+    // Intersection Observer for lazy loading and tracking
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Track testimonial view
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'testimonials_view', {
+              event_category: 'Testimonials',
+              event_label: 'section_viewed'
+            });
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(carousel);
+  });
+</script>
+
+<style>
+  /* Carousel Styling */
+  .testimonials-carousel {
+    position: relative;
+    margin: 0 3rem;
+  }
+
+  .testimonials-track {
+    cursor: grab;
+  }
+
+  .testimonials-track:active {
+    cursor: grabbing;
+  }
+
+  .testimonial-card {
+    user-select: none;
+  }
+
+  /* Smooth transitions */
+  .testimonials-track {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Carousel Navigation */
+  .carousel-prev,
+  .carousel-next {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .carousel-prev:hover,
+  .carousel-next:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-prev:disabled,
+  .carousel-next:disabled {
+    cursor: not-allowed;
+  }
+
+  /* Indicators */
+  .carousel-indicator {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .carousel-indicator:hover {
+    transform: scale(1.2);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .testimonials-carousel {
+      margin: 0 1rem;
+    }
+
+    .carousel-prev,
+    .carousel-next {
+      display: none;
+    }
+  }
+
+  /* Accessibility improvements */
+  @media (prefers-reduced-motion: reduce) {
+    .testimonials-track {
+      transition: none;
+    }
+
+    .carousel-prev,
+    .carousel-next,
+    .carousel-indicator {
+      transition: none;
+    }
+  }
+
+  /* Focus styles */
+  .carousel-prev:focus,
+  .carousel-next:focus,
+  .carousel-indicator:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .testimonial-card .bg-white {
+      border: 2px solid #000;
+    }
+
+    .carousel-prev,
+    .carousel-next {
+      border: 2px solid #000;
+    }
+  }
+</style>

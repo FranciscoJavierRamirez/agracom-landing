@@ -1,0 +1,147 @@
+{
+  "contact": {
+    "title": "Let's Connect for Your Next Project",
+    "subtitle": "Our specialized executives will provide you with a personalized quote and expert advice for your specific market.",
+    "submit": "Send Inquiry"
+  },
+  "quote": {
+    "title": "Request Formal Quote",
+    "subtitle": "Complete this form to receive a detailed quote with pricing, delivery terms and complete documentation.",
+    "submit": "Request Quote"
+  },
+  "inquiry": {
+    "title": "Commercial Inquiry",
+    "subtitle": "Do you have questions about our products or need specific information? We're here to help.",
+    "submit": "Send Inquiry"
+  },
+  "fields": {
+    "firstName": {
+      "label": "First Name",
+      "placeholder": "Your first name",
+      "error": "First name is required"
+    },
+    "lastName": {
+      "label": "Last Name",
+      "placeholder": "Your last name", 
+      "error": "Last name is required"
+    },
+    "email": {
+      "label": "Corporate Email",
+      "placeholder": "your.email@company.com",
+      "error": "Please enter a valid email"
+    },
+    "phone": {
+      "label": "Phone",
+      "placeholder": "+1 555 123 4567",
+      "error": "Please enter a valid phone number"
+    },
+    "company": {
+      "label": "Company",
+      "placeholder": "Your company name",
+      "error": "Company name is required"
+    },
+    "productInterest": {
+      "label": "Product Interest",
+      "placeholder": "Select a product",
+      "options": {
+        "lupins": "Premium Lupins (11-17mm)",
+        "cherries": "Santina Dried Cherries",
+        "both": "Both products",
+        "other": "Other products"
+      },
+      "error": "Please select a product"
+    },
+    "volume": {
+      "label": "Estimated Volume (MT)",
+      "placeholder": "Select volume",
+      "options": {
+        "1-10": "1-10 MT",
+        "10-50": "10-50 MT",
+        "50-100": "50-100 MT", 
+        "100+": "100+ MT"
+      }
+    },
+    "timeline": {
+      "label": "Delivery Timeline",
+      "placeholder": "Select timeline",
+      "options": {
+        "immediate": "Immediate (1-2 weeks)",
+        "short": "Short term (1-2 months)",
+        "medium": "Medium term (3-6 months)",
+        "long": "Long term (6+ months)"
+      }
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Tell us about your specific requirements, certifications needed, destination, etc.",
+      "error": "Message is required"
+    },
+    "privacy": {
+      "label": "I accept the privacy policy and the processing of my personal data for commercial purposes. I understand that I can withdraw my consent at any time.",
+      "error": "You must accept the privacy policy"
+    }
+  },
+  "messages": {
+    "sending": "Sending...",
+    "success": "Message sent! We will contact you within 24 hours.",
+    "error": "Error sending message. Please try again.",
+    "thank_you": "Thank you for contacting us",
+    "confirmation": "We have received your inquiry and our team will be in touch within 24 hours."
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email",
+    "phone": "Please enter a valid phone number",
+    "min_length": "Minimum {min} characters",
+    "max_length": "Maximum {max} characters"
+  },
+  "contact_methods": {
+    "title": "Contact Methods",
+    "email": {
+      "title": "Email",
+      "value": "info@agracom.cl"
+    },
+    "phone": {
+      "title": "Phone",
+      "value": "+56 2 1234 5678"
+    },
+    "address": {
+      "title": "Location",
+      "value": "Santiago, Chile"
+    },
+    "hours": {
+      "title": "Hours",
+      "value": "Mon-Fri 9:00-18:00 CLT"
+    }
+  },
+  "executives": {
+    "title": "Your Regional Executive",
+    "regions": {
+      "us-east": {
+        "name": "Cristián Rodríguez",
+        "title": "US East Coast Executive",
+        "email": "cristian@agracom.cl",
+        "phone": "+56 9 1234 5678"
+      },
+      "mediterranean": {
+        "name": "Pedro Mendive",
+        "title": "Mediterranean Executive",
+        "email": "pedro@agracom.cl",
+        "phone": "+56 9 8765 4321"
+      },
+      "middle-east": {
+        "name": "Cristián Rodríguez",
+        "title": "Middle East Executive",
+        "email": "cristian@agracom.cl",
+        "phone": "+56 9 1234 5678"
+      }
+    }
+  },
+  "guarantees": {
+    "title": "Guaranteed Response",
+    "initial_response": "< 24h",
+    "initial_response_desc": "Initial response",
+    "formal_quote": "< 48h",
+    "formal_quote_desc": "Formal quote"
+  }
+}
