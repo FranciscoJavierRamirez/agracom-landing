@@ -126,15 +126,20 @@ const currentYear = new Date().getFullYear();
           <div class="space-y-4">
             <a 
               href={getLocalizedURL('/', lang)}
-              class="inline-flex items-center space-x-3 group focus:outline-none focus:ring-2 focus:ring-accent rounded-lg p-1"
+              class="inline-flex items-center space-x-4 group focus:outline-none focus:ring-2 focus:ring-accent rounded-lg p-1"
               aria-label={`${lang === 'es' ? 'Ir al inicio' : 'Go to homepage'}`}
             >
-              <!-- Logo Placeholder -->
-              <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                <span class="text-white font-bold text-xl">A</span>
+              <!-- AgraCom Official Logo -->
+              <div class="w-16 h-16 sm:w-18 sm:h-18 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <img 
+                  src="/images/agracom-logo.svg" 
+                  alt="AgraCom Internacional Logo" 
+                  class="w-full h-full object-contain filter brightness-0 invert"
+                  loading="lazy"
+                />
               </div>
               <div>
-                <h2 class="text-xl font-bold text-white group-hover:text-accent transition-colors">
+                <h2 class="text-2xl font-bold text-white group-hover:text-accent transition-colors">
                   Agracom Internacional
                 </h2>
               </div>

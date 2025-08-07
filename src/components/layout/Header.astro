@@ -64,23 +64,28 @@ const tagline = currentLang === 'es'
     <div class="flex items-center justify-between py-4">
       
       <!-- Logo and Brand -->
-      <div class="flex items-center space-x-3 group">
+      <div class="flex items-center space-x-4 group">
         <a 
           href={getLocalizedURL('/', currentLang)}
           class="flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-accent rounded-lg p-1"
           aria-label={`${currentLang === 'es' ? 'Ir al inicio' : 'Go to homepage'}`}
         >
-          <!-- Logo Placeholder - Replace with actual logo -->
-          <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-            <span class="text-white font-bold text-xl font-heading">A</span>
+          <!-- AgraCom Official Logo -->
+          <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center group-hover:scale-105 transition-transform">
+            <img 
+              src="/images/agracom-logo.svg" 
+              alt="AgraCom Internacional Logo" 
+              class="w-full h-full object-contain"
+              loading="eager"
+            />
           </div>
           
           <!-- Brand Text -->
           <div class="hidden sm:block">
-            <h1 class="text-xl font-bold text-neutral-900 group-hover:text-primary transition-colors">
+            <h1 class="text-2xl font-bold text-neutral-900 group-hover:text-primary transition-colors">
               Agracom Internacional
             </h1>
-            <p class="text-sm text-neutral-600 leading-tight">
+            <p class="text-base text-neutral-600 leading-tight">
               {tagline}
             </p>
           </div>
