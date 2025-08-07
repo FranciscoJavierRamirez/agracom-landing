@@ -1,7 +1,7 @@
 // Agracom Internacional S.A. - Internationalization Utilities
 // Sistema completo de i18n con archivos JSON y cache
 
-import type { Locale, TranslationKey, Translations } from '../types/global';
+import type { Locale, TranslationKey } from '../types/global';
 
 // Cache para las traducciones cargadas
 const translationCache = new Map<string, TranslationKey>();
@@ -126,10 +126,19 @@ export function getLocalizedURL(path: string, locale: Locale): string {
  * Extrae el locale de una URL
  */
 export function getLocaleFromURL(url: string): Locale {
-  const path = new URL(url).pathname;
-  if (path.startsWith('/en')) {
+  const urlObj = new URL(url);
+  
+  // Primero verificar parámetro de consulta ?lang=
+  const langParam = urlObj.searchParams.get('lang');
+  if (langParam && isValidLocale(langParam)) {
+    return langParam as Locale;
+  }
+  
+  // Luego verificar el path /en/
+  if (urlObj.pathname.startsWith('/en')) {
     return 'en';
   }
+  
   return 'es';
 }
 

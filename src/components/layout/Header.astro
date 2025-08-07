@@ -3,7 +3,7 @@
 // Navegación principal con logo, menú y cambio de idioma
 
 import type { Locale } from '../../types/global';
-import { createTranslator, getAlternateLocale, getLocalizedURL } from '../../utils/i18n';
+import { createTranslator, getLocalizedURL } from '../../utils/i18n';
 
 export interface Props {
   currentLang: Locale;
@@ -54,8 +54,7 @@ const navigationWithLabels = await Promise.all(
 const ctaLabel = await common('cta.inquire');
 
 // Get alternate language URL
-const alternateLocale = getAlternateLocale(currentLang);
-const alternateURL = currentLang === 'es' ? '/en' : '/';
+// Alternate language functionality handled via URL parameters
 ---
 
 <header 
@@ -105,8 +104,9 @@ const alternateURL = currentLang === 'es' ? '/en' : '/';
             href={item.href}
             class="relative px-4 py-2 text-neutral-700 hover:text-primary font-semibold text-sm transition-all duration-200 rounded-lg hover:bg-primary hover:bg-opacity-10 group nav-link"
             data-nav-item
+            data-nav-text={item.key}
           >
-            <span class="relative z-10">{item.label}</span>
+            <span class="relative z-10" data-nav-text={item.key}>{item.label}</span>
             <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-6 rounded-full"></span>
           </a>
         ))}
@@ -128,31 +128,21 @@ const alternateURL = currentLang === 'es' ? '/en' : '/';
 
         <!-- Language Switcher - Rediseñado -->
         <div class="flex items-center bg-neutral-100 rounded-lg p-1 border border-neutral-200">
-          <a 
-            href={currentLang === 'es' ? '/' : '/'}
-            class={`px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 ${
-              currentLang === 'es' 
-                ? 'bg-primary text-white shadow-sm scale-105' 
-                : 'text-neutral-500 hover:text-neutral-700 hover:bg-white'
-            }`}
-            hreflang="es"
-            aria-label={`${currentLang === 'es' ? 'Página en español (actual)' : 'Cambiar a español'}`}
-          >
-            ES
-          </a>
-          <div class="w-px h-4 bg-neutral-300 mx-1"></div>
-          <a 
-            href={alternateURL}
-            class={`px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 ${
-              currentLang === 'en' 
-                ? 'bg-primary text-white shadow-sm scale-105' 
-                : 'text-neutral-500 hover:text-neutral-700 hover:bg-white'
-            }`}
-            hreflang={alternateLocale}
-            aria-label={`${currentLang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish'}`}
-          >
-            EN
-          </a>
+                  <button 
+          data-lang-btn="es"
+          class="px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105"
+          aria-label="Página en español"
+        >
+          ES
+        </button>
+        <div class="w-px h-4 bg-neutral-300 mx-1"></div>
+        <button 
+          data-lang-btn="en"
+          class="px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 text-neutral-500 hover:text-neutral-700 hover:bg-white"
+          aria-label="Switch to English"
+        >
+          EN
+        </button>
         </div>
 
         <!-- Mobile Menu Button - Mejorado -->
@@ -182,8 +172,9 @@ const alternateURL = currentLang === 'es' ? '/en' : '/';
             href={item.href}
             class="flex items-center justify-between py-3 px-4 text-neutral-800 hover:text-primary hover:bg-primary hover:bg-opacity-10 font-semibold rounded-lg transition-all duration-200 group mobile-nav-link"
             data-mobile-menu-item
+            data-nav-text={item.key}
           >
-            <span class="text-base font-medium">{item.label}</span>
+            <span class="text-base font-medium" data-nav-text={item.key}>{item.label}</span>
             <svg class="w-4 h-4 text-neutral-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>

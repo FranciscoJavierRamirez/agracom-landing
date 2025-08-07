@@ -1,5 +1,5 @@
 ---
-// Agracom Internacional S.A. - Página Principal (Español)
+// Agracom Internacional S.A. - Página Principal (Multi-idioma)
 import Layout from '../components/layout/Layout.astro';
 import Header from '../components/layout/Header.astro';
 import Hero from '../components/sections/Hero.astro';
@@ -8,47 +8,76 @@ import Certifications from '../components/sections/Certifications.astro';
 import Regions from '../components/sections/Regions.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
 import Footer from '../components/layout/Footer.astro';
-import { createTranslator } from '../utils/i18n';
+// Removed unused import
 
-const lang = 'es';
-const { hero, common } = await createTranslator(lang);
+// Configuración por defecto - se manejará dinámicamente en el cliente
+const lang = 'es'; // Default español, se cambiará con JavaScript
 
-const title = 'Lupinos Premium y Cerezas Certificadas desde Chile';
-const description = 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas deshidratadas Santina con certificaciones Kosher y Halal. 20+ años de experiencia.';
+// Títulos y descripciones según idioma
+const seoData = {
+  es: {
+    title: 'Lupinos Premium y Cerezas Certificadas desde Chile',
+    description: 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas deshidratadas Santina con certificaciones Kosher y Halal. 20+ años de experiencia.',
+    canonicalURL: 'https://agracom-internacional.com/'
+  },
+  en: {
+    title: 'Premium Lupins and Certified Cherries from Chile',
+    description: 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.',
+    canonicalURL: 'https://agracom-internacional.com/en/'
+  }
+};
+
+const { title, description, canonicalURL } = seoData[lang];
 
 // Load product data
 const lupinsData = await import('../data/products/lupins.json');
 const cherriesData = await import('../data/products/cherries.json');
 
-// Create product objects
+// Create product objects según idioma
 const lupinsProduct = {
   id: lupinsData.id,
-  name: lupinsData.name,
+  name: lang === 'en' ? lupinsData.nameEn : lupinsData.name,
   image: lupinsData.image,
-  description: lupinsData.description,
-  specifications: lupinsData.specifications,
-  certifications: lupinsData.certifications,
-  category: lupinsData.category,
+  description: lang === 'en' ? lupinsData.descriptionEn : lupinsData.description,
+  specifications: lang === 'en' ? lupinsData.specificationsEn : lupinsData.specifications,
+  certifications: lupinsData.certifications as any,
+  category: lupinsData.category as 'lupins',
   available: lupinsData.available
 };
 
 const cherriesProduct = {
   id: cherriesData.id,
-  name: cherriesData.name,
+  name: lang === 'en' ? cherriesData.nameEn : cherriesData.name,
   image: cherriesData.image,
-  description: cherriesData.description,
-  specifications: cherriesData.specifications,
-  certifications: cherriesData.certifications,
-  category: cherriesData.category,
+  description: lang === 'en' ? cherriesData.descriptionEn : cherriesData.description,
+  specifications: lang === 'en' ? cherriesData.specificationsEn : cherriesData.specifications,
+  certifications: cherriesData.certifications as any,
+  category: cherriesData.category as 'cherries',
   available: cherriesData.available
 };
+
+// Contenido de secciones según idioma
+const sectionContent = {
+  es: {
+    productsId: 'productos',
+    productsTitle: 'Nuestros Productos Especializados',
+    productsDescription: 'Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, con 20+ años de experiencia exportando a mercados exigentes.'
+  },
+  en: {
+    productsId: 'products',
+    productsTitle: 'Our Specialized Products',
+    productsDescription: 'Boutique specialists in premium lupins and certified dried cherries, with 20+ years of experience exporting to demanding markets.'
+  }
+};
+
+const content = sectionContent[lang];
 ---
 
 <Layout 
   title={title}
   description={description}
   lang={lang}
-  canonicalURL="https://agracom-internacional.com/"
+  canonicalURL={canonicalURL}
 >
   <!-- Header -->
   <Header slot="header" currentLang={lang} />
@@ -57,15 +86,14 @@ const cherriesProduct = {
   <Hero lang={lang} />
 
   <!-- Products Section -->
-  <section id="productos" class="section bg-white">
+  <section id={content.productsId} class="section bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center space-y-6 mb-12">
-        <h2 class="text-h2 font-bold text-neutral-900">
-          Nuestros Productos Especializados
+        <h2 class="text-h2 font-bold text-neutral-900" data-products-title>
+          {content.productsTitle}
         </h2>
-        <p class="text-xl text-neutral-700 max-w-3xl mx-auto">
-          Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, 
-          con 20+ años de experiencia exportando a mercados exigentes.
+        <p class="text-xl text-neutral-700 max-w-3xl mx-auto" data-products-description>
+          {content.productsDescription}
         </p>
       </div>
       
@@ -104,4 +132,145 @@ const cherriesProduct = {
 
   <!-- Footer -->
   <Footer slot="footer" lang={lang} showSocial={true} />
+
+  <!-- Sistema de cambio de idioma dinámico -->
+  <script>
+    // Sistema de internacionalización dinámico
+    let currentLang = 'es';
+    
+    // Translations object
+    const translations = {
+      es: {
+        navigation: {
+          products: 'Productos',
+          certifications: 'Certificaciones', 
+          contact: 'Contacto',
+          regions: 'Regiones'
+        },
+        hero: {
+          title: 'Lupinos Premium y Cerezas Certificadas',
+          subtitle: 'Desde Chile al Mundo',
+          description: 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas deshidratadas Santina con certificaciones Kosher y Halal. 20+ años de experiencia.'
+        },
+        products: {
+          title: 'Nuestros Productos Especializados',
+          description: 'Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, con 20+ años de experiencia exportando a mercados exigentes.'
+        },
+        cta: {
+          inquire: 'Consultar disponibilidad'
+        }
+      },
+      en: {
+        navigation: {
+          products: 'Products',
+          certifications: 'Certifications',
+          contact: 'Contact', 
+          regions: 'Regions'
+        },
+        hero: {
+          title: 'Premium Lupins and Certified Cherries',
+          subtitle: 'From Chile to the World',
+          description: 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.'
+        },
+        products: {
+          title: 'Our Specialized Products',
+          description: 'Boutique specialists in premium lupins and certified dried cherries, with 20+ years of experience exporting to demanding markets.'
+        },
+        cta: {
+          inquire: 'Inquire about availability'
+        }
+      }
+    };
+    
+    // Function to change language
+    function changeLanguage(newLang) {
+      if (newLang !== 'es' && newLang !== 'en') return;
+      
+      currentLang = newLang;
+      
+      // Update document language
+      document.documentElement.lang = newLang;
+      
+      // Update navigation
+      const navItems = document.querySelectorAll('[data-nav-text]');
+      navItems.forEach(item => {
+        const key = item.getAttribute('data-nav-text');
+        if (translations[newLang].navigation[key]) {
+          item.textContent = translations[newLang].navigation[key];
+        }
+      });
+      
+      // Update hero section
+      const heroTitle = document.querySelector('[data-hero-title]');
+      const heroSubtitle = document.querySelector('[data-hero-subtitle]');
+      const heroDescription = document.querySelector('[data-hero-description]');
+      
+      if (heroTitle) heroTitle.textContent = translations[newLang].hero.title;
+      if (heroSubtitle) heroSubtitle.textContent = translations[newLang].hero.subtitle;
+      if (heroDescription) heroDescription.textContent = translations[newLang].hero.description;
+      
+      // Update products section
+      const productsTitle = document.querySelector('[data-products-title]');
+      const productsDescription = document.querySelector('[data-products-description]');
+      
+      if (productsTitle) productsTitle.textContent = translations[newLang].products.title;
+      if (productsDescription) productsDescription.textContent = translations[newLang].products.description;
+      
+      // Update language switcher state
+      document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+        const btnLang = btn.getAttribute('data-lang-btn');
+        if (btnLang === newLang) {
+          btn.classList.add('bg-primary', 'text-white', 'shadow-sm', 'scale-105');
+          btn.classList.remove('text-neutral-500', 'hover:text-neutral-700', 'hover:bg-white');
+        } else {
+          btn.classList.remove('bg-primary', 'text-white', 'shadow-sm', 'scale-105');
+          btn.classList.add('text-neutral-500', 'hover:text-neutral-700', 'hover:bg-white');
+        }
+      });
+      
+      // Update section IDs for navigation
+      const productsSection = document.getElementById('productos') || document.getElementById('products');
+      if (productsSection) {
+        productsSection.id = newLang === 'es' ? 'productos' : 'products';
+      }
+      
+      console.log('Language changed to:', newLang);
+    }
+    
+    // Initialize language from URL parameter or localStorage
+    function initializeLanguage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLang = urlParams.get('lang');
+      const storedLang = localStorage.getItem('preferred-language');
+      
+      const initialLang = urlLang || storedLang || 'es';
+      
+      if (initialLang === 'en') {
+        changeLanguage('en');
+      }
+      
+      // Store preference
+      localStorage.setItem('preferred-language', initialLang);
+    }
+    
+    // Set up event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeLanguage();
+      
+      // Language switcher buttons
+      document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const newLang = this.getAttribute('data-lang-btn');
+          changeLanguage(newLang);
+          localStorage.setItem('preferred-language', newLang);
+          
+          // Update URL without reload
+          const url = new URL(window.location);
+          url.searchParams.set('lang', newLang);
+          window.history.replaceState({}, '', url);
+        });
+      });
+    });
+  </script>
 </Layout>
