@@ -4,7 +4,8 @@
 const CACHE_NAME = 'agracom-v1';
 const urlsToCache = [
   '/',
-  '/styles/globals.css'
+  '/en/',
+  // CSS files are automatically handled by Astro/Vite - no manual caching needed
 ];
 
 self.addEventListener('install', function(event) {

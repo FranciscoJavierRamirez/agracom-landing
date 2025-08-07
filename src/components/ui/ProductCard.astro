@@ -113,8 +113,8 @@ const formatSpecification = (spec: string) => {
       <span 
         class={`px-2 py-1 rounded-full text-xs font-semibold ${
           product.available 
-            ? 'bg-success/90 text-white' 
-            : 'bg-warning/90 text-white'
+            ? 'bg-success bg-opacity-90 text-white' 
+            : 'bg-warning bg-opacity-90 text-white'
         }`}
       >
         {product.available 
@@ -126,7 +126,7 @@ const formatSpecification = (spec: string) => {
 
     <!-- Category Badge -->
     <div class="absolute top-3 right-3">
-      <span class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-neutral-700">
+      <span class="px-2 py-1 bg-white bg-opacity-90 backdrop-blur-sm rounded-full text-xs font-semibold text-neutral-700">
         {product.category === 'lupins' 
           ? (lang === 'es' ? 'Lupinos' : 'Lupins')
           : (lang === 'es' ? 'Cerezas' : 'Cherries')
@@ -135,7 +135,7 @@ const formatSpecification = (spec: string) => {
     </div>
 
     <!-- Hover Overlay -->
-    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-black group-hover:bg-opacity-10 transition-colors duration-300"></div>
   </div>
 
   <!-- Product Content -->
@@ -239,7 +239,7 @@ const formatSpecification = (spec: string) => {
 
     <!-- Additional Info (Featured variant only) -->
     {variant === 'featured' && (
-      <div class="bg-accent/5 rounded-lg p-3 border border-accent/20">
+      <div class="bg-accent bg-opacity-5 rounded-lg p-3 border border-accent border-opacity-20">
         <div class="flex items-center space-x-2">
           <span class="text-accent text-lg" aria-hidden="true">⭐</span>
           <span class="text-sm font-medium text-accent-dark">

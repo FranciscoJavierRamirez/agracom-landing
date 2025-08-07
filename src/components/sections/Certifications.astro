@@ -431,7 +431,7 @@ const categoryLabels = {
                   </div>
                   
                   {cert.verified && (
-                    <div class="flex items-center space-x-1 text-success text-sm font-medium bg-white/80 rounded-full px-3 py-1">
+                    <div class="flex items-center space-x-1 text-success text-sm font-medium bg-white bg-opacity-80 rounded-full px-3 py-1">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
@@ -449,7 +449,7 @@ const categoryLabels = {
                       href={cert.authorityUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-sm text-primary hover:text-primary/80 font-medium transition-colors inline-flex items-center group"
+                      class="text-sm text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
                       onclick={`gtag && gtag('event', 'outbound_click', { event_label: '${cert.authority}', custom_parameter_section: 'certifications' })`}
                     >
                       {lang === 'es' ? cert.authority : cert.authorityEn}
@@ -486,14 +486,14 @@ const categoryLabels = {
               </div>
 
               <!-- Products & Validity -->
-              <div class="flex items-center justify-between pt-4 border-t border-white/50">
+              <div class="flex items-center justify-between pt-4 border-t border-white border-opacity-50">
                 <div class="space-y-1">
                   <p class="text-xs text-neutral-600 font-medium">
                     {lang === 'es' ? 'Productos:' : 'Products:'}
                   </p>
                   <div class="flex flex-wrap gap-1">
                     {cert.products.map((product) => (
-                      <span class="px-2 py-1 bg-white/60 rounded text-xs font-medium">
+                      <span class="px-2 py-1 bg-white bg-opacity-60 rounded text-xs font-medium">
                         {product === 'lupins' 
                           ? (lang === 'es' ? 'Lupinos' : 'Lupins')
                           : (lang === 'es' ? 'Cerezas' : 'Cherries')
@@ -514,7 +514,7 @@ const categoryLabels = {
               </div>
 
               <!-- Certificate Number & Additional Info -->
-              <div class="bg-white/60 rounded-lg p-4 space-y-3">
+              <div class="bg-white bg-opacity-60 rounded-lg p-4 space-y-3">
                 <div>
                   <p class="text-xs text-neutral-600 font-medium mb-1">
                     {lang === 'es' ? 'Número de Certificado:' : 'Certificate Number:'}
@@ -526,12 +526,12 @@ const categoryLabels = {
                 
                 <!-- Authority Website Link -->
                 {cert.authorityUrl && (
-                  <div class="pt-2 border-t border-white/40">
+                  <div class="pt-2 border-t border-white border-opacity-40">
                     <a 
                       href={cert.authorityUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-xs text-primary hover:text-primary/80 font-medium transition-colors inline-flex items-center group"
+                      class="text-xs text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
                       onclick={`gtag && gtag('event', 'certification_website_visit', { event_label: '${cert.id}', custom_parameter_section: 'certifications' })`}
                     >
                       {lang === 'es' ? 'Visitar sitio oficial' : 'Visit official website'}
@@ -581,7 +581,7 @@ const categoryLabels = {
 
           return (
             <div class="space-y-6">
-              <h4 class="text-xl font-semibold text-neutral-900 border-b-2 border-primary/20 pb-2">
+              <h4 class="text-xl font-semibold text-neutral-900 border-b-2 border-primary border-opacity-20 pb-2">
                 {categoryLabels[category as keyof typeof categoryLabels]}
               </h4>
               
@@ -611,7 +611,7 @@ const categoryLabels = {
                             href={cert.authorityUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-sm text-primary hover:text-primary/80 font-medium transition-colors inline-flex items-center group"
+                            class="text-sm text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
                             onclick={`gtag && gtag('event', 'outbound_click', { event_label: '${cert.authority}', custom_parameter_section: 'certifications_additional' })`}
                           >
                             {lang === 'es' ? cert.authority : cert.authorityEn}
@@ -633,7 +633,7 @@ const categoryLabels = {
                           href={`mailto:info@agracom.cl?subject=${encodeURIComponent(lang === 'es' ? `Consulta sobre Certificado: ${cert.name}` : `Inquiry about Certificate: ${cert.nameEn}`)}&body=${encodeURIComponent(lang === 'es' ? 
                             `Estimados,\n\nDeseo consultar sobre el certificado ${cert.name}.\n\nPor favor, envíenme información detallada sobre:\n- Disponibilidad del certificado\n- Documentación técnica\n- Alcance de la certificación\n- Condiciones comerciales\n\nQuedo atento a su respuesta.\n\nSaludos cordiales,` : 
                             `Dear Team,\n\nI would like to inquire about the ${cert.nameEn} certificate.\n\nPlease send me detailed information about:\n- Certificate availability\n- Technical documentation\n- Certification scope\n- Commercial conditions\n\nI look forward to your response.\n\nBest regards,`)}`}
-                          class="text-xs text-primary hover:text-primary/80 font-medium transition-colors inline-flex items-center group"
+                          class="text-xs text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
                           onclick={`gtag && gtag('event', 'certificate_inquiry', { event_label: '${cert.id}', custom_parameter_section: 'certifications_additional' })`}
                         >
                           <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -671,7 +671,7 @@ const categoryLabels = {
           <h3 class="text-3xl font-bold">
             {lang === 'es' ? '¿Necesita Nuestros Certificados?' : 'Need Our Certificates?'}
           </h3>
-          <p class="text-xl text-white/90 leading-relaxed">
+          <p class="text-xl text-white text-opacity-90 leading-relaxed">
             {lang === 'es' 
               ? 'Enviamos certificados personalizados por correo electrónico. Consulte por la documentación específica que necesita para su proyecto.'
               : 'We send personalized certificates by email. Inquire about the specific documentation you need for your project.'
@@ -682,7 +682,7 @@ const categoryLabels = {
               href="mailto:info@agracom.cl?subject=${encodeURIComponent(lang === 'es' ? 'Solicitud de Certificados AgraCom' : 'AgraCom Certificates Request')}&body=${encodeURIComponent(lang === 'es' ? 
                 'Estimados,\n\nEstoy interesado en obtener certificados de AgraCom para mi proyecto.\n\nPor favor, envíenme información sobre:\n- Certificados disponibles\n- Documentación técnica\n- Procesos de solicitud\n- Condiciones comerciales\n\nEspero su pronta respuesta.\n\nSaludos cordiales,' : 
                 'Dear Team,\n\nI am interested in obtaining AgraCom certificates for my project.\n\nPlease send me information about:\n- Available certificates\n- Technical documentation\n- Request processes\n- Commercial conditions\n\nI look forward to your prompt response.\n\nBest regards,')}"
-              class="btn btn-lg bg-white text-primary hover:bg-white/90 border-none shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center group"
+              class="btn btn-lg bg-white text-primary hover:bg-white hover:bg-opacity-90 border-none shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center group"
               onclick="gtag && gtag('event', 'main_certificate_cta', { event_label: 'general_request', custom_parameter_section: 'certifications' })"
             >
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -695,7 +695,7 @@ const categoryLabels = {
             </a>
             <a 
               href="tel:+56-2-XXXXXXX"
-              class="btn btn-lg bg-white/10 text-white hover:bg-white/20 border-2 border-white/50 hover:border-white shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center group"
+              class="btn btn-lg bg-white bg-opacity-10 text-white hover:bg-white hover:bg-opacity-20 border-2 border-white border-opacity-50 hover:border-white shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center group"
               onclick="gtag && gtag('event', 'phone_contact', { event_label: 'certifications_section', custom_parameter_section: 'certifications' })"
             >
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -785,7 +785,7 @@ const categoryLabels = {
             </div>
           </div>
 
-          <div class="bg-success/10 rounded-xl p-6 border border-success/20">
+          <div class="bg-success bg-opacity-10 rounded-xl p-6 border border-success border-opacity-20">
             <div class="flex items-start space-x-3">
               <div class="w-8 h-8 bg-success text-white rounded-full flex items-center justify-center flex-shrink-0">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -811,7 +811,7 @@ const categoryLabels = {
 
     <!-- Call to Action -->
     <div class="text-center mt-16">
-      <div class="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 border border-primary/20">
+      <div class="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 border border-primary border-opacity-20">
         <h3 class="text-2xl font-bold text-neutral-900 mb-4">
           {lang === 'es' ? '¿Necesitas certificaciones específicas?' : 'Need specific certifications?'}
         </h3>
