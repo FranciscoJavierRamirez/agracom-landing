@@ -45,15 +45,15 @@ const sizeClasses = {
 // Variant classes
 const variantClasses = {
   default: 'bg-white shadow-md hover:shadow-lg',
-  featured: 'bg-white shadow-lg hover:shadow-xl ring-2 ring-primary/20',
+  featured: 'bg-white shadow-lg hover:shadow-xl ring-2 ring-primary ring-opacity-20',
   compact: 'bg-white shadow-sm hover:shadow-md',
   expanded: 'bg-white shadow-lg hover:shadow-xl'
 };
 
 // Product category styling
 const categoryGradient = product.category === 'lupins' 
-  ? 'from-secondary/20 to-secondary/30'
-  : 'from-kosher/20 to-halal/20';
+  ? 'from-secondary from-opacity-20 to-secondary to-opacity-30'
+  : 'from-kosher from-opacity-20 to-halal to-opacity-20';
 
 // Get certification badge classes
 const getCertificationClass = (certType: string) => {
