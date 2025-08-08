@@ -30,9 +30,9 @@ const seoData = {
 
 const { title, description, canonicalURL } = seoData[lang];
 
-// i18n JSON para contenidos de secciones
+// i18n JSON para contenidos de secciones (ruta ES)
 const { common } = await createTranslator(lang);
-const productsId = lang === 'es' ? 'productos' : 'products';
+const productsId = 'productos';
 const productsTitle = await common('sections.products.title');
 const productsDescription = await common('sections.products.description');
 
@@ -40,13 +40,13 @@ const productsDescription = await common('sections.products.description');
 const lupinsData = await import('../data/products/lupins.json');
 const cherriesData = await import('../data/products/cherries.json');
 
-// Create product objects según idioma
+// Create product objects (ruta ES)
 const lupinsProduct = {
   id: lupinsData.id,
-  name: lang === 'en' ? lupinsData.nameEn : lupinsData.name,
+  name: lupinsData.name,
   image: lupinsData.image,
-  description: lang === 'en' ? lupinsData.descriptionEn : lupinsData.description,
-  specifications: lang === 'en' ? lupinsData.specificationsEn : lupinsData.specifications,
+  description: lupinsData.description,
+  specifications: lupinsData.specifications,
   certifications: lupinsData.certifications as any,
   category: lupinsData.category as 'lupins',
   available: lupinsData.available
@@ -54,10 +54,10 @@ const lupinsProduct = {
 
 const cherriesProduct = {
   id: cherriesData.id,
-  name: lang === 'en' ? cherriesData.nameEn : cherriesData.name,
+  name: cherriesData.name,
   image: cherriesData.image,
-  description: lang === 'en' ? cherriesData.descriptionEn : cherriesData.description,
-  specifications: lang === 'en' ? cherriesData.specificationsEn : cherriesData.specifications,
+  description: cherriesData.description,
+  specifications: cherriesData.specifications,
   certifications: cherriesData.certifications as any,
   category: cherriesData.category as 'cherries',
   available: cherriesData.available
