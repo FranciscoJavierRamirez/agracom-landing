@@ -3,7 +3,7 @@
 // Footer principal con navegación, contactos y información corporativa
 
 import type { Locale, Region } from '../../types/global';
-import { createTranslator, getLocalizedURL } from '../../utils/i18n';
+import { createTranslator, getLocalizedURL, getAssetURL } from '../../utils/i18n';
 import LanguageSwitcher from '../ui/LanguageSwitcher.astro';
 
 export interface Props {
@@ -153,7 +153,7 @@ const currentYear = new Date().getFullYear();
               <!-- AgraCom Official Logo -->
               <div class="w-16 h-16 sm:w-18 sm:h-18 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <img 
-                  src="/images/agracom-logo.svg" 
+                  src={getAssetURL("/images/agracom-logo.svg")} 
                   alt="AgraCom Internacional Logo" 
                   class="w-full h-full object-contain filter brightness-0 invert"
                   loading="lazy"

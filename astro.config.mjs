@@ -4,10 +4,13 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
+const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS;
+const owner = process.env.GITHUB_REPOSITORY_OWNER || 'YOUR_GH_USERNAME';
+const repo = (process.env.GITHUB_REPOSITORY || 'agracom-landing').split('/')[1];
+
 export default defineConfig({
-  // For GitHub Pages deployment, update YOUR_USERNAME with your actual GitHub username
-  site: process.env.CI ? 'https://YOUR_USERNAME.github.io' : 'http://localhost:4321',
-  ...(process.env.CI && { base: '/agracom-landing' }),
+  site: isCI ? `https://${owner}.github.io` : 'http://localhost:4321',
+  base: isCI ? `/${repo}` : '/',
   integrations: [
     tailwind({
       configFile: './tailwind.config.mjs'

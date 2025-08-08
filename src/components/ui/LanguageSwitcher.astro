@@ -2,9 +2,12 @@
 // LanguageSwitcher.astro
 // Componente reutilizable para el selector de idioma
 
+import type { Locale } from '../../types/global';
+import { getLocalizedURL } from '../../utils/i18n';
+
 interface Props {
   variant?: 'header' | 'footer';
-  currentLang: 'es' | 'en';
+  currentLang: Locale;
 }
 
 const { variant = 'header', currentLang = 'es' } = Astro.props;
@@ -31,7 +34,7 @@ const dividerContent = variant === 'header' ? '' : '|';
 
 <div class={containerClasses}>
   <a 
-    href="/"
+    href={getLocalizedURL('/', 'es')}
     class={currentLang === 'es' ? activeClasses : inactiveClasses}
     aria-label="Página en español"
   >
@@ -43,7 +46,7 @@ const dividerContent = variant === 'header' ? '' : '|';
   </a>
   <div class={dividerClasses}>{dividerContent}</div>
   <a 
-    href="/en/"
+    href={getLocalizedURL('/', 'en')}
     class={currentLang === 'en' ? activeClasses : inactiveClasses}
     aria-label="Switch to English"
   >
