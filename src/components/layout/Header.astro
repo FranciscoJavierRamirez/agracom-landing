@@ -45,15 +45,15 @@ const options = headerConfig.options || { showRegionIndicator: true };
       <div class="flex items-center group">
         <a 
           href={getLocalizedURL('/', currentLang)}
-          class="flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50 rounded-2xl p-2 -ml-2 transition-all duration-200 hover:bg-neutral-50"
+          class="flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50 rounded-2xl p-2 transition-all duration-200 hover:bg-neutral-50"
           aria-label={`${currentLang === 'es' ? 'Ir al inicio' : 'Go to homepage'}`}
         >
           <!-- Logo más prominente -->
-          <div class="h-10 lg:h-12 flex items-center">
+          <div class="h-12 lg:h-14 flex items-center">
             <img 
-              src="/images/agracom-logo.svg" 
+              src="/images/agracom-logo.svg?v=1" 
               alt="AgraCom Internacional Logo" 
-              class="h-full w-auto object-contain"
+              class="block h-full w-auto object-contain"
               loading="eager"
             />
           </div>
