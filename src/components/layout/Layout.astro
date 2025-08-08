@@ -3,6 +3,7 @@
 // Componente layout principal con SEO, meta tags y estructura HTML base
 
 import type { Locale, Region } from '../../types/global';
+import Scripts from './Scripts.astro';
 import '../../styles/globals.css';
 
 export interface Props {
@@ -135,9 +136,6 @@ const schemaOrg = {
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
     
     <!-- Critical CSS will be inlined here by Astro build process -->
-    
-    <!-- Language switcher script -->
-    <script src="/js/language-switcher.js" defer></script>
   </head>
   
   <body class="font-body text-neutral-900 bg-neutral-50 antialiased">
@@ -183,6 +181,9 @@ const schemaOrg = {
         navigator.serviceWorker.register('/sw.js');
       }
     </script>
+    
+    <!-- Language Switcher Scripts -->
+    <Scripts />
   </body>
 </html>
 

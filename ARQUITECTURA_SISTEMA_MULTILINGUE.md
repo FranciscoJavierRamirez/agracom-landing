@@ -4,13 +4,18 @@ Este documento detalla la arquitectura e implementación del sistema multilingü
 
 ## Índice
 
-1. [Visión General](#visión-general)
-2. [Estructura de Archivos](#estructura-de-archivos)
-3. [Flujo de Datos](#flujo-de-datos)
-4. [Componentes Principales](#componentes-principales)
-5. [Cambio de Idioma en Cliente](#cambio-de-idioma-en-cliente)
-6. [Integración con Tailwind CSS](#integración-con-tailwind-css)
-7. [Buenas Prácticas](#buenas-prácticas)
+- [Arquitectura del Sistema Multilingüe - Agracom Internacional](#arquitectura-del-sistema-multilingüe---agracom-internacional)
+  - [Índice](#índice)
+  - [Visión General](#visión-general)
+  - [Estructura de Archivos](#estructura-de-archivos)
+  - [Flujo de Datos](#flujo-de-datos)
+  - [Componentes Principales](#componentes-principales)
+    - [Utilidades de Internacionalización (`i18n.ts`)](#utilidades-de-internacionalización-i18nts)
+    - [Selector de Idioma (`LanguageSwitcher.astro`)](#selector-de-idioma-languageswitcherastro)
+    - [Uso del Componente](#uso-del-componente)
+  - [Cambio de Idioma en Cliente](#cambio-de-idioma-en-cliente)
+  - [Integración con Tailwind CSS](#integración-con-tailwind-css)
+  - [Buenas Prácticas](#buenas-prácticas)
 
 ## Visión General
 
@@ -18,6 +23,7 @@ El sistema multilingüe de Agracom Internacional utiliza un enfoque híbrido:
 
 - **Archivos JSON de traducción**: Almacenan textos en diferentes idiomas
 - **Detección de idioma**: Basada en parámetros de URL (`?lang=es` o `?lang=en`)
+- **Enlaces directos**: Botones de idioma que redirigen a la página con el parámetro de idioma correspondiente
 - **Persistencia**: Almacenamiento de preferencia de idioma en `localStorage`
 - **Cambio dinámico**: Actualización de contenido sin recargar la página
 
@@ -124,31 +130,66 @@ export async function createTranslator(locale: Locale) {
 }
 ```
 
-### Selector de Idioma (`Header.astro`)
+### Selector de Idioma (`LanguageSwitcher.astro`)
 
 ```astro
-<div class="flex items-center bg-neutral-100 rounded-lg p-1 border border-neutral-200">
-  <button
-    data-lang-btn="es"
-    class="px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105"
+---
+// LanguageSwitcher.astro
+// Componente reutilizable para el selector de idioma
+
+interface Props {
+  variant?: 'header' | 'footer';
+  currentLang: 'es' | 'en';
+}
+
+const { variant = 'header', currentLang = 'es' } = Astro.props;
+
+// Determinar las clases según la variante
+const containerClasses = variant === 'header'
+  ? 'flex items-center bg-neutral-100 rounded-lg p-1 border border-neutral-200'
+  : 'flex items-center space-x-2 bg-neutral-800 rounded-lg p-1';
+
+const activeClasses = variant === 'header'
+  ? 'px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105'
+  : 'px-3 py-1 rounded-md text-sm font-semibold transition-all bg-primary text-white';
+
+const inactiveClasses = variant === 'header'
+  ? 'px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 text-neutral-500 hover:text-neutral-700 hover:bg-white'
+  : 'px-3 py-1 rounded-md text-sm font-semibold transition-all text-neutral-400 hover:text-white';
+---
+
+<div class={containerClasses}>
+  <a 
+    href="/?lang=es"
+    class={currentLang === 'es' ? activeClasses : inactiveClasses}
     aria-label="Página en español"
   >
     ES
-  </button>
-  <div class="w-px h-4 bg-neutral-300 mx-1"></div>
-  <button
-    data-lang-btn="en"
-    class="px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 text-neutral-500 hover:text-neutral-700 hover:bg-white"
+  </a>
+  <div class={dividerClasses}>{dividerContent}</div>
+  <a 
+    href="/?lang=en"
+    class={currentLang === 'en' ? activeClasses : inactiveClasses}
     aria-label="Switch to English"
   >
     EN
-  </button>
+  </a>
 </div>
+```
+
+### Uso del Componente
+
+```astro
+<!-- En Header.astro -->
+<LanguageSwitcher variant="header" currentLang={currentLang} />
+
+<!-- En Footer.astro -->
+<LanguageSwitcher variant="footer" currentLang={lang} />
 ```
 
 ## Cambio de Idioma en Cliente
 
-El cambio de idioma se realiza mediante JavaScript en el cliente, sin necesidad de recargar la página:
+El cambio de idioma se realiza mediante enlaces directos con parámetros URL:
 
 ```javascript
 // Sistema de cambio de idioma dinámico para Agracom Internacional
@@ -301,10 +342,11 @@ Ejemplo de integración:
 
 1. **Atributos `data-*`**: Uso de atributos personalizados para identificar elementos traducibles
 2. **Accesibilidad**: Inclusión de atributos `aria-label` en todos los elementos interactivos
-3. **SEO**: Actualización del atributo `lang` del documento y uso de URLs descriptivas
+3. **SEO**: Actualización del atributo `lang` del documento y uso de URLs descriptivas con parámetros de idioma
 4. **Rendimiento**: Carga asíncrona de traducciones y uso de caché para optimizar el rendimiento
 5. **Mantenibilidad**: Organización clara de archivos de traducción por idioma y categoría
+6. **Enlaces directos**: Uso de enlaces con parámetros URL para cambiar el idioma de forma sencilla y compatible con SEO
 
 ---
 
-Este sistema multilingüe proporciona una experiencia de usuario fluida y eficiente, permitiendo a los visitantes cambiar entre idiomas sin recargar la página, mientras mantiene una estructura SEO optimizada y un rendimiento excelente.
+Este sistema multilingüe proporciona una experiencia de usuario fluida y eficiente, permitiendo a los visitantes cambiar entre idiomas mediante enlaces directos con parámetros URL, mientras mantiene una estructura SEO optimizada y un rendimiento excelente.

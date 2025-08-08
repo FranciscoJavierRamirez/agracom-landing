@@ -1,6 +1,9 @@
 // Sistema de cambio de idioma dinámico para Agracom Internacional
+alert('Language switcher script loaded');
 (function() {
   'use strict';
+  
+  console.log('Language switcher script loaded');
   
   let currentLang = 'es';
   
@@ -111,9 +114,9 @@
     
     const initialLang = urlLang || storedLang || 'es';
     
-    if (initialLang === 'en') {
-      changeLanguage('en');
-    }
+    // Siempre aplicar el idioma inicial, sea cual sea
+    changeLanguage(initialLang);
+    
     
     // Store preference
     localStorage.setItem('preferred-language', initialLang);

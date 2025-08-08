@@ -4,6 +4,7 @@
 
 import type { Locale } from '../../types/global';
 import { createTranslator, getLocalizedURL } from '../../utils/i18n';
+import LanguageSwitcher from '../ui/LanguageSwitcher.astro';
 
 export interface Props {
   currentLang: Locale;
@@ -126,24 +127,8 @@ const ctaLabel = await common('cta.inquire');
           {await common('cta.inquire')}
         </a>
 
-        <!-- Language Switcher - Rediseñado -->
-        <div class="flex items-center bg-neutral-100 rounded-lg p-1 border border-neutral-200">
-                  <button 
-          data-lang-btn="es"
-          class="px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105"
-          aria-label="Página en español"
-        >
-          ES
-        </button>
-        <div class="w-px h-4 bg-neutral-300 mx-1"></div>
-        <button 
-          data-lang-btn="en"
-          class="px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 text-neutral-500 hover:text-neutral-700 hover:bg-white"
-          aria-label="Switch to English"
-        >
-          EN
-        </button>
-        </div>
+        <!-- Language Switcher Component -->
+        <LanguageSwitcher variant="header" currentLang={currentLang} />
 
         <!-- Mobile Menu Button - Mejorado -->
         <button

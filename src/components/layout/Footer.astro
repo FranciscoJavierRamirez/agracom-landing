@@ -4,6 +4,7 @@
 
 import type { Locale, Region } from '../../types/global';
 import { createTranslator, getLocalizedURL } from '../../utils/i18n';
+import LanguageSwitcher from '../ui/LanguageSwitcher.astro';
 
 export interface Props {
   lang: Locale;
@@ -312,33 +313,7 @@ const currentYear = new Date().getFullYear();
 
         <!-- Language Switcher -->
         <div class="flex items-center space-x-4">
-          <div class="flex items-center space-x-2 bg-neutral-800 rounded-lg p-1">
-            <a 
-              href={lang === 'es' ? '/' : '/'}
-              class={`px-3 py-1 rounded-md text-sm font-semibold transition-all ${
-                lang === 'es' 
-                  ? 'bg-primary text-white' 
-                  : 'text-neutral-400 hover:text-white'
-              }`}
-              hreflang="es"
-              aria-label={`${lang === 'es' ? 'Página en español (actual)' : 'Cambiar a español'}`}
-            >
-              ES
-            </a>
-            <span class="text-neutral-600">|</span>
-            <a 
-              href={lang === 'es' ? '/en' : '/'}
-              class={`px-3 py-1 rounded-md text-sm font-semibold transition-all ${
-                lang === 'en' 
-                  ? 'bg-primary text-white' 
-                  : 'text-neutral-400 hover:text-white'
-              }`}
-              hreflang={lang === 'es' ? 'en' : 'es'}
-              aria-label={`${lang === 'es' ? 'Cambiar a inglés' : 'Switch to English'}`}
-            >
-              EN
-            </a>
-          </div>
+          <LanguageSwitcher variant="footer" currentLang={lang} />
         </div>
 
         <!-- Legal Links -->

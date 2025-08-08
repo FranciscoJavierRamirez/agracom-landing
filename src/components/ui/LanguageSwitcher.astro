@@ -1,0 +1,48 @@
+---
+// LanguageSwitcher.astro
+// Componente reutilizable para el selector de idioma
+
+interface Props {
+  variant?: 'header' | 'footer';
+  currentLang: 'es' | 'en';
+}
+
+const { variant = 'header', currentLang = 'es' } = Astro.props;
+
+// Determinar las clases según la variante
+const containerClasses = variant === 'header'
+  ? 'flex items-center bg-neutral-100 rounded-lg p-1 border border-neutral-200'
+  : 'flex items-center space-x-2 bg-neutral-800 rounded-lg p-1';
+
+const activeClasses = variant === 'header'
+  ? 'px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105'
+  : 'px-3 py-1 rounded-md text-sm font-semibold transition-all bg-primary text-white';
+
+const inactiveClasses = variant === 'header'
+  ? 'px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 text-neutral-500 hover:text-neutral-700 hover:bg-white'
+  : 'px-3 py-1 rounded-md text-sm font-semibold transition-all text-neutral-400 hover:text-white';
+
+const dividerClasses = variant === 'header'
+  ? 'w-px h-4 bg-neutral-300 mx-1'
+  : 'text-neutral-600';
+
+const dividerContent = variant === 'header' ? '' : '|';
+---
+
+<div class={containerClasses}>
+  <a 
+    href="/?lang=es"
+    class={currentLang === 'es' ? activeClasses : inactiveClasses}
+    aria-label="Página en español"
+  >
+    ES
+  </a>
+  <div class={dividerClasses}>{dividerContent}</div>
+  <a 
+    href="/?lang=en"
+    class={currentLang === 'en' ? activeClasses : inactiveClasses}
+    aria-label="Switch to English"
+  >
+    EN
+  </a>
+</div>
