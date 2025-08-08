@@ -1,5 +1,4 @@
 // Sistema de cambio de idioma dinámico para Agracom Internacional
-alert('Language switcher script loaded');
 (function() {
   'use strict';
   

@@ -116,10 +116,13 @@ export function formatDate(date: Date, locale: Locale, options?: Intl.DateTimeFo
  * Obtiene la URL correcta para el idioma actual
  */
 export function getLocalizedURL(path: string, locale: Locale): string {
-  if (locale === 'es') {
-    return path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  // Prefer query parameter strategy instead of /en path prefix
+  if (locale === 'en') {
+    // Preserve root path clean for ES, add ?lang=en for English
+    return `${normalizedPath}?lang=en`;
   }
-  return path.startsWith('/') ? `/en${path}` : `/en/${path}`;
+  return normalizedPath;
 }
 
 /**

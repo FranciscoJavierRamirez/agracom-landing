@@ -10,8 +10,9 @@ import ContactForm from '../components/forms/ContactForm.astro';
 import Footer from '../components/layout/Footer.astro';
 // Removed unused import
 
-// Configuración por defecto - se manejará dinámicamente en el cliente
-const lang = 'es'; // Default español, se cambiará con JavaScript
+// Detect language from URL (?lang=en|es), fallback to 'es'
+const urlLang = Astro.url.searchParams.get('lang');
+const lang = (urlLang === 'en' || urlLang === 'es') ? urlLang : 'es';
 
 // Títulos y descripciones según idioma
 const seoData = {
@@ -23,7 +24,7 @@ const seoData = {
   en: {
     title: 'Premium Lupins and Certified Cherries from Chile',
     description: 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.',
-    canonicalURL: 'https://agracom-internacional.com/en/'
+    canonicalURL: 'https://agracom-internacional.com/?lang=en'
   }
 };
 
@@ -133,6 +134,4 @@ const content = sectionContent[lang];
   <!-- Footer -->
   <Footer slot="footer" lang={lang} showSocial={true} />
 
-  <!-- Sistema de cambio de idioma dinámico -->
-  <script src="/js/language-switcher.js"></script>
 </Layout>
