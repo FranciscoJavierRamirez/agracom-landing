@@ -76,6 +76,16 @@ const certifications = [
   { name: 'Halal', class: 'certification-badge--halal' },
   { name: 'SAG', class: 'certification-badge--sag' }
 ];
+
+// Default vertical hero image optimized for design (WebP)
+const defaultHeroImage: ImageAsset = {
+  src: '/images/agracom_herosection_bodegon.webp?v=1',
+  alt: lang === 'es'
+    ? 'Bodegón vertical de productos Agracom: lupinos, pasas y nueces'
+    : 'Vertical still life of Agracom products: lupins, raisins and walnuts',
+  width: 1200,
+  height: 1800
+};
 ---
 
 <section 
@@ -206,47 +216,25 @@ const certifications = [
         class="relative animate-fade-in"
         style="animation-delay: 0.3s"
       >
-        <!-- Image Container -->
-        <div class="aspect-[4/3] rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-300 relative">
-          
-          {bgImage ? (
-            <!-- Actual Image (when provided) -->
+        <!-- Image Container (vertical-first) -->
+        <div class="rounded-2xl shadow-2xl overflow-hidden bg-neutral-100 relative flex items-start justify-center">
+          <picture class="block w-full">
+            <source srcset="/images/agracom_herosection_bodegon.webp?v=1" type="image/webp" />
             <img
-              src={bgImage.src}
-              alt={bgImage.alt}
-              width={bgImage.width || 1200}
-              height={bgImage.height || 900}
+              src={(bgImage?.src) || defaultHeroImage.src}
+              alt={(bgImage?.alt) || defaultHeroImage.alt}
+              width={(bgImage?.width) || defaultHeroImage.width}
+              height={(bgImage?.height) || defaultHeroImage.height}
               loading="eager"
-              class="w-full h-full object-cover"
+              decoding="async"
+              fetchpriority="high"
+              onerror="this.onerror=null; this.src='/images/agracom-og-image.jpg';"
+              class="block w-auto h-auto max-h-[68vh] md:max-h-[75vh] object-contain mx-auto"
             />
-          ) : (
-            <!-- Placeholder Image -->
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="text-center space-y-4">
-                <div class="w-20 h-20 bg-primary bg-opacity-20 rounded-full mx-auto flex items-center justify-center">
-                  <span class="text-4xl">🌾</span>
-                </div>
-                <div class="text-neutral-600 font-medium">
-                  <p class="text-lg font-semibold mb-2">
-                    {lang === 'es' ? 'IMAGEN HERO' : 'HERO IMAGE'}
-                  </p>
-                  <p class="text-sm">
-                    {lang === 'es' 
-                      ? 'Lupinos premium calibres 11-17mm'
-                      : 'Premium lupins 11-17mm caliber'
-                    }
-                  </p>
-                  <p class="text-xs text-neutral-500 mt-2">
-                    agracom-hero-lupins.webp<br/>
-                    (1200x900px)
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          </picture>
           
           <!-- Image Overlay for better text readability -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
           
           <!-- Quality Badge on Image -->
           <div class="absolute top-4 right-4">
@@ -261,9 +249,7 @@ const certifications = [
           </div>
         </div>
 
-        <!-- Floating Elements -->
-        <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-accent bg-opacity-20 rounded-full blur-xl"></div>
-        <div class="absolute -top-6 -right-6 w-32 h-32 bg-primary bg-opacity-20 rounded-full blur-xl"></div>
+        
       </div>
     </div>
 
