@@ -117,11 +117,11 @@ export function formatDate(date: Date, locale: Locale, options?: Intl.DateTimeFo
  */
 export function getLocalizedURL(path: string, locale: Locale): string {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  // Prefer query parameter strategy instead of /en path prefix
+  // Use directory-based routing for English
   if (locale === 'en') {
-    // Preserve root path clean for ES, add ?lang=en for English
-    return `${normalizedPath}?lang=en`;
+    return normalizedPath === '/' ? '/en/' : `/en${normalizedPath}`;
   }
+  // Spanish as default without prefix
   return normalizedPath;
 }
 

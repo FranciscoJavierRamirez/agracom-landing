@@ -34,11 +34,15 @@ const defaultImage = `${siteURL}/images/agracom-og-image.jpg`;
 // Generate canonical URL
 const canonical = canonicalURL || new URL(Astro.url.pathname, siteURL).href;
 
-// Generate hreflang URLs for international SEO
+// Generate hreflang URLs for international SEO (directory-based)
+const currentPath = Astro.url.pathname;
+const isEnglish = currentPath.startsWith('/en');
+const pathEs = isEnglish ? currentPath.replace(/^\/en/, '') || '/' : currentPath;
+const pathEn = isEnglish ? currentPath : `/en${pathEs === '/' ? '/' : pathEs}`;
 const hreflangURLs = {
-  'es': siteURL + Astro.url.pathname.replace('/en', ''),
-  'en': siteURL + '/en' + Astro.url.pathname,
-  'x-default': siteURL + Astro.url.pathname.replace('/en', '')
+  'es': siteURL + pathEs,
+  'en': siteURL + pathEn,
+  'x-default': siteURL + pathEs
 };
 
 // Schema.org structured data

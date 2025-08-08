@@ -7,22 +7,16 @@
 <script is:inline>
   document.addEventListener('DOMContentLoaded', function() {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlLang = urlParams.get('lang');
-      if (urlLang === 'es' || urlLang === 'en') {
-        // Persist user preference; renderizado del idioma lo hace Astro + JSON
-        localStorage.setItem('preferred-language', urlLang);
-      }
-    } catch (_) {
-      // noop
-    }
+      const isEnglishPath = window.location.pathname.startsWith('/en');
+      const lang = isEnglishPath ? 'en' : 'es';
+      localStorage.setItem('preferred-language', lang);
+    } catch (_) {}
   });
   
   // Expose helper to switch via URL (for potential future hooks)
   window.switchLanguage = function(newLang) {
     if (newLang !== 'es' && newLang !== 'en') return;
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', newLang);
-    window.location.href = url.toString();
+    const path = window.location.pathname.replace(/^\/en/, '') || '/';
+    window.location.href = newLang === 'en' ? `/en${path}` : path;
   };
 </script>

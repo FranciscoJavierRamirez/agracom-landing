@@ -11,9 +11,8 @@ import Footer from '../components/layout/Footer.astro';
 import { createTranslator } from '../utils/i18n';
 // Removed unused import
 
-// Detect language from URL (?lang=en|es), fallback to 'es'
-const urlLang = Astro.url.searchParams.get('lang');
-const lang = (urlLang === 'en' || urlLang === 'es') ? urlLang : 'es';
+// Language is fixed to ES on this route; EN version lives under /en/
+const lang = 'es' as const;
 
 // Títulos y descripciones según idioma
 const seoData = {
@@ -25,7 +24,7 @@ const seoData = {
   en: {
     title: 'Premium Lupins and Certified Cherries from Chile',
     description: 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.',
-    canonicalURL: 'https://agracom-internacional.com/?lang=en'
+    canonicalURL: 'https://agracom-internacional.com/en/'
   }
 };
 

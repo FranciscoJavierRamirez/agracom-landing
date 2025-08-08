@@ -1,0 +1,107 @@
+---
+// Agracom Internacional S.A. - Home (English)
+import Layout from '../../components/layout/Layout.astro';
+import Header from '../../components/layout/Header.astro';
+import Hero from '../../components/sections/Hero.astro';
+import ProductCard from '../../components/ui/ProductCard.astro';
+import Certifications from '../../components/sections/Certifications.astro';
+import Regions from '../../components/sections/Regions.astro';
+import ContactForm from '../../components/forms/ContactForm.astro';
+import Footer from '../../components/layout/Footer.astro';
+import { createTranslator } from '../../utils/i18n';
+
+// Fixed language for this route
+const lang = 'en' as const;
+
+// SEO data
+const seoData = {
+  title: 'Premium Lupins and Certified Cherries from Chile',
+  description: 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.',
+  canonicalURL: 'https://agracom-internacional.com/en/'
+};
+
+const { title, description, canonicalURL } = seoData;
+
+// i18n JSON for section content
+const { common } = await createTranslator(lang);
+const productsId = 'products';
+const productsTitle = await common('sections.products.title');
+const productsDescription = await common('sections.products.description');
+
+// Load product data
+const lupinsData = await import('../../data/products/lupins.json');
+const cherriesData = await import('../../data/products/cherries.json');
+
+// Build product objects
+const lupinsProduct = {
+  id: lupinsData.id,
+  name: lupinsData.nameEn,
+  image: lupinsData.image,
+  description: lupinsData.descriptionEn,
+  specifications: lupinsData.specificationsEn,
+  certifications: lupinsData.certifications as any,
+  category: lupinsData.category as 'lupins',
+  available: lupinsData.available
+};
+
+const cherriesProduct = {
+  id: cherriesData.id,
+  name: cherriesData.nameEn,
+  image: cherriesData.image,
+  description: cherriesData.descriptionEn,
+  specifications: cherriesData.specificationsEn,
+  certifications: cherriesData.certifications as any,
+  category: cherriesData.category as 'cherries',
+  available: cherriesData.available
+};
+---
+
+<Layout 
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalURL={canonicalURL}
+>
+  <Header slot="header" currentLang={lang} />
+
+  <Hero lang={lang} />
+
+  <section id={productsId} class="section bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center space-y-6 mb-12">
+        <h2 class="text-h2 font-bold text-neutral-900" data-products-title>
+          {productsTitle}
+        </h2>
+        <p class="text-xl text-neutral-700 max-w-3xl mx-auto" data-products-description>
+          {productsDescription}
+        </p>
+      </div>
+      <div class="product-grid">
+        <ProductCard 
+          product={lupinsProduct}
+          variant="featured"
+          lang={lang}
+          showActions={true}
+          showCertifications={true}
+          showSpecifications={true}
+        />
+        <ProductCard 
+          product={cherriesProduct}
+          variant="featured"
+          lang={lang}
+          showActions={true}
+          showCertifications={true}
+          showSpecifications={true}
+        />
+      </div>
+    </div>
+  </section>
+
+  <Certifications lang={lang} />
+  <Regions lang={lang} />
+  <ContactForm lang={lang} />
+  <Footer slot="footer" lang={lang} showSocial={true} />
+
+</Layout>
+
+
