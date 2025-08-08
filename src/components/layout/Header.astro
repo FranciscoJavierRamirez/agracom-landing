@@ -23,8 +23,6 @@ const {
 // Load header configuration (content) from JSON per locale
 const headerConfigModule = await import(`../../data/i18n/${currentLang}/header.json`);
 const headerConfig = headerConfigModule.default as any;
-const brandTitle: string = headerConfig.brand?.title || 'Agracom Internacional';
-const brandTagline: string | undefined = headerConfig.brand?.tagline;
 const navItems: Array<{ key: string; href: string; label: string }> = headerConfig.nav || [];
 const cta = headerConfig.cta || { text: '', href: '#' };
 const aria = headerConfig.aria || { home: 'Home', open_menu: 'Open menu', region_info: 'Region information' };
@@ -60,17 +58,7 @@ const options = headerConfig.options || { showRegionIndicator: true };
             />
           </div>
           
-          <!-- Brand Text dinámico desde JSON -->
-          <div class="hidden md:block">
-            <h1 class="text-xl lg:text-2xl font-bold text-neutral-900 group-hover:text-primary transition-colors duration-200 leading-tight tracking-tight m-0">
-              {brandTitle}
-            </h1>
-            {brandTagline && (
-              <p class="text-sm lg:text-base text-neutral-600 font-medium hidden md:block mt-1 mb-0">
-                {brandTagline}
-              </p>
-            )}
-          </div>
+          
         </a>
       </div>
 
