@@ -5,10 +5,12 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://agracom-internacional.com',
+  // For GitHub Pages deployment, update YOUR_USERNAME with your actual GitHub username
+  site: process.env.CI ? 'https://YOUR_USERNAME.github.io' : 'http://localhost:4321',
+  ...(process.env.CI && { base: '/agracom-landing' }),
   integrations: [
     tailwind({
-      config: { path: './tailwind.config.mjs' }
+      configFile: './tailwind.config.mjs'
     }),
     sitemap({
       i18n: {

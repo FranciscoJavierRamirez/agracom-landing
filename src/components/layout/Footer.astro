@@ -499,14 +499,14 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 
-  <!-- Scroll to Top Button -->
+  <!-- Scroll to Top Button - Appears at footer end, right side -->
   <button
     type="button"
-    class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 opacity-0 invisible z-50 hover:scale-110"
+    class="fixed bottom-8 right-8 w-12 h-12 bg-accent hover:bg-accent/90 text-neutral-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 invisible z-50 hover:scale-105 border-2 border-neutral-300"
     id="scroll-to-top"
     aria-label={lang === 'es' ? 'Volver arriba' : 'Scroll to top'}
   >
-    <svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
     </svg>
   </button>
@@ -514,21 +514,32 @@ const currentYear = new Date().getFullYear();
 
 <!-- Footer JavaScript -->
 <script define:vars={{ currentLang: lang }}>
-  // Scroll to top functionality
+  // Scroll to top functionality - Show when footer is visible
   document.addEventListener('DOMContentLoaded', function() {
     const scrollButton = document.getElementById('scroll-to-top');
+    const footer = document.querySelector('footer');
     
-    if (scrollButton) {
-      // Show/hide scroll button based on scroll position
-      window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 400) {
-          scrollButton.style.opacity = '1';
-          scrollButton.style.visibility = 'visible';
-        } else {
-          scrollButton.style.opacity = '0';
-          scrollButton.style.visibility = 'invisible';
-        }
+    if (scrollButton && footer) {
+      // Show button only when footer comes into view
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // Footer is visible, show button
+            scrollButton.style.opacity = '1';
+            scrollButton.style.visibility = 'visible';
+          } else {
+            // Footer not visible, hide button
+            scrollButton.style.opacity = '0';
+            scrollButton.style.visibility = 'invisible';
+          }
+        });
+      }, {
+        // Trigger when footer starts appearing (even partially)
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0
       });
+      
+      observer.observe(footer);
       
       // Scroll to top when clicked
       scrollButton.addEventListener('click', function() {
@@ -601,14 +612,15 @@ const currentYear = new Date().getFullYear();
     }
   }
 
-  /* Scroll to top button animation */
+  /* Scroll to top button - Fixed styles */
   #scroll-to-top {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px !important; /* Force consistent shape */
   }
 
   #scroll-to-top:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 160, 0, 0.3);
   }
 
   /* Focus styles for accessibility */
@@ -683,7 +695,7 @@ const currentYear = new Date().getFullYear();
     }
     
     #scroll-to-top:hover {
-      transform: none;
+      transform: scale(1);
     }
     
     .certification-badge:hover {

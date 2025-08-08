@@ -39,7 +39,7 @@
       {
         "id": "sag-chile",
         "name": "SAG",
-        "logo": "/images/cert-sag-chile.png",
+        "logo": "",
         "description": "Servicio Agrícola y Ganadero de Chile",
         "verified": true,
         "type": "regulatory"
@@ -47,7 +47,7 @@
       {
         "id": "haccp-sgs",
         "name": "HACCP",
-        "logo": "/images/cert-haccp-sgs.png",
+        "logo": "",
         "description": "Sistema HACCP certificado por SGS",
         "verified": true,
         "type": "quality"
@@ -55,7 +55,7 @@
       {
         "id": "iso22000",
         "name": "ISO 22000",
-        "logo": "/images/cert-iso22000-bv.png",
+        "logo": "",
         "description": "Gestión de Seguridad Alimentaria",
         "verified": true,
         "type": "quality"
@@ -63,7 +63,7 @@
       {
         "id": "phytosanitary",
         "name": "Fitosanitario",
-        "logo": "/images/cert-phyto.png",
+        "logo": "",
         "description": "Certificado fitosanitario por embarque",
         "verified": true,
         "type": "regulatory"

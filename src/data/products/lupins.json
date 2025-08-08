@@ -35,7 +35,7 @@
     {
       "id": "sag-chile",
       "name": "SAG",
-      "logo": "/images/cert-sag-chile.png",
+      "logo": "",
       "description": "Servicio Agrícola y Ganadero de Chile",
       "verified": true,
       "type": "regulatory"
@@ -43,7 +43,7 @@
     {
       "id": "phytosanitary",
       "name": "Fitosanitario",
-      "logo": "/images/cert-phyto.png",
+      "logo": "",
       "description": "Certificado fitosanitario por embarque",
       "verified": true,
       "type": "regulatory"

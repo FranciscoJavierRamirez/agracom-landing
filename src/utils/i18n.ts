@@ -169,3 +169,20 @@ export function generateHreflangURLs(currentPath: string, baseURL: string): Reco
     'x-default': `${baseURL}${currentPath}`,
   };
 }
+
+/**
+ * Obtiene la ruta correcta para assets públicos
+ * Funciona tanto en desarrollo como en GitHub Pages
+ */
+export function getAssetURL(path: string): string {
+  // Remove leading slash if present
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  
+  // In development or when base is not set, use root-relative paths
+  if (typeof import.meta.env !== 'undefined' && import.meta.env.BASE_URL) {
+    return `${import.meta.env.BASE_URL}${cleanPath}`;
+  }
+  
+  // Fallback for any other environment
+  return `/${cleanPath}`;
+}
