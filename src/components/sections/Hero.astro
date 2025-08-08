@@ -25,7 +25,7 @@ const {
   description,
   bgImage,
   primaryCTA,
-  secondaryCTA,
+  // secondaryCTA,
   certificationBadges = true,
   showStats = true,
   region,
@@ -48,11 +48,7 @@ const defaultPrimaryCTA: CTAButton = {
   variant: primaryCTA?.variant || 'primary'
 };
 
-const defaultSecondaryCTA: CTAButton = {
-  text: secondaryCTA?.text || await common('cta.download'),
-  href: secondaryCTA?.href || '#recursos',
-  variant: secondaryCTA?.variant || 'secondary'
-};
+// Nota: CTA secundario original (descarga) no se usa en Hero; se reemplaza por explorar productos
 
 // Stats data
 const stats = [
@@ -86,10 +82,12 @@ const defaultHeroImage: ImageAsset = {
   width: 1200,
   height: 1800
 };
+
+// CTA secundario removido según estrategia de foco en acción principal
 ---
 
 <section 
-  class={`section--hero bg-gradient-to-br from-primary/5 to-secondary/5 relative overflow-hidden ${className}`}
+  class={`section--hero bg-gradient-to-br from-primary/5 to-secondary/5 relative overflow-hidden mt-6 md:mt-8 lg:mt-10 ${className}`}
   role="banner"
   aria-label={lang === 'es' ? 'Sección principal' : 'Main hero section'}
 >
@@ -98,15 +96,15 @@ const defaultHeroImage: ImageAsset = {
     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KPGcgZmlsbD0iIzE1NjVDMCIgZmlsbC1vcGFjaXR5PSIwLjEiPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+CjwvZz4KPC9nPgo8L3N2Zz4=')] repeat"></div>
   </div>
 
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="hero-container">
+  <div class="container relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-10 gap-x-12 items-start">
       <!-- Content Section -->
-      <div class="space-y-8 flex flex-col justify-center">
+      <div class="lg:col-span-7 space-y-8 flex flex-col justify-start">
         <!-- Main Content -->
         <div class="space-y-6">
           <!-- Title -->
           <h1 
-            class="text-h1 font-bold text-neutral-900 leading-tight animate-fade-in"
+            class="text-h1 font-bold text-neutral-900 leading-tight tracking-tight max-w-3xl animate-fade-in"
             style="animation-delay: 0.1s"
             data-hero-title
           >
@@ -114,10 +112,10 @@ const defaultHeroImage: ImageAsset = {
           </h1>
           
           <!-- Subtitle -->
-          <p 
+           <p 
             class="text-xl text-neutral-700 max-w-2xl leading-relaxed animate-fade-in"
             style="animation-delay: 0.2s"
-            data-hero-subtitle
+             id="hero-subtitle"
           >
             {heroSubtitle}
           </p>
@@ -159,9 +157,9 @@ const defaultHeroImage: ImageAsset = {
           )}
         </div>
         
-        <!-- CTAs -->
+        <!-- CTA principal único -->
         <div 
-          class="flex flex-col sm:flex-row gap-4 animate-fade-in"
+          class="flex animate-fade-in"
           style="animation-delay: 0.5s"
         >
           <a 
@@ -174,52 +172,24 @@ const defaultHeroImage: ImageAsset = {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
-          
-          <a 
-            href={defaultSecondaryCTA.href}
-            class={`btn btn-${defaultSecondaryCTA.variant} px-8 py-4 text-lg hover:shadow-lg transition-all duration-300`}
-            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'hero_secondary', custom_parameter_region: '${region || 'unknown'}' })`}
-          >
-            {defaultSecondaryCTA.text}
-            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </a>
         </div>
 
-        <!-- Stats Section -->
-        {showStats && (
-          <div 
-            class="grid grid-cols-3 gap-6 pt-8 border-t border-neutral-200 animate-fade-in"
-            style="animation-delay: 0.6s"
-          >
-            {stats.map((stat) => (
-              <div class="text-center">
-                <div 
-                  class="text-3xl md:text-4xl font-bold text-primary mb-1 counter"
-                  data-target={stat.value.replace(/\D/g, '')}
-                  data-suffix={stat.value.replace(/\d/g, '')}
-                >
-                  {stat.value}
-                </div>
-                <div class="text-sm text-neutral-600 font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <!-- Stats ahora se muestran a ancho completo, no dentro de la columna izquierda -->
       </div>
       
       <!-- Image Section -->
       <div 
-        class="relative animate-fade-in"
+        class="lg:col-span-5 relative animate-fade-in self-start"
         style="animation-delay: 0.3s"
       >
         <!-- Image Container (vertical-first) -->
-        <div class="rounded-2xl shadow-2xl overflow-hidden bg-neutral-100 relative flex items-start justify-center">
+        <div class="rounded-2xl shadow-2xl ring-1 ring-neutral-200 overflow-hidden bg-neutral-100 relative flex items-start justify-center w-full lg:max-w-[560px] xl:max-w-[600px] mx-auto">
           <picture class="block w-full">
-            <source srcset="/images/agracom_herosection_bodegon.webp?v=1" type="image/webp" />
+            <source 
+              srcset="/images/agracom_herosection_bodegon.webp?v=1 1200w, /images/agracom_herosection_bodegon.webp?v=1 800w, /images/agracom_herosection_bodegon.webp?v=1 600w" 
+              sizes="(min-width: 1280px) 560px, (min-width: 1024px) 520px, 90vw" 
+              type="image/webp" 
+            />
             <img
               src={(bgImage?.src) || defaultHeroImage.src}
               alt={(bgImage?.alt) || defaultHeroImage.alt}
@@ -228,25 +198,11 @@ const defaultHeroImage: ImageAsset = {
               loading="eager"
               decoding="async"
               fetchpriority="high"
-              onerror="this.onerror=null; this.src='/images/agracom-og-image.jpg';"
-              class="block w-auto h-auto max-h-[68vh] md:max-h-[75vh] object-contain mx-auto"
+              class="block w-auto h-auto max-h-[72vh] md:max-h-[78vh] object-cover mx-auto hero-zoom"
             />
           </picture>
           
-          <!-- Image Overlay for better text readability -->
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
           
-          <!-- Quality Badge on Image -->
-          <div class="absolute top-4 right-4">
-            <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md">
-              <div class="text-sm font-semibold text-neutral-900">
-                {lang === 'es' ? 'Calidad Premium' : 'Premium Quality'}
-              </div>
-              <div class="text-xs text-neutral-600">
-                {lang === 'es' ? 'Desde Chile' : 'From Chile'}
-              </div>
-            </div>
-          </div>
         </div>
 
         
@@ -258,6 +214,27 @@ const defaultHeroImage: ImageAsset = {
       class="mt-16 text-center animate-fade-in"
       style="animation-delay: 0.7s"
     >
+    <!-- Stats Section centrado a ancho completo -->
+    {showStats && (
+      <div class="container mb-12">
+        <div class="grid grid-cols-3 gap-6 border-t border-neutral-200 pt-8">
+          {stats.map((stat) => (
+            <div class="text-center">
+              <div 
+                class="text-3xl md:text-4xl font-bold text-primary mb-1 counter"
+                data-target={stat.value.replace(/\D/g, '')}
+                data-suffix={stat.value.replace(/\d/g, '')}
+              >
+                {stat.value}
+              </div>
+              <div class="text-sm text-neutral-600 font-medium">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
       <p class="text-neutral-600 text-sm mb-4">
         {lang === 'es' 
           ? 'Confianza respaldada por certificaciones internacionales'
@@ -353,11 +330,7 @@ const defaultHeroImage: ImageAsset = {
   }
 
   /* Ensure hero takes appropriate height */
-  .section--hero {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-  }
+  .section--hero { min-height: 78vh; display: flex; align-items: center; }
 
   /* Responsive adjustments */
   @media (max-width: 768px) {
@@ -387,5 +360,46 @@ const defaultHeroImage: ImageAsset = {
     .btn:hover {
       transform: none;
     }
+  }
+
+  /* === Hero image subtle zoom loop === */
+  @keyframes heroZoomPan {
+    /* Inicio del ciclo: aparece sutilmente mientras comienza el acercamiento */
+    0%   { transform: translate(var(--pan-x-start, 0), var(--pan-y-start, 0)) scale(var(--scale-start, 1.02)); opacity: 0; }
+    3%   { transform: translate(var(--pan-x-start, 0), var(--pan-y-start, 0)) scale(var(--scale-start, 1.02)); opacity: 1; }
+    /* Zoom + pan principal */
+    70%  { transform: translate(var(--pan-x-end, -2%), var(--pan-y-end, 0)) scale(var(--scale-end, 1.14)); opacity: 1; }
+    /* Pausa en máximo zoom (≈2s en ciclo de 16s) */
+    90%  { transform: translate(var(--pan-x-end, -2%), var(--pan-y-end, 0)) scale(var(--scale-end, 1.14)); opacity: 1; }
+    /* Desvanecer para cerrar el ciclo, sin retroceder zoom */
+    100% { transform: translate(var(--pan-x-end, -2%), var(--pan-y-end, 0)) scale(var(--scale-end, 1.14)); opacity: 0; }
+  }
+
+  .hero-zoom {
+    animation: heroZoomPan 16s ease-in-out infinite both;
+    will-change: transform, opacity;
+    /* Defaults; overridden by breakpoints below */
+    --scale-start: 1.02;
+    --scale-end: 1.14;
+    --pan-x-start: 0;
+    --pan-x-end: -2%;
+    --pan-y-start: 0;
+    --pan-y-end: 0;
+    transform-origin: center center;
+    backface-visibility: hidden;
+  }
+
+  @media (min-width: 1024px) { /* lg */
+    .hero-zoom { --scale-end: 1.12; --pan-x-end: -1.2%; }
+  }
+  @media (min-width: 1280px) { /* xl */
+    .hero-zoom { --scale-end: 1.14; --pan-x-end: -1.8%; }
+  }
+  @media (min-width: 1536px) { /* 2xl */
+    .hero-zoom { --scale-end: 1.18; --pan-x-end: -2.5%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-zoom { animation: none; }
   }
 </style>

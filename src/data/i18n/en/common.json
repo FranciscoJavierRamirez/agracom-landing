@@ -52,6 +52,11 @@
     "download": "Download"
   },
   "sections": {
+    "products_showcase": {
+      "lineup_alt": "Agracom products lineup without background: lupins and cherries",
+      "plant_box_alt": "Agracom plant staff handling a box of products",
+      "plant_pick_alt": "Agracom plant staff picking/selecting products"
+    },
     "products": {
       "title": "Our Specialized Products",
       "description": "Boutique specialists in premium lupins and certified dried cherries, with 20+ years of experience exporting to demanding markets."

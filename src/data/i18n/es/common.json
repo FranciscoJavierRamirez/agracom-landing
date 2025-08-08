@@ -52,6 +52,11 @@
     "download": "Descargar"
   },
   "sections": {
+    "products_showcase": {
+      "lineup_alt": "Lineup de productos Agracom sin fondo: lupinos y cerezas",
+      "plant_box_alt": "Personal de planta Agracom manipulando caja de productos",
+      "plant_pick_alt": "Personal de planta Agracom seleccionando productos"
+    },
     "products": {
       "title": "Nuestros Productos Especializados",
       "description": "Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, con 20+ años de experiencia exportando a mercados exigentes."

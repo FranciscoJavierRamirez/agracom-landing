@@ -1,0 +1,215 @@
+---
+// Agracom Internacional S.A. - Products Showcase Component
+// Carrusel horizontal automático de imágenes entre el Hero y la sección de productos
+
+import type { Locale } from '../../types/global';
+import { createTranslator } from '../../utils/i18n';
+
+export interface Props {
+  lang: Locale;
+  class?: string;
+}
+
+const { lang, class: className = '' } = Astro.props;
+
+// i18n
+const { common } = await createTranslator(lang);
+const altLineup = await common('sections.products_showcase.lineup_alt');
+const altPlantBox = await common('sections.products_showcase.plant_box_alt');
+const altPlantPick = await common('sections.products_showcase.plant_pick_alt');
+const ariaLabel = lang === 'es'
+  ? 'Galería de imágenes de productos y planta Agracom'
+  : 'Agracom products and plant image gallery';
+---
+
+<section
+  class={`section bg-gradient-to-r from-neutral-50 to-neutral-100 ${className}`}
+  role="region"
+  aria-label={ariaLabel}
+>
+  <div class="container">
+    <div class="relative mx-auto max-w-6xl" data-carousel>
+      <!-- Viewport -->
+      <div class="overflow-hidden rounded-2xl ring-1 ring-neutral-200 shadow-lg bg-white/70 backdrop-blur-sm">
+        <!-- Track -->
+        <div class="flex transition-transform duration-700 ease-out" data-carousel-track>
+          <!-- Slide 1: Lineup sin fondo -->
+          <div class="carousel-slide">
+            <picture>
+              <img
+                src="/images/agracom_todos_productos2.png"
+                alt={altLineup}
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                class="slide-image"
+              />
+            </picture>
+          </div>
+          <!-- Slide 2: Personal planta caja -->
+          <div class="carousel-slide">
+            <picture>
+              <img
+                src="/images/agracom-personal-planta-caja.jpg"
+                alt={altPlantBox}
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                class="slide-image"
+              />
+            </picture>
+          </div>
+          <!-- Slide 3: Personal planta pick -->
+          <div class="carousel-slide">
+            <picture>
+              <img
+                src="/images/agracom-Personal-Planta-Pick.jpg?v=1"
+                alt={altPlantPick}
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                class="slide-image"
+              />
+            </picture>
+          </div>
+          <!-- Slide 4: Campo de lupinos -->
+          <div class="carousel-slide">
+            <picture>
+              <img
+                src="/images/Lupino-Amargo-scaled-2550x1434.jpg?v=1"
+                alt={lang === 'es' ? 'Campo de lupinos' : 'Lupin field'}
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                class="slide-image"
+              />
+            </picture>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination Dots -->
+      <div class="flex items-center justify-center gap-2 mt-4" role="tablist" aria-label="Carousel pagination">
+        <button class="dot" data-dot="0" aria-label="Slide 1" aria-controls="slide-1" role="tab"></button>
+        <button class="dot" data-dot="1" aria-label="Slide 2" aria-controls="slide-2" role="tab"></button>
+        <button class="dot" data-dot="2" aria-label="Slide 3" aria-controls="slide-3" role="tab"></button>
+        <button class="dot" data-dot="3" aria-label="Slide 4" aria-controls="slide-4" role="tab"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /** Simple autoplay carousel with pause on hover and dot navigation */
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.querySelector('[data-carousel]');
+    if (!root) return;
+
+    const track = root.querySelector('[data-carousel-track]');
+    const slides = Array.from(root.querySelectorAll('.carousel-slide')) as HTMLElement[];
+    const dots = Array.from(root.querySelectorAll('.dot')) as HTMLButtonElement[];
+
+    if (!track || slides.length === 0) return;
+
+    let currentIndex = 0;
+    let autoplayInterval: number | undefined;
+    const slideCount = slides.length;
+    const intervalMs = 5000;
+
+    function updateCarousel(index: number) {
+      currentIndex = (index + slideCount) % slideCount;
+      const offset = -currentIndex * 100;
+      (track as HTMLElement).style.transform = `translateX(${offset}%)`;
+      dots.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.add('active');
+          dot.setAttribute('aria-selected', 'true');
+        } else {
+          dot.classList.remove('active');
+          dot.setAttribute('aria-selected', 'false');
+        }
+      });
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = window.setInterval(() => {
+        updateCarousel(currentIndex + 1);
+      }, intervalMs);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = undefined;
+      }
+    }
+
+    // Dots navigation
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        updateCarousel(i);
+        startAutoplay();
+      });
+    });
+
+    // Pause on hover
+    root.addEventListener('mouseenter', stopAutoplay);
+    root.addEventListener('mouseleave', startAutoplay);
+
+    // Keyboard support
+    root.addEventListener('keydown', (e) => {
+      const ke = e as KeyboardEvent;
+      if (ke.key === 'ArrowRight') {
+        updateCarousel(currentIndex + 1);
+      } else if (ke.key === 'ArrowLeft') {
+        updateCarousel(currentIndex - 1);
+      }
+    });
+
+    // Initialize
+    updateCarousel(0);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!prefersReducedMotion.matches) startAutoplay();
+  });
+</script>
+
+<style>
+  .carousel-slide {
+    min-width: 100%;
+    flex: 0 0 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.6));
+  }
+
+  .slide-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    aspect-ratio: 16 / 9;
+  }
+
+  @media (min-width: 1024px) {
+    .slide-image { aspect-ratio: 21 / 9; }
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background-color: rgba(23, 23, 23, 0.25);
+    transition: all 200ms ease;
+  }
+
+  .dot:hover { background-color: rgba(23, 23, 23, 0.4); transform: scale(1.06); }
+  .dot.active { background-color: var(--color-primary); width: 24px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-carousel-track] { transition: none !important; }
+  }
+</style>
+
+

@@ -4,6 +4,7 @@
 
 import type { Locale } from '../../types/global';
 import Hero from '../sections/Hero.astro';
+import ProductsShowcase from '../sections/ProductsShowcase.astro';
 import ProductCard from '../ui/ProductCard.astro';
 import Certifications from '../sections/Certifications.astro';
 import Regions from '../sections/Regions.astro';
@@ -49,7 +50,12 @@ const cherriesProduct = {
 ---
 
 <!-- Hero -->
-<Hero lang={lang} />
+<div class="pt-4 md:pt-6 lg:pt-8">
+  <Hero lang={lang} />
+  </div>
+
+<!-- Products Showcase (image lineup) -->
+<ProductsShowcase lang={lang} />
 
 <!-- Products Section -->
 <section id={productsId} class="section bg-white">
