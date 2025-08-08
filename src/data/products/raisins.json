@@ -1,0 +1,143 @@
+{
+    "id": "raisins-chilean",
+    "sku": "DR01",
+    "name": "Pasas Chilenas Premium",
+    "nameEn": "Chilean Premium Raisins",
+    "category": "dried-fruits",
+    "subcategory": "raisins",
+    "image": "/images/agracom-raisins-premium.webp",
+    "gallery": [
+      "/images/products/raisins-detail.webp",
+      "/images/products/raisins-packaging.webp"
+    ],
+    
+    "description": "Pasas chilenas Thompson Seedless de exportación, secado natural al sol. Especialidad gourmet para mercados internacionales con más de 15 años de experiencia en exportación.",
+    "descriptionEn": "Export-quality Chilean Thompson Seedless raisins, naturally sun-dried. Gourmet specialty for international markets with over 15 years of export experience.",
+    
+    "specifications": [
+      "Variedad Thompson Seedless",
+      "Humedad máxima: 18%",
+      "Sin semillas (Seedless)",
+      "Tamaño: Mediano-Grande",
+      "Color: Dorado natural",
+      "Secado solar tradicional",
+      "Certificación SAG vigente",
+      "Trazabilidad completa"
+    ],
+    "specificationsEn": [
+      "Thompson Seedless variety",
+      "Maximum humidity: 18%",
+      "Seedless",
+      "Size: Medium-Large",
+      "Color: Natural golden",
+      "Traditional solar drying",
+      "Active SAG certification",
+      "Complete traceability"
+    ],
+    
+    "certifications": [
+      {
+        "id": "sag-chile",
+        "name": "SAG",
+        "logo": "/images/cert-sag-chile.png",
+        "description": "Servicio Agrícola y Ganadero de Chile",
+        "verified": true,
+        "type": "regulatory"
+      },
+      {
+        "id": "haccp-sgs",
+        "name": "HACCP",
+        "logo": "/images/cert-haccp-sgs.png",
+        "description": "Sistema HACCP certificado por SGS",
+        "verified": true,
+        "type": "quality"
+      },
+      {
+        "id": "iso22000",
+        "name": "ISO 22000",
+        "logo": "/images/cert-iso22000-bv.png",
+        "description": "Gestión de Seguridad Alimentaria",
+        "verified": true,
+        "type": "quality"
+      },
+      {
+        "id": "phytosanitary",
+        "name": "Fitosanitario",
+        "logo": "/images/cert-phyto.png",
+        "description": "Certificado fitosanitario por embarque",
+        "verified": true,
+        "type": "regulatory"
+      }
+    ],
+    
+    "benefits": [
+      "15+ años de experiencia exportadora",
+      "Secado solar tradicional",
+      "Alta concentración de antioxidantes",
+      "Disponible todo el año",
+      "Múltiples tamaños de empaque"
+    ],
+    "benefitsEn": [
+      "15+ years export experience",
+      "Traditional solar drying",
+      "High antioxidant concentration",
+      "Year-round availability",
+      "Multiple packaging sizes"
+    ],
+    
+    "available": true,
+    "featured": false,
+    "regions": ["us-east", "mediterranean", "europe"],
+    
+    "packaging": {
+      "standard": "12.5kg carton box",
+      "options": ["12.5kg boxes", "25kg boxes", "Custom sizes available"],
+      "customizable": true,
+      "special": "Food-grade polyethylene liner, humidity control"
+    },
+    
+    "nutritionalInfo": {
+      "calories": "299/100g",
+      "sugar": "59g/100g",
+      "fiber": "3.7g/100g",
+      "protein": "3.1g/100g",
+      "fat": "0.5g/100g",
+      "potassium": "749mg/100g",
+      "iron": "1.88mg/100g",
+      "vitaminC": "2.3mg/100g",
+      "moisture": "15-18%"
+    },
+    
+    "origin": "Valle Central, Chile",
+    "harvestSeason": "March - April",
+    "availability": "Year-round",
+    "shelfLife": "18 months (optimal)",
+    
+    "technicalSheet": "/docs/DR01-raisins-technical.pdf",
+    
+    "variants": [
+      {
+        "id": "raisins-medium",
+        "type": "Mediano",
+        "typeEn": "Medium",
+        "specifications": ["8-10mm", "Humedad 16-18%"],
+        "application": "Repostería y panadería",
+        "applicationEn": "Bakery and confectionery"
+      },
+      {
+        "id": "raisins-large",
+        "type": "Grande",
+        "typeEn": "Large",
+        "specifications": ["10-12mm", "Humedad 15-17%"],
+        "application": "Snacks premium y gourmet",
+        "applicationEn": "Premium snacks and gourmet"
+      }
+    ],
+    
+    "metadata": {
+      "priority": 3,
+      "coreProduct": true,
+      "lastUpdated": "2024-01-15",
+      "tags": ["raisins", "dried-fruit", "thompson", "natural", "gourmet"]
+    }
+  }

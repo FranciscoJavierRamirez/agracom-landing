@@ -20,106 +20,251 @@ const altPlantPick = await common('sections.products_showcase.plant_pick_alt');
 const ariaLabel = lang === 'es'
   ? 'Galería de imágenes de productos y planta Agracom'
   : 'Agracom products and plant image gallery';
+
+// Slide data with enhanced presentation
+const slides = [
+  {
+    webp: '/images/agracom_productos.webp',
+    fallback: '/images/agracom_todos_productos2.png',
+    alt: altLineup,
+    title: lang === 'es' ? 'Nuestra Línea de Productos' : 'Our Product Line',
+    subtitle: lang === 'es' ? 'Cerezas, Lupinos y Pasas Premium' : 'Premium Cherries, Lupins & Raisins'
+  },
+  {
+    webp: null,
+    fallback: '/images/agracom-personal-planta-caja.jpg',
+    alt: altPlantBox,
+    title: lang === 'es' ? 'Proceso de Empaque' : 'Packing Process',
+    subtitle: lang === 'es' ? 'Control de Calidad en Planta' : 'Quality Control at Plant'
+  },
+  {
+    webp: null,
+    fallback: '/images/agracom-Personal-Planta-Pick.jpg',
+    alt: altPlantPick,
+    title: lang === 'es' ? 'Cosecha Manual' : 'Hand Picking',
+    subtitle: lang === 'es' ? 'Selección Cuidadosa de Productos' : 'Careful Product Selection'
+  },
+  {
+    webp: '/images/Lupino-Amargo-scaled-2550x1434.webp',
+    fallback: '/images/Lupino-Amargo-scaled-2550x1434.jpg',
+    alt: lang === 'es' ? 'Campo de lupinos' : 'Lupin field',
+    title: lang === 'es' ? 'Campos de Cultivo' : 'Cultivation Fields',
+    subtitle: lang === 'es' ? 'Origen Natural de Nuestros Productos' : 'Natural Origin of Our Products'
+  }
+];
 ---
 
 <section
-  class={`section bg-gradient-to-r from-neutral-50 to-neutral-100 ${className}`}
+  class={`section relative overflow-hidden bg-gradient-to-br from-slate-50 via-neutral-50 to-stone-50 ${className}`}
   role="region"
   aria-label={ariaLabel}
 >
-  <div class="container">
-    <div class="relative mx-auto max-w-6xl" data-carousel>
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-[0.03]">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgb(15 23 42) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="container relative">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+        {lang === 'es' ? 'Nuestra Historia Visual' : 'Our Visual Story'}
+      </h2>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+        {lang === 'es' 
+          ? 'Descubre la calidad y dedicación detrás de cada producto Agracom'
+          : 'Discover the quality and dedication behind every Agracom product'
+        }
+      </p>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl" data-carousel>
+      <!-- Navigation Arrows -->
+      <button 
+        class="carousel-nav carousel-nav-prev" 
+        data-nav="prev"
+        aria-label={lang === 'es' ? 'Imagen anterior' : 'Previous image'}
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      
+      <button 
+        class="carousel-nav carousel-nav-next" 
+        data-nav="next"
+        aria-label={lang === 'es' ? 'Siguiente imagen' : 'Next image'}
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+
       <!-- Viewport -->
-      <div class="overflow-hidden rounded-2xl ring-1 ring-neutral-200 shadow-lg bg-white/70 backdrop-blur-sm">
+      <div class="relative overflow-hidden rounded-3xl shadow-2xl bg-white/90 backdrop-blur-lg border border-white/20">
         <!-- Track -->
         <div class="flex transition-transform duration-700 ease-out" data-carousel-track>
-          <!-- Slide 1: Lineup sin fondo -->
-          <div class="carousel-slide">
-            <picture>
-              <img
-                src="/images/agracom_todos_productos2.png"
-                alt={altLineup}
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                class="slide-image"
-              />
-            </picture>
-          </div>
-          <!-- Slide 2: Personal planta caja -->
-          <div class="carousel-slide">
-            <picture>
-              <img
-                src="/images/agracom-personal-planta-caja.jpg"
-                alt={altPlantBox}
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                class="slide-image"
-              />
-            </picture>
-          </div>
-          <!-- Slide 3: Personal planta pick -->
-          <div class="carousel-slide">
-            <picture>
-              <img
-                src="/images/agracom-Personal-Planta-Pick.jpg?v=1"
-                alt={altPlantPick}
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                class="slide-image"
-              />
-            </picture>
-          </div>
-          <!-- Slide 4: Campo de lupinos -->
-          <div class="carousel-slide">
-            <picture>
-              <img
-                src="/images/Lupino-Amargo-scaled-2550x1434.jpg?v=1"
-                alt={lang === 'es' ? 'Campo de lupinos' : 'Lupin field'}
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                class="slide-image"
-              />
-            </picture>
-          </div>
+          {slides.map((slide, index) => (
+            <div class="carousel-slide">
+              <div class="relative h-full w-full">
+                <button 
+                  class="image-button w-full h-full cursor-pointer group focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 rounded-lg"
+                  data-modal-trigger
+                  data-slide-index={index}
+                  aria-label={lang === 'es' ? `Ver imagen completa: ${slide.title}` : `View full image: ${slide.title}`}
+                >
+                  <picture class="block w-full h-full">
+                    {slide.webp && (
+                      <source srcset={slide.webp} type="image/webp" />
+                    )}
+                    <img
+                      src={slide.fallback}
+                      alt={slide.alt}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      fetchpriority={index === 0 ? "high" : "low"}
+                      class="slide-image"
+                    />
+                  </picture>
+                  
+                  <!-- Click indicator -->
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg">
+                      <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </button>
+                
+                <!-- Overlay with title -->
+                <div class="slide-overlay pointer-events-none">
+                  <div class="slide-content">
+                    <h3 class="slide-title">{slide.title}</h3>
+                    <p class="slide-subtitle">{slide.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Progress bar -->
+        <div class="absolute bottom-0 left-0 w-full h-1 bg-black/10">
+          <div class="progress-bar h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-700 ease-out"></div>
         </div>
       </div>
 
-      <!-- Pagination Dots -->
-      <div class="flex items-center justify-center gap-2 mt-4" role="tablist" aria-label="Carousel pagination">
-        <button class="dot" data-dot="0" aria-label="Slide 1" aria-controls="slide-1" role="tab"></button>
-        <button class="dot" data-dot="1" aria-label="Slide 2" aria-controls="slide-2" role="tab"></button>
-        <button class="dot" data-dot="2" aria-label="Slide 3" aria-controls="slide-3" role="tab"></button>
-        <button class="dot" data-dot="3" aria-label="Slide 4" aria-controls="slide-4" role="tab"></button>
+      <!-- Enhanced Pagination Dots -->
+      <div class="flex items-center justify-center gap-3 mt-8" role="tablist" aria-label="Carousel pagination">
+        {slides.map((_, index) => (
+          <button 
+            class="dot group" 
+            data-dot={index} 
+            aria-label={`Slide ${index + 1}`} 
+            aria-controls={`slide-${index + 1}`} 
+            role="tab"
+          >
+            <span class="dot-inner"></span>
+          </button>
+        ))}
       </div>
     </div>
   </div>
 </section>
 
+<!-- Image Modal -->
+<div 
+  id="image-modal" 
+  class="image-modal fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm"
+  role="dialog" 
+  aria-modal="true"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+>
+  <div class="modal-container h-full w-full flex items-center justify-center p-4">
+    <!-- Close button -->
+    <button 
+      class="modal-close absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-3 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label={lang === 'es' ? 'Cerrar imagen' : 'Close image'}
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- Modal navigation arrows -->
+    <button 
+      class="modal-nav modal-nav-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-3 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label={lang === 'es' ? 'Imagen anterior' : 'Previous image'}
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    
+    <button 
+      class="modal-nav modal-nav-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-3 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label={lang === 'es' ? 'Siguiente imagen' : 'Next image'}
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+
+    <!-- Modal content -->
+    <div class="modal-content max-w-7xl max-h-full w-full h-full flex flex-col items-center justify-center">
+      <div class="relative w-full h-full flex items-center justify-center">
+        <picture class="block max-w-full max-h-full">
+          <img 
+            id="modal-image"
+            src=""
+            alt=""
+            class="modal-image max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+          />
+        </picture>
+      </div>
+      
+      <!-- Modal info -->
+      <div class="modal-info mt-6 text-center text-white max-w-2xl">
+        <h3 id="modal-title" class="text-2xl md:text-3xl font-bold mb-2"></h3>
+        <p id="modal-description" class="text-lg opacity-90"></p>
+        <div class="mt-4 flex items-center justify-center gap-2">
+          <span class="modal-counter text-sm bg-white/10 rounded-full px-3 py-1 backdrop-blur-sm"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  /** Simple autoplay carousel with pause on hover and dot navigation */
+  /** Enhanced autoplay carousel with navigation arrows, progress bar, and smooth animations */
   document.addEventListener('DOMContentLoaded', () => {
     const root = document.querySelector('[data-carousel]');
     if (!root) return;
 
-    const track = root.querySelector('[data-carousel-track]');
+    const track = root.querySelector('[data-carousel-track]') as HTMLElement;
     const slides = Array.from(root.querySelectorAll('.carousel-slide')) as HTMLElement[];
     const dots = Array.from(root.querySelectorAll('.dot')) as HTMLButtonElement[];
+    const prevBtn = root.querySelector('[data-nav="prev"]') as HTMLButtonElement;
+    const nextBtn = root.querySelector('[data-nav="next"]') as HTMLButtonElement;
+    const progressBar = root.querySelector('.progress-bar') as HTMLElement;
 
     if (!track || slides.length === 0) return;
 
     let currentIndex = 0;
     let autoplayInterval: number | undefined;
+    let progressInterval: number | undefined;
     const slideCount = slides.length;
-    const intervalMs = 5000;
+    const intervalMs = 6000;
+    const progressUpdateMs = 50;
 
-    function updateCarousel(index: number) {
+    function updateCarousel(index: number, resetProgress = true) {
       currentIndex = (index + slideCount) % slideCount;
       const offset = -currentIndex * 100;
-      (track as HTMLElement).style.transform = `translateX(${offset}%)`;
+      track.style.transform = `translateX(${offset}%)`;
+      
+      // Update dots
       dots.forEach((dot, i) => {
         if (i === currentIndex) {
           dot.classList.add('active');
@@ -129,6 +274,41 @@ const ariaLabel = lang === 'es'
           dot.setAttribute('aria-selected', 'false');
         }
       });
+
+      // Update navigation buttons
+      if (prevBtn && nextBtn) {
+        prevBtn.style.opacity = slideCount > 1 ? '1' : '0.5';
+        nextBtn.style.opacity = slideCount > 1 ? '1' : '0.5';
+      }
+
+      // Reset progress if needed
+      if (resetProgress && progressBar) {
+        progressBar.style.width = '0%';
+        startProgressAnimation();
+      }
+    }
+
+    function startProgressAnimation() {
+      if (!progressBar) return;
+      
+      let progress = 0;
+      const increment = 100 / (intervalMs / progressUpdateMs);
+      
+      progressInterval = window.setInterval(() => {
+        progress += increment;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(progressInterval);
+        }
+        progressBar.style.width = `${progress}%`;
+      }, progressUpdateMs);
+    }
+
+    function stopProgressAnimation() {
+      if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = undefined;
+      }
     }
 
     function startAutoplay() {
@@ -136,6 +316,7 @@ const ariaLabel = lang === 'es'
       autoplayInterval = window.setInterval(() => {
         updateCarousel(currentIndex + 1);
       }, intervalMs);
+      startProgressAnimation();
     }
 
     function stopAutoplay() {
@@ -143,72 +324,726 @@ const ariaLabel = lang === 'es'
         clearInterval(autoplayInterval);
         autoplayInterval = undefined;
       }
+      stopProgressAnimation();
+    }
+
+    function restartAutoplay() {
+      updateCarousel(currentIndex, true);
+      startAutoplay();
+    }
+
+    // Navigation arrows
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        updateCarousel(currentIndex - 1);
+        restartAutoplay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        updateCarousel(currentIndex + 1);
+        restartAutoplay();
+      });
     }
 
     // Dots navigation
     dots.forEach((dot, i) => {
       dot.addEventListener('click', () => {
         updateCarousel(i);
-        startAutoplay();
+        restartAutoplay();
       });
     });
 
     // Pause on hover
     root.addEventListener('mouseenter', stopAutoplay);
-    root.addEventListener('mouseleave', startAutoplay);
+    root.addEventListener('mouseleave', () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!prefersReducedMotion.matches) startAutoplay();
+    });
 
     // Keyboard support
     root.addEventListener('keydown', (e) => {
       const ke = e as KeyboardEvent;
-      if (ke.key === 'ArrowRight') {
+      if (ke.key === 'ArrowRight' || ke.key === 'ArrowDown') {
+        e.preventDefault();
         updateCarousel(currentIndex + 1);
-      } else if (ke.key === 'ArrowLeft') {
+        restartAutoplay();
+      } else if (ke.key === 'ArrowLeft' || ke.key === 'ArrowUp') {
+        e.preventDefault();
         updateCarousel(currentIndex - 1);
+        restartAutoplay();
+      } else if (ke.key === 'Home') {
+        e.preventDefault();
+        updateCarousel(0);
+        restartAutoplay();
+      } else if (ke.key === 'End') {
+        e.preventDefault();
+        updateCarousel(slideCount - 1);
+        restartAutoplay();
       }
     });
 
+    // Touch/swipe support
+    let startX = 0;
+    let isDragging = false;
+
+    root.addEventListener('touchstart', (e) => {
+      const touchEvent = e as TouchEvent;
+      if (touchEvent.touches && touchEvent.touches[0]) {
+        startX = touchEvent.touches[0].clientX;
+        isDragging = true;
+        stopAutoplay();
+      }
+    }, { passive: true });
+
+    root.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const touchEvent = e as TouchEvent;
+      if (touchEvent.touches && touchEvent.touches[0]) {
+        // Prevent scroll when swiping horizontally
+        const deltaX = Math.abs(touchEvent.touches[0].clientX - startX);
+        if (deltaX > 10) {
+          e.preventDefault();
+        }
+      }
+    });
+
+    root.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      
+      const touchEvent = e as TouchEvent;
+      if (touchEvent.changedTouches && touchEvent.changedTouches[0]) {
+        const endX = touchEvent.changedTouches[0].clientX;
+        const deltaX = startX - endX;
+        const threshold = 50;
+
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX > 0) {
+            updateCarousel(currentIndex + 1);
+          } else {
+            updateCarousel(currentIndex - 1);
+          }
+        }
+      }
+      
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!prefersReducedMotion.matches) {
+        setTimeout(startAutoplay, 1000);
+      }
+    }, { passive: true });
+
     // Initialize
-    updateCarousel(0);
+    updateCarousel(0, false);
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!prefersReducedMotion.matches) startAutoplay();
+
+    // Handle visibility change (pause when tab is not active)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (!prefersReducedMotion.matches) startAutoplay();
+      }
+    });
+
+    // Modal functionality
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image') as HTMLImageElement;
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalCounter = document.querySelector('.modal-counter');
+    const modalClose = document.querySelector('.modal-close');
+    const modalPrev = document.querySelector('.modal-nav-prev');
+    const modalNext = document.querySelector('.modal-nav-next');
+    const imageButtons = Array.from(document.querySelectorAll('[data-modal-trigger]')) as HTMLButtonElement[];
+
+    let currentModalIndex = 0;
+
+    // Define slides data for modal
+    const slidesData = [
+      {
+        webp: '/images/agracom_productos.webp',
+        fallback: '/images/agracom_todos_productos2.png',
+        alt: document.querySelector('[data-slide-index="0"] img')?.getAttribute('alt') || 'Productos Agracom',
+        title: 'Nuestra Línea de Productos',
+        subtitle: 'Cerezas, Lupinos y Pasas Premium'
+      },
+      {
+        webp: null,
+        fallback: '/images/agracom-personal-planta-caja.jpg',
+        alt: document.querySelector('[data-slide-index="1"] img')?.getAttribute('alt') || 'Personal planta',
+        title: 'Proceso de Empaque',
+        subtitle: 'Control de Calidad en Planta'
+      },
+      {
+        webp: null,
+        fallback: '/images/agracom-Personal-Planta-Pick.jpg',
+        alt: document.querySelector('[data-slide-index="2"] img')?.getAttribute('alt') || 'Personal cosecha',
+        title: 'Cosecha Manual',
+        subtitle: 'Selección Cuidadosa de Productos'
+      },
+      {
+        webp: '/images/Lupino-Amargo-scaled-2550x1434.webp',
+        fallback: '/images/Lupino-Amargo-scaled-2550x1434.jpg',
+        alt: document.querySelector('[data-slide-index="3"] img')?.getAttribute('alt') || 'Campo de lupinos',
+        title: 'Campos de Cultivo',
+        subtitle: 'Origen Natural de Nuestros Productos'
+      }
+    ];
+
+    function updateModalContent(index: number) {
+      if (!modal || !modalImage || !modalTitle || !modalDescription || !modalCounter) return;
+      
+      const slide = slidesData[index];
+      if (!slide) return;
+
+      // Update image
+      modalImage.src = slide.webp || slide.fallback;
+      modalImage.alt = slide.alt;
+      
+      // Update text content
+      modalTitle.textContent = slide.title;
+      modalDescription.textContent = slide.subtitle;
+      modalCounter.textContent = `${index + 1} / ${slidesData.length}`;
+      
+      currentModalIndex = index;
+    }
+
+    function openModal(index: number) {
+      if (!modal) return;
+      
+      updateModalContent(index);
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+      
+      // Stop carousel autoplay
+      stopAutoplay();
+      
+      // Focus management
+      (modalClose as HTMLElement)?.focus();
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      
+      // Restore body scroll
+      document.body.style.overflow = '';
+      
+      // Resume carousel autoplay
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!prefersReducedMotion.matches) startAutoplay();
+      
+      // Return focus to the trigger button
+      const triggerButton = imageButtons[currentModalIndex];
+      triggerButton?.focus();
+    }
+
+    function navigateModal(direction: 'prev' | 'next') {
+      const newIndex = direction === 'next' 
+        ? (currentModalIndex + 1) % slidesData.length
+        : (currentModalIndex - 1 + slidesData.length) % slidesData.length;
+      
+      updateModalContent(newIndex);
+      
+      // Also update the main carousel
+      updateCarousel(newIndex, false);
+    }
+
+    // Modal event listeners
+    imageButtons.forEach((button, index) => {
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openModal(index);
+      });
+    });
+
+    modalClose?.addEventListener('click', closeModal);
+    modalPrev?.addEventListener('click', () => navigateModal('prev'));
+    modalNext?.addEventListener('click', () => navigateModal('next'));
+
+    // Close modal when clicking on backdrop
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal || e.target === modal.querySelector('.modal-container')) {
+        closeModal();
+      }
+    });
+
+    // Keyboard navigation for modal
+    document.addEventListener('keydown', (e) => {
+      if (!modal || modal.classList.contains('hidden')) return;
+      
+      const ke = e as KeyboardEvent;
+      switch (ke.key) {
+        case 'Escape':
+          e.preventDefault();
+          closeModal();
+          break;
+        case 'ArrowRight':
+        case 'ArrowDown':
+          e.preventDefault();
+          navigateModal('next');
+          break;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          e.preventDefault();
+          navigateModal('prev');
+          break;
+        case 'Home':
+          e.preventDefault();
+          updateModalContent(0);
+          updateCarousel(0, false);
+          break;
+        case 'End':
+          e.preventDefault();
+          updateModalContent(slidesData.length - 1);
+          updateCarousel(slidesData.length - 1, false);
+          break;
+      }
+    });
   });
 </script>
 
 <style>
+  /* Carousel Slides */
   .carousel-slide {
     min-width: 100%;
     flex: 0 0 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.6));
+    position: relative;
+    overflow: hidden;
   }
 
   .slide-image {
     display: block;
     width: 100%;
     height: auto;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
     aspect-ratio: 16 / 9;
+    transition: transform 0.3s ease;
+  }
+
+  .carousel-slide:hover .slide-image {
+    transform: scale(1.02);
   }
 
   @media (min-width: 1024px) {
-    .slide-image { aspect-ratio: 21 / 9; }
+    .slide-image { 
+      aspect-ratio: 21 / 9; 
+    }
   }
 
+  /* Slide Overlay */
+  .slide-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.6) 40%,
+      rgba(0, 0, 0, 0.2) 70%,
+      transparent 100%
+    );
+    color: white;
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .carousel-slide:hover .slide-overlay {
+    transform: translateY(0);
+  }
+
+  .slide-content {
+    max-width: 600px;
+  }
+
+  .slide-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .slide-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (min-width: 768px) {
+    .slide-title {
+      font-size: 2rem;
+    }
+    
+    .slide-subtitle {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Navigation Arrows */
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .carousel-nav:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .carousel-nav:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .carousel-nav-prev {
+    left: 1rem;
+  }
+
+  .carousel-nav-next {
+    right: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-nav {
+      width: 56px;
+      height: 56px;
+    }
+    
+    .carousel-nav-prev {
+      left: 2rem;
+    }
+    
+    .carousel-nav-next {
+      right: 2rem;
+    }
+  }
+
+  /* Enhanced Pagination Dots */
   .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 9999px;
-    background-color: rgba(23, 23, 23, 0.25);
-    transition: all 200ms ease;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 4px;
   }
 
-  .dot:hover { background-color: rgba(23, 23, 23, 0.4); transform: scale(1.06); }
-  .dot.active { background-color: var(--color-primary); width: 24px; }
+  .dot-inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(71, 85, 105, 0.4);
+    transition: all 0.3s ease;
+    transform: scale(1);
+  }
 
+  .dot:hover .dot-inner {
+    background-color: rgba(71, 85, 105, 0.7);
+    transform: scale(1.2);
+  }
+
+  .dot.active .dot-inner {
+    background: linear-gradient(135deg, #10b981, #059669);
+    transform: scale(1.3);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+  }
+
+  .dot.active {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    width: 0%;
+    transition: width 0.1s linear;
+    border-radius: 0;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .slide-overlay {
+      padding: 1.5rem 1rem;
+    }
+
+    .slide-title {
+      font-size: 1.25rem;
+    }
+
+    .slide-subtitle {
+      font-size: 0.875rem;
+    }
+
+    .carousel-nav {
+      width: 40px;
+      height: 40px;
+    }
+
+    .carousel-nav-prev {
+      left: 0.5rem;
+    }
+    
+    .carousel-nav-next {
+      right: 0.5rem;
+    }
+  }
+
+  /* Accessibility & Motion */
   @media (prefers-reduced-motion: reduce) {
-    [data-carousel-track] { transition: none !important; }
+    [data-carousel-track] { 
+      transition: none !important; 
+    }
+    
+    .slide-image,
+    .slide-overlay,
+    .carousel-nav,
+    .dot-inner,
+    .progress-bar {
+      transition: none !important;
+      animation: none !important;
+    }
+    
+    .carousel-slide:hover .slide-image {
+      transform: none;
+    }
+    
+    .carousel-slide:hover .slide-overlay {
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus States */
+  .carousel-nav:focus-visible {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+  }
+
+  .dot:focus-visible {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+    border-radius: 50%;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .slide-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.8) 40%,
+        rgba(0, 0, 0, 0.4) 70%,
+        transparent 100%
+      );
+    }
+    
+    .carousel-nav {
+      background: white;
+      border: 2px solid black;
+    }
+    
+    .dot-inner {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  /* Image Button Styles */
+  .image-button {
+    background: none;
+    border: none;
+    padding: 0;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .image-button:focus {
+    transform: none;
+  }
+
+  /* Modal Styles */
+  .image-modal {
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .image-modal.hidden {
+    animation: fadeOut 0.2s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      backdrop-filter: blur(0px);
+    }
+    to {
+      opacity: 1;
+      backdrop-filter: blur(8px);
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      backdrop-filter: blur(8px);
+    }
+    to {
+      opacity: 0;
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  .modal-image {
+    animation: modalImageIn 0.4s ease-out;
+    max-height: calc(100vh - 8rem);
+  }
+
+  @keyframes modalImageIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .modal-nav,
+  .modal-close {
+    transition: all 0.2s ease;
+  }
+
+  .modal-nav:hover,
+  .modal-close:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .modal-nav:active,
+  .modal-close:active {
+    transform: scale(0.95);
+  }
+
+  .modal-info {
+    animation: modalInfoIn 0.5s ease-out 0.2s both;
+  }
+
+  @keyframes modalInfoIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile Modal Adjustments */
+  @media (max-width: 768px) {
+    .modal-container {
+      padding: 1rem;
+    }
+
+    .modal-nav {
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+    }
+
+    .modal-close {
+      top: 1rem;
+      right: 1rem;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+    }
+
+    .modal-nav-prev {
+      left: 1rem;
+    }
+
+    .modal-nav-next {
+      right: 1rem;
+    }
+
+    .modal-info {
+      margin-top: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    #modal-title {
+      font-size: 1.5rem;
+    }
+
+    #modal-description {
+      font-size: 1rem;
+    }
+
+    .modal-image {
+      max-height: calc(100vh - 6rem);
+    }
+  }
+
+  /* Reduced Motion for Modal */
+  @media (prefers-reduced-motion: reduce) {
+    .image-modal,
+    .modal-image,
+    .modal-info,
+    .modal-nav,
+    .modal-close {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .modal-nav:hover,
+    .modal-close:hover {
+      transform: none;
+    }
+  }
+
+  /* Focus trap styles */
+  .image-modal:focus-within {
+    outline: none;
+  }
+
+  .modal-nav:focus-visible,
+  .modal-close:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
   }
 </style>
 

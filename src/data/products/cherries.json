@@ -1,94 +1,117 @@
 {
   "id": "cherries-santina-dried",
+  "sku": "DC01",
   "name": "Cerezas Deshidratadas Santina",
   "nameEn": "Santina Dried Cherries",
-  "category": "cherries",
-  "image": "/images/agracom-cherries-santina.webp",
-  "description": "Cerezas deshidratadas Santina únicas en Chile con doble certificación religiosa: Kosher Orthodox Union para Pascua y Halal Centro Islámico. Ideales para mercados especializados de Costa Este EE.UU., Mediterráneo y Medio Oriente.",
-  "descriptionEn": "Unique Santina dried cherries in Chile with dual religious certification: Kosher Orthodox Union for Passover and Halal Islamic Center. Ideal for specialized markets in US East Coast, Mediterranean and Middle East.",
+  "category": "dried-fruits",
+  "subcategory": "cherries",
+  "image": "/images/agracom_deshydrated_cherries.webp",
+  "gallery": [
+    "/images/products/cherries-detail.webp",
+    "/images/products/cherries-packaging.webp"
+  ],
+  
+  "description": "Cerezas deshidratadas Santina con triple certificación: Kosher Orthodox Union para Pascua, Halal y NO-GMO. Únicas en el mercado chileno.",
+  "descriptionEn": "Santina dried cherries with triple certification: Orthodox Union Kosher for Passover, Halal and NON-GMO. Unique in the Chilean market.",
+  
   "specifications": [
-    "Variedad Santina exclusiva",
-    "Humedad: 18-22%",
-    "Sin preservantes artificiales",
-    "Certificación Kosher Orthodox Union",
-    "Certificación Halal Centro Islámico"
+    "Variedad Santina",
+    "Calibre: 18mm ± 2mm con carozo",
+    "Humedad: 14-18%",
+    "100% natural sin aditivos",
+    "Certificación Kosher para Pascua",
+    "Certificación Halal",
+    "100% NO-GMO"
   ],
   "specificationsEn": [
-    "Exclusive Santina variety",
-    "Humidity: 18-22%",
-    "No artificial preservatives",
-    "Kosher Orthodox Union certification",
-    "Halal Islamic Center certification"
+    "Santina variety",
+    "Size: 18mm ± 2mm with pits",
+    "Humidity: 14-18%",
+    "100% natural no additives",
+    "Kosher for Passover certification",
+    "Halal certification",
+    "100% NON-GMO"
   ],
+  
   "certifications": [
     {
-      "id": "kosher-orthodox-union",
-      "name": "Kosher OU",
-      "logo": "/images/cert-kosher-orthodox-union.png",
+      "id": "kosher-ou",
+      "name": "Kosher OU-P",
+      "logo": "/images/cert-kosher-ou.png",
       "description": "Orthodox Union Kosher for Passover",
       "verified": true,
       "type": "kosher"
     },
     {
-      "id": "halal-centro-islamico",
+      "id": "halal-cic",
       "name": "Halal",
-      "logo": "/images/cert-halal-centro-islamico.png",
+      "logo": "/images/cert-halal.png",
       "description": "Centro Islámico de Chile",
       "verified": true,
       "type": "halal"
     },
     {
-      "id": "sag-chile-cherries",
+      "id": "non-gmo",
+      "name": "NO-GMO",
+      "logo": "/images/cert-non-gmo.png",
+      "description": "100% libre de GMO",
+      "verified": true,
+      "type": "quality"
+    },
+    {
+      "id": "sag-chile",
       "name": "SAG",
       "logo": "/images/cert-sag-chile.png",
       "description": "Servicio Agrícola y Ganadero de Chile",
       "verified": true,
-      "type": "sag"
+      "type": "regulatory"
     }
   ],
+  
   "benefits": [
-    "Únicas con doble certificación religiosa",
-    "Disponibilidad estacional",
+    "Triple certificación religiosa única",
     "Ideal para mercados especializados",
-    "Empaque según requerimientos"
+    "Sin aditivos ni preservantes",
+    "Empaque personalizable"
   ],
   "benefitsEn": [
-    "Unique with dual religious certification",
-    "Seasonal availability",
+    "Unique triple religious certification",
     "Ideal for specialized markets",
-    "Packaging according to requirements"
+    "No additives or preservatives",
+    "Customizable packaging"
   ],
+  
   "available": true,
   "featured": true,
-  "regions": ["us-east", "mediterranean", "middle-east"],
+  "regions": ["us-east", "middle-east", "kosher-markets"],
+  
   "packaging": {
-    "options": ["5kg boxes", "10kg boxes", "20kg boxes"],
+    "standard": "10kg carton box",
+    "options": ["10kg boxes", "Custom sizes available"],
     "customizable": true,
-    "special": "Religious certification labeling"
+    "special": "Polyethylene liner, religious certification labels"
   },
+  
   "nutritionalInfo": {
-    "naturalSugars": "65-70%",
-    "fiber": "6-8%",
-    "antioxidants": "High",
-    "vitaminC": "Present"
+    "calories": "282/100g",
+    "sugar": "57g/100g",
+    "protein": "5g/100g",
+    "fiber": "9g/100g",
+    "vitaminC": "31mg/100g",
+    "moisture": "20.5%"
   },
-  "origin": "Región del Maule, Chile",
+  
+  "origin": "Chile",
   "harvestSeason": "December - February",
-  "dryingProcess": "Natural air drying",
-  "shelfLife": "18 months",
-  "technicalSheet": "/documents/datasheets/ficha-tecnica-cerezas-agracom.pdf",
-  "religiousCertifications": {
-    "kosher": {
-      "authority": "Orthodox Union",
-      "validFor": "Passover",
-      "symbol": "OU-P",
-      "renewalDate": "2025-12-31"
-    },
-    "halal": {
-      "authority": "Centro Islámico de Chile",
-      "validFor": "All Islamic requirements",
-      "symbol": "Halal CIC",
-      "renewalDate": "2025-12-31"
-    }
+  "availability": "March - August",
+  "shelfLife": "12 months (optimal)",
+  
+  "technicalSheet": "/docs/DC01-cherries-technical.pdf",
+  
+  "metadata": {
+    "priority": 2,
+    "coreProduct": false,
+    "lastUpdated": "2024-01-15",
+    "tags": ["cherries", "kosher", "halal", "non-gmo", "dried-fruit"]
   }
 }

@@ -52,7 +52,7 @@ export interface Product {
   id: string;
   name: string;
   nameEn?: string;
-  category: 'lupins' | 'cherries';
+  category: 'lupins' | 'cherries' | 'raisins';
   image?: string;
   images?: ImageAsset[];
   description: string;
@@ -118,7 +118,7 @@ export interface ContactFormData {
   email: string;
   phone?: string;
   company: string;
-  productInterest?: 'lupins' | 'cherries' | 'both' | 'other';
+  productInterest?: 'lupins' | 'cherries' | 'raisins' | 'both' | 'other';
   volume?: '1-10' | '10-50' | '50-100' | '100+';
   timeline?: 'immediate' | 'short' | 'medium' | 'long';
   message: string;
@@ -171,7 +171,7 @@ export interface Testimonial {
   rating: 1 | 2 | 3 | 4 | 5;
   quote: string;
   quoteEn?: string;
-  product: 'lupins' | 'cherries' | 'both';
+  product: 'lupins' | 'cherries' | 'raisins' | 'both';
   verified: boolean;
   date: string;
   avatar?: ImageAsset;
@@ -216,6 +216,7 @@ export interface RegionData {
   products: {
     lupins: ProductRegionInfo;
     cherries: ProductRegionInfo;
+    raisins: ProductRegionInfo;
   };
   
   // Regional executive

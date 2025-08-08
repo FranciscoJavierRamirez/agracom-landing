@@ -1,0 +1,332 @@
+---
+// Agracom Internacional S.A. - Certification Card Component
+// Componente reutilizable para mostrar tarjetas de certificaciones
+
+import type { Locale } from '../../types/global';
+
+export interface CertificationData {
+  id: string;
+  category: string;
+  name: string;
+  authority: string;
+  authority_url?: string;
+  logo: string;
+  icon: string;
+  color: string;
+  bg_color: string;
+  description: string;
+  benefits: string[];
+  products: string[];
+  regions: string[];
+  valid_until: string;
+  cert_number: string;
+  featured: boolean;
+  verified: boolean;
+  renewal_date: string;
+}
+
+export interface Props {
+  certificate: CertificationData;
+  lang: Locale;
+  variant?: 'featured' | 'compact';
+  products: Record<string, string>;
+  common: Record<string, string>;
+  class?: string;
+}
+
+const {
+  certificate,
+  lang,
+  variant = 'featured',
+  products,
+  common,
+  class: className = ''
+} = Astro.props;
+
+const cert = certificate;
+const isFeatured = variant === 'featured';
+
+// Generate email content for certificate requests
+const generateEmailContent = (type: 'request' | 'inquiry') => {
+  const subject = type === 'request' 
+    ? `${common.request_certificate}: ${cert.name}`
+    : `Consulta sobre Certificado: ${cert.name}`;
+  
+  const body = type === 'request'
+    ? `Estimados,\n\nMe interesa obtener más información sobre el certificado ${cert.name} (${cert.cert_number}).\n\nPor favor, envíenme:\n- Copia del certificado\n- Información técnica detallada\n- Condiciones comerciales\n\nGracias por su atención.\n\nSaludos cordiales,`
+    : `Estimados,\n\nDeseo consultar sobre el certificado ${cert.name}.\n\nPor favor, envíenme información detallada sobre:\n- Disponibilidad del certificado\n- Documentación técnica\n- Alcance de la certificación\n- Condiciones comerciales\n\nQuedo atento a su respuesta.\n\nSaludos cordiales,`;
+  
+  return `mailto:info@agracom.cl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+---
+
+{isFeatured ? (
+  <!-- Featured Certificate Card -->
+  <div class={`certification-card-featured bg-gradient-to-br ${cert.bg_color} rounded-2xl p-8 border-2 border-${cert.color}/20 hover:border-${cert.color}/50 hover:shadow-xl hover:shadow-${cert.color}/10 transition-all duration-300 group relative overflow-hidden ${className}`}>
+    
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="text-8xl absolute top-4 right-4 transform rotate-12">
+        {cert.icon}
+      </div>
+    </div>
+
+    <div class="relative z-10 space-y-6">
+      <!-- Certification Header -->
+      <div class="space-y-4">
+        <div class="flex items-start justify-between">
+          <div class={`w-16 h-16 bg-white rounded-xl shadow-md flex items-center justify-center group-hover:scale-110 transition-transform`}>
+            <img
+              src={cert.logo}
+              alt={`${cert.name} logo`}
+              class="w-12 h-12 object-contain"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+            />
+            <div class="hidden w-12 h-12 items-center justify-center text-2xl">
+              {cert.icon}
+            </div>
+          </div>
+          
+          {cert.verified && (
+            <div class="flex items-center space-x-1 text-success text-sm font-medium bg-white bg-opacity-80 rounded-full px-3 py-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>{common.verified}</span>
+            </div>
+          )}
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-xl font-bold text-neutral-900">
+            {cert.name}
+          </h4>
+          {cert.authority_url ? (
+            <a 
+              href={cert.authority_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
+              onclick={`gtag && gtag('event', 'outbound_click', { event_label: '${cert.authority}', custom_parameter_section: 'certifications' })`}
+            >
+              {cert.authority}
+              <svg class="w-3 h-3 ml-1 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          ) : (
+            <p class="text-sm text-neutral-600 font-medium">
+              {cert.authority}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="text-neutral-700 leading-relaxed">
+        {cert.description}
+      </p>
+
+      <!-- Benefits -->
+      <div class="space-y-3">
+        <h5 class="font-semibold text-neutral-900">
+          {common.benefits}
+        </h5>
+        <ul class="space-y-2">
+          {cert.benefits.slice(0, 3).map((benefit) => (
+            <li class="flex items-start space-x-2 text-sm text-neutral-700">
+              <span class="text-success mt-0.5 flex-shrink-0">✓</span>
+              <span>{benefit}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Products & Validity -->
+      <div class="flex items-center justify-between pt-4 border-t border-white border-opacity-50">
+        <div class="space-y-1">
+          <p class="text-xs text-neutral-600 font-medium">
+            {common.products}
+          </p>
+          <div class="flex flex-wrap gap-1">
+            {cert.products.map((product) => (
+              <span class="px-2 py-1 bg-white bg-opacity-60 rounded text-xs font-medium">
+                {products[product] || product}
+              </span>
+            ))}
+          </div>
+        </div>
+        
+        <div class="text-right">
+          <p class="text-xs text-neutral-600 font-medium">
+            {common.valid_until}
+          </p>
+          <p class="text-sm font-semibold text-neutral-900">
+            {new Date(cert.valid_until).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
+          </p>
+        </div>
+      </div>
+
+      <!-- Certificate Number & Additional Info -->
+      <div class="bg-white bg-opacity-60 rounded-lg p-4 space-y-3">
+        <div>
+          <p class="text-xs text-neutral-600 font-medium mb-1">
+            {common.certificate_number}
+          </p>
+          <p class="font-mono text-sm font-semibold text-neutral-900">
+            {cert.cert_number}
+          </p>
+        </div>
+        
+        <!-- Authority Website Link -->
+        {cert.authority_url && (
+          <div class="pt-2 border-t border-white border-opacity-40">
+            <a 
+              href={cert.authority_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
+              onclick={`gtag && gtag('event', 'certification_website_visit', { event_label: '${cert.id}', custom_parameter_section: 'certifications' })`}
+            >
+              {common.visit_official}
+              <svg class="w-3 h-3 ml-1 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+        )}
+      </div>
+
+      <!-- CTA Button for Certificate Request -->
+      <div class="pt-4">
+        <a 
+          href={generateEmailContent('request')}
+          class={`w-full btn bg-${cert.color} hover:bg-${cert.color}/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center group`}
+          onclick={`gtag && gtag('event', 'certificate_request', { event_label: '${cert.id}', custom_parameter_section: 'certifications' })`}
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          {common.request_certificate}
+          <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+) : (
+  <!-- Compact Certificate Card -->
+  <div class={`certification-card-compact bg-white rounded-xl shadow-md p-6 border border-neutral-200 hover:shadow-lg transition-shadow ${className}`}>
+    <div class="flex items-start space-x-4">
+      <div class="w-12 h-12 bg-neutral-100 rounded-lg flex items-center justify-center flex-shrink-0">
+        <img
+          src={cert.logo}
+          alt={`${cert.name} logo`}
+          class="w-8 h-8 object-contain"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+        />
+        <div class="hidden items-center justify-center text-lg">
+          {cert.icon}
+        </div>
+      </div>
+      
+      <div class="flex-grow space-y-2">
+        <h5 class="font-semibold text-neutral-900">
+          {cert.name}
+        </h5>
+        {cert.authority_url ? (
+          <a 
+            href={cert.authority_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
+            onclick={`gtag && gtag('event', 'outbound_click', { event_label: '${cert.authority}', custom_parameter_section: 'certifications_additional' })`}
+          >
+            {cert.authority}
+            <svg class="w-3 h-3 ml-1 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        ) : (
+          <p class="text-sm text-neutral-600">
+            {cert.authority}
+          </p>
+        )}
+        <p class="text-xs text-neutral-500 mb-3">
+          {common.valid_until} {new Date(cert.valid_until).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
+        </p>
+        
+        <!-- CTA for additional certifications -->
+        <a 
+          href={generateEmailContent('inquiry')}
+          class="text-xs text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
+          onclick={`gtag && gtag('event', 'certificate_inquiry', { event_label: '${cert.id}', custom_parameter_section: 'certifications_additional' })`}
+        >
+          <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          {common.request_info}
+          <svg class="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+      </div>
+
+      {cert.verified && (
+        <div class="text-success">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
+<style>
+  /* Card Hover Effects */
+  .certification-card-featured .group:hover .w-16 {
+    transform: scale(1.1);
+  }
+
+  /* Enhanced gradient backgrounds */
+  .bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+  }
+
+  /* Focus styles for accessibility */
+  .certification-card-featured a:focus,
+  .certification-card-compact a:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .w-16,
+    .transition-all,
+    .transition-transform,
+    .transition-shadow {
+      transition: none;
+      transform: none;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .certification-card-featured,
+    .certification-card-compact {
+      border: 2px solid #000;
+    }
+    
+    .border-neutral-200 {
+      border-color: #000;
+    }
+  }
+</style>

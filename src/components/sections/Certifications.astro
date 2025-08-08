@@ -3,7 +3,7 @@
 // Sección expandida de certificaciones con detalles completos
 
 import type { Locale } from '../../types/global';
-import { createTranslator } from '../../utils/i18n';
+import CertificationCard from '../ui/CertificationCard.astro';
 
 export interface Props {
   lang: Locale;
@@ -15,340 +15,40 @@ export interface Props {
 const {
   lang,
   showDetails = true,
-  featured = ['fda-bta', 'brcgs-food', 'kosher-ou', 'usda-organic'],
+  featured = ['fda-bta', 'brcgs-food', 'kosher-ou', 'sag-chile'],
   class: className = ''
 } = Astro.props;
 
-// Load translations
-const { certifications, common } = await createTranslator(lang);
+// Load certifications data from JSON files
+const certificationsDataModule = await import(`../../data/certifications/${lang}.json`);
+const certificationsData = certificationsDataModule.default;
 
-// Comprehensive certifications data
-const certificationsData = [
-  {
-    id: 'kosher-ou',
-    category: 'religious',
-    name: 'Kosher Orthodox Union',
-    nameEn: 'Kosher Orthodox Union',
-    authority: 'Orthodox Union',
-    authorityEn: 'Orthodox Union',
-    authorityUrl: 'https://oukosher.org/',
-    logo: '/images/cert-kosher-orthodox-union.png',
-    icon: '✡️',
-    color: 'accent',
-    bgColor: 'from-accent/10 to-accent/20',
-    description: 'Certificación Kosher para Pascua (Pesaj) más estricta del mundo, supervisada por la Orthodox Union.',
-    descriptionEn: 'The world\'s strictest Kosher for Passover certification, supervised by the Orthodox Union.',
-    benefits: [
-      'Acceso a mercados kosher globales',
-      'Supervisión rabínica estricta',
-      'Válido para Pascua (Pesaj)',
-      'Reconocimiento internacional'
-    ],
-    benefitsEn: [
-      'Access to global kosher markets',
-      'Strict rabbinical supervision',
-      'Valid for Passover',
-      'International recognition'
-    ],
-    products: ['cherries'],
-    regions: ['us-east', 'mediterranean'],
-    validUntil: '2025-12-31',
-    certNumber: 'OU-P-2024-1234',
-    featured: true,
-    verified: true,
-    renewalDate: '2025-10-01'
-  },
-  {
-    id: 'halal-cic',
-    category: 'religious',
-    name: 'Halal Centro Islámico',
-    nameEn: 'Halal Islamic Center',
-    authority: 'Centro Islámico de Chile',
-    authorityEn: 'Islamic Center of Chile',
-    authorityUrl: 'https://centroislamicodechile.cl/',
-    logo: '/images/cert-halal-centro-islamico.png',
-    icon: '☪️',
-    color: 'halal',
-    bgColor: 'from-halal/10 to-halal/20',
-    description: 'Certificación Halal completa supervisada por el Centro Islámico de Chile, reconocida internacionalmente.',
-    descriptionEn: 'Complete Halal certification supervised by the Islamic Center of Chile, internationally recognized.',
-    benefits: [
-      'Acceso a mercados musulmanes',
-      'Supervisión islámica completa',
-      'Trazabilidad desde origen',
-      'Reconocimiento MUIS'
-    ],
-    benefitsEn: [
-      'Access to Muslim markets',
-      'Complete Islamic supervision',
-      'Traceability from origin',
-      'MUIS recognition'
-    ],
-    products: ['cherries'],
-    regions: ['middle-east', 'mediterranean'],
-    validUntil: '2025-12-31',
-    certNumber: 'CIC-HAL-2024-567',
-    featured: true,
-    verified: true,
-    renewalDate: '2025-11-15'
-  },
-  {
-    id: 'sag-chile',
-    category: 'governmental',
-    name: 'SAG Chile',
-    nameEn: 'SAG Chile',
-    authority: 'Servicio Agrícola y Ganadero',
-    authorityEn: 'Agricultural and Livestock Service',
-    authorityUrl: 'https://www.sag.gob.cl/',
-    logo: '/images/cert-sag-chile.png',
-    icon: '🛡️',
-    color: 'secondary',
-    bgColor: 'from-secondary/10 to-secondary/20',
-    description: 'Certificación oficial del gobierno chileno que garantiza la calidad y seguridad alimentaria de nuestros productos.',
-    descriptionEn: 'Official Chilean government certification guaranteeing the quality and food safety of our products.',
-    benefits: [
-      'Garantía gubernamental',
-      'Trazabilidad completa',
-      'Inspecciones regulares',
-      'Reconocimiento internacional'
-    ],
-    benefitsEn: [
-      'Government guarantee',
-      'Complete traceability',
-      'Regular inspections',
-      'International recognition'
-    ],
-    products: ['lupins', 'cherries'],
-    regions: ['us-east', 'mediterranean', 'middle-east'],
-    validUntil: '2025-06-30',
-    certNumber: 'SAG-EXP-2024-890',
-    featured: true,
-    verified: true,
-    renewalDate: '2025-05-01'
-  },
-  {
-    id: 'haccp',
-    category: 'quality',
-    name: 'HACCP',
-    nameEn: 'HACCP',
-    authority: 'SGS Chile',
-    authorityEn: 'SGS Chile',
-    authorityUrl: 'https://www.sgs.cl/',
-    logo: '/images/cert-haccp-sgs.png',
-    icon: '🔬',
-    color: 'info',
-    bgColor: 'from-info/10 to-info/20',
-    description: 'Sistema de Análisis de Peligros y Puntos Críticos de Control para máxima seguridad alimentaria.',
-    descriptionEn: 'Hazard Analysis and Critical Control Points system for maximum food safety.',
-    benefits: [
-      'Control de puntos críticos',
-      'Prevención de riesgos',
-      'Documentación completa',
-      'Mejora continua'
-    ],
-    benefitsEn: [
-      'Critical control points',
-      'Risk prevention',
-      'Complete documentation',
-      'Continuous improvement'
-    ],
-    products: ['lupins', 'cherries'],
-    regions: ['us-east', 'mediterranean', 'middle-east'],
-    validUntil: '2025-08-15',
-    certNumber: 'SGS-HACCP-2024-321',
-    featured: false,
-    verified: true,
-    renewalDate: '2025-07-01'
-  },
-  {
-    id: 'iso22000',
-    category: 'quality',
-    name: 'ISO 22000',
-    nameEn: 'ISO 22000',
-    authority: 'Bureau Veritas',
-    authorityEn: 'Bureau Veritas',
-    authorityUrl: 'https://www.bureauveritas.cl/',
-    logo: '/images/cert-iso22000-bv.png',
-    icon: '🏆',
-    color: 'accent',
-    bgColor: 'from-accent/10 to-accent/20',
-    description: 'Norma internacional de gestión de seguridad alimentaria que garantiza la inocuidad de nuestros productos.',
-    descriptionEn: 'International food safety management standard that guarantees the safety of our products.',
-    benefits: [
-      'Gestión integral',
-      'Mejora continua',
-      'Reconocimiento global',
-      'Integración con HACCP'
-    ],
-    benefitsEn: [
-      'Comprehensive management',
-      'Continuous improvement',
-      'Global recognition',
-      'HACCP integration'
-    ],
-    products: ['lupins', 'cherries'],
-    regions: ['us-east', 'mediterranean', 'middle-east'],
-    validUntil: '2026-03-20',
-    certNumber: 'BV-ISO22000-2024-789',
-    featured: false,
-    verified: true,
-    renewalDate: '2026-01-15'
-  },
-  {
-    id: 'organic-usda',
-    category: 'organic',
-    name: 'USDA Organic',
-    nameEn: 'USDA Organic',
-    authority: 'USDA',
-    authorityEn: 'USDA',
-    authorityUrl: 'https://www.usda.gov/',
-    logo: '/images/cert-usda-organic.png',
-    icon: '🌱',
-    color: 'success',
-    bgColor: 'from-success/10 to-success/20',
-    description: 'Certificación orgánica del Departamento de Agricultura de EE.UU. para productos libres de químicos.',
-    descriptionEn: 'USDA organic certification for chemical-free products from the US Department of Agriculture.',
-    benefits: [
-      'Libre de químicos',
-      'Prácticas sostenibles',
-      'Premium en mercado US',
-      'Trazabilidad orgánica'
-    ],
-    benefitsEn: [
-      'Chemical-free',
-      'Sustainable practices',
-      'Premium in US market',
-      'Organic traceability'
-    ],
-    products: ['lupins'],
-    regions: ['us-east'],
-    validUntil: '2025-09-10',
-    certNumber: 'USDA-ORG-2024-456',
-    featured: false,
-    verified: true,
-    renewalDate: '2025-08-01'
-  },
-  {
-    id: 'halal-2025',
-    category: 'religious',
-    name: 'Certificado Halal 2025',
-    nameEn: 'Halal Certificate 2025',
-    authority: 'Centro Islámico de Chile',
-    authorityEn: 'Islamic Center of Chile',
-    authorityUrl: 'http://www.chilehalal.cl/',
-    logo: '/images/cert-halal-centro-islamico.png',
-    icon: '☪️',
-    color: 'halal',
-    bgColor: 'from-halal/10 to-halal/20',
-    description: 'Certificación Halal actualizada para 2025, garantizando el cumplimiento de los estándares islámicos.',
-    descriptionEn: 'Updated Halal certification for 2025, ensuring compliance with Islamic standards.',
-    benefits: [
-      'Acceso a mercados musulmanes',
-      'Supervisión islámica actualizada',
-      'Trazabilidad completa',
-      'Reconocimiento internacional'
-    ],
-    benefitsEn: [
-      'Access to Muslim markets',
-      'Updated Islamic supervision',
-      'Complete traceability',
-      'International recognition'
-    ],
-    products: ['cherries', 'lupins'],
-    regions: ['middle-east', 'mediterranean'],
-    validUntil: '2025-12-31',
-    certNumber: 'HALAL-CIC-2025',
-    featured: false,
-    verified: true,
-    renewalDate: '2025-11-30'
-  },
-  {
-    id: 'fda-bta',
-    category: 'governmental',
-    name: 'FDA BTA Certificate',
-    nameEn: 'FDA BTA Certificate',
-    authority: 'FDA - Food and Drug Administration',
-    authorityEn: 'FDA - Food and Drug Administration',
-    authorityUrl: 'https://www.fda.gov/',
-    logo: '/images/cert-sag-chile.png',
-    icon: '🏛️',
-    color: 'primary',
-    bgColor: 'from-primary/10 to-primary/20',
-    description: 'Prestigiosa certificación FDA de Estados Unidos que garantiza acceso al mercado norteamericano más exigente del mundo.',
-    descriptionEn: 'Prestigious FDA certification from the United States ensuring access to the world\'s most demanding North American market.',
-    benefits: [
-      'Acceso premium al mercado US',
-      'Máximo estándar de seguridad',
-      'Reconocimiento internacional',
-      'Ventaja competitiva global'
-    ],
-    benefitsEn: [
-      'Premium US market access',
-      'Highest safety standards',
-      'International recognition',
-      'Global competitive advantage'
-    ],
-    products: ['lupins', 'cherries'],
-    regions: ['us-east'],
-    validUntil: '2025-12-31',
-    certNumber: 'BTA-2216840',
-    featured: true,
-    verified: true,
-    renewalDate: '2025-10-01'
-  },
-  {
-    id: 'brcgs-food',
-    category: 'quality',
-    name: 'BRCGS Food Certificate',
-    nameEn: 'BRCGS Food Certificate',
-    authority: 'BRC Global Standards',
-    authorityEn: 'BRC Global Standards',
-    authorityUrl: 'https://www.brcgs.com/',
-    logo: '/images/cert-iso22000-bv.png',
-    icon: '🏅',
-    color: 'secondary',
-    bgColor: 'from-secondary/10 to-secondary/20',
-    description: 'Certificación BRCGS Food para seguridad alimentaria global, reconocida mundialmente.',
-    descriptionEn: 'BRCGS Food certification for global food safety, recognized worldwide.',
-    benefits: [
-      'Estándar global de seguridad',
-      'Reconocimiento en retail',
-      'Mejora continua',
-      'Acceso a mercados premium'
-    ],
-    benefitsEn: [
-      'Global safety standard',
-      'Retail recognition',
-      'Continuous improvement',
-      'Premium market access'
-    ],
-    products: ['lupins', 'cherries'],
-    regions: ['us-east', 'mediterranean', 'middle-east'],
-    validUntil: '2025-12-31',
-    certNumber: 'C0768160',
-    featured: true,
-    verified: true,
-    renewalDate: '2025-09-15'
-  }
-];
+// Extract data from JSON structure
+const section = certificationsData.section;
+const categories = certificationsData.categories;
+const products = certificationsData.products;
+const common = certificationsData.common;
+const certificates = certificationsData.certificates;
 
 // Filter featured certifications
-const featuredCerts = certificationsData.filter(cert => featured.includes(cert.id));
-const otherCerts = certificationsData.filter(cert => !featured.includes(cert.id));
+const featuredCerts = certificates.filter((cert: any) => featured.includes(cert.id));
 
 // Group certifications by category
 const certsByCategory = {
-  religious: certificationsData.filter(cert => cert.category === 'religious'),
-  governmental: certificationsData.filter(cert => cert.category === 'governmental'),
-  quality: certificationsData.filter(cert => cert.category === 'quality'),
-  organic: certificationsData.filter(cert => cert.category === 'organic')
+  religious: certificates.filter((cert: any) => cert.category === 'religious'),
+  governmental: certificates.filter((cert: any) => cert.category === 'governmental'),
+  quality: certificates.filter((cert: any) => cert.category === 'quality'),
+  organic: certificates.filter((cert: any) => cert.category === 'organic')
 };
 
-const categoryLabels = {
-  religious: lang === 'es' ? 'Certificaciones Religiosas' : 'Religious Certifications',
-  governmental: lang === 'es' ? 'Certificaciones Gubernamentales' : 'Government Certifications',
-  quality: lang === 'es' ? 'Certificaciones de Calidad' : 'Quality Certifications',
-  organic: lang === 'es' ? 'Certificaciones Orgánicas' : 'Organic Certifications'
+// Generate email content for main CTA
+const generateMainEmailContent = () => {
+  const subject = lang === 'es' ? 'Solicitud de Certificados AgraCom' : 'AgraCom Certificates Request';
+  const body = lang === 'es' ? 
+    'Estimados,\n\nEstoy interesado en obtener certificados de AgraCom para mi proyecto.\n\nPor favor, envíenme información sobre:\n- Certificados disponibles\n- Documentación técnica\n- Procesos de solicitud\n- Condiciones comerciales\n\nEspero su pronta respuesta.\n\nSaludos cordiales,' : 
+    'Dear Team,\n\nI am interested in obtaining AgraCom certificates for my project.\n\nPlease send me information about:\n- Available certificates\n- Technical documentation\n- Request processes\n- Commercial conditions\n\nI look forward to your prompt response.\n\nBest regards,';
+  
+  return `mailto:info@agracom.cl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 ---
 
@@ -363,34 +63,31 @@ const categoryLabels = {
     <div class="text-center space-y-6 mb-16">
       <div class="space-y-4">
         <h2 class="text-h2 font-bold text-neutral-900">
-          {lang === 'es' ? 'Certificaciones que Garantizan Excelencia' : 'Certifications that Guarantee Excellence'}
+          {section.title}
         </h2>
         <p class="text-xl text-neutral-700 max-w-3xl mx-auto leading-relaxed">
-          {lang === 'es' 
-            ? 'Nuestros productos cumplen con los más altos estándares internacionales, respaldados por certificaciones de organismos reconocidos mundialmente.'
-            : 'Our products meet the highest international standards, backed by certifications from globally recognized organizations.'
-          }
+          {section.subtitle}
         </p>
       </div>
 
       <!-- Quick Stats -->
       <div class="flex flex-wrap justify-center items-center gap-8 pt-8">
         <div class="text-center">
-          <div class="text-3xl font-bold text-primary">{certificationsData.length}+</div>
+          <div class="text-3xl font-bold text-primary">{certificates.length}+</div>
           <div class="text-sm text-neutral-600 font-medium">
-            {lang === 'es' ? 'Certificaciones Activas' : 'Active Certifications'}
+            {section.stats.certificates}
           </div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold text-secondary">100%</div>
           <div class="text-sm text-neutral-600 font-medium">
-            {lang === 'es' ? 'Cumplimiento' : 'Compliance'}
+            {section.stats.compliance}
           </div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold text-accent">20+</div>
           <div class="text-sm text-neutral-600 font-medium">
-            {lang === 'es' ? 'Años de Experiencia' : 'Years of Experience'}
+            {section.stats.experience}
           </div>
         </div>
       </div>
@@ -399,171 +96,18 @@ const categoryLabels = {
     <!-- Featured Certifications -->
     <div class="mb-16">
       <h3 class="text-2xl font-bold text-neutral-900 mb-8 text-center">
-        {lang === 'es' ? 'Certificaciones Principales' : 'Main Certifications'}
+        {section.featured_title}
       </h3>
       
       <div class="grid md:grid-cols-3 gap-8">
-        {featuredCerts.map((cert) => (
-          <div class={`bg-gradient-to-br ${cert.bgColor} rounded-2xl p-8 border-2 border-${cert.color}/20 hover:border-${cert.color}/50 hover:shadow-xl hover:shadow-${cert.color}/10 transition-all duration-300 group relative overflow-hidden`}>
-            
-            <!-- Background Pattern -->
-            <div class="absolute inset-0 opacity-5">
-              <div class="text-8xl absolute top-4 right-4 transform rotate-12">
-                {cert.icon}
-              </div>
-            </div>
-
-            <div class="relative z-10 space-y-6">
-              <!-- Certification Header -->
-              <div class="space-y-4">
-                <div class="flex items-start justify-between">
-                  <div class={`w-16 h-16 bg-white rounded-xl shadow-md flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <img
-                      src={cert.logo}
-                      alt={`${cert.name} logo`}
-                      class="w-12 h-12 object-contain"
-                      loading="lazy"
-                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-                    />
-                    <div class="hidden w-12 h-12 items-center justify-center text-2xl">
-                      {cert.icon}
-                    </div>
-                  </div>
-                  
-                  {cert.verified && (
-                    <div class="flex items-center space-x-1 text-success text-sm font-medium bg-white bg-opacity-80 rounded-full px-3 py-1">
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                      </svg>
-                      <span>{lang === 'es' ? 'Verificado' : 'Verified'}</span>
-                    </div>
-                  )}
-                </div>
-
-                <div class="space-y-2">
-                  <h4 class="text-xl font-bold text-neutral-900">
-                    {lang === 'es' ? cert.name : cert.nameEn}
-                  </h4>
-                  {cert.authorityUrl ? (
-                    <a 
-                      href={cert.authorityUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
-                      onclick={`gtag && gtag('event', 'outbound_click', { event_label: '${cert.authority}', custom_parameter_section: 'certifications' })`}
-                    >
-                      {lang === 'es' ? cert.authority : cert.authorityEn}
-                      <svg class="w-3 h-3 ml-1 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                  ) : (
-                    <p class="text-sm text-neutral-600 font-medium">
-                      {lang === 'es' ? cert.authority : cert.authorityEn}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <!-- Description -->
-              <p class="text-neutral-700 leading-relaxed">
-                {lang === 'es' ? cert.description : cert.descriptionEn}
-              </p>
-
-              <!-- Benefits -->
-              <div class="space-y-3">
-                <h5 class="font-semibold text-neutral-900">
-                  {lang === 'es' ? 'Beneficios:' : 'Benefits:'}
-                </h5>
-                <ul class="space-y-2">
-                  {(lang === 'es' ? cert.benefits : cert.benefitsEn).slice(0, 3).map((benefit) => (
-                    <li class="flex items-start space-x-2 text-sm text-neutral-700">
-                      <span class="text-success mt-0.5 flex-shrink-0">✓</span>
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <!-- Products & Validity -->
-              <div class="flex items-center justify-between pt-4 border-t border-white border-opacity-50">
-                <div class="space-y-1">
-                  <p class="text-xs text-neutral-600 font-medium">
-                    {lang === 'es' ? 'Productos:' : 'Products:'}
-                  </p>
-                  <div class="flex flex-wrap gap-1">
-                    {cert.products.map((product) => (
-                      <span class="px-2 py-1 bg-white bg-opacity-60 rounded text-xs font-medium">
-                        {product === 'lupins' 
-                          ? (lang === 'es' ? 'Lupinos' : 'Lupins')
-                          : (lang === 'es' ? 'Cerezas' : 'Cherries')
-                        }
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div class="text-right">
-                  <p class="text-xs text-neutral-600 font-medium">
-                    {lang === 'es' ? 'Válido hasta:' : 'Valid until:'}
-                  </p>
-                  <p class="text-sm font-semibold text-neutral-900">
-                    {new Date(cert.validUntil).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
-                  </p>
-                </div>
-              </div>
-
-              <!-- Certificate Number & Additional Info -->
-              <div class="bg-white bg-opacity-60 rounded-lg p-4 space-y-3">
-                <div>
-                  <p class="text-xs text-neutral-600 font-medium mb-1">
-                    {lang === 'es' ? 'Número de Certificado:' : 'Certificate Number:'}
-                  </p>
-                  <p class="font-mono text-sm font-semibold text-neutral-900">
-                    {cert.certNumber}
-                  </p>
-                </div>
-                
-                <!-- Authority Website Link -->
-                {cert.authorityUrl && (
-                  <div class="pt-2 border-t border-white border-opacity-40">
-                    <a 
-                      href={cert.authorityUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-xs text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
-                      onclick={`gtag && gtag('event', 'certification_website_visit', { event_label: '${cert.id}', custom_parameter_section: 'certifications' })`}
-                    >
-                      {lang === 'es' ? 'Visitar sitio oficial' : 'Visit official website'}
-                      <svg class="w-3 h-3 ml-1 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                  </div>
-                )}
-              </div>
-
-              <!-- CTA Button for Certificate Request -->
-              <div class="pt-4">
-                <a 
-                  href={`mailto:info@agracom.cl?subject=${encodeURIComponent(lang === 'es' ? `Solicitud de Certificado: ${cert.name}` : `Certificate Request: ${cert.nameEn}`)}&body=${encodeURIComponent(lang === 'es' ? 
-                    `Estimados,\n\nMe interesa obtener más información sobre el certificado ${cert.name} (${cert.certNumber}).\n\nPor favor, envíenme:\n- Copia del certificado\n- Información técnica detallada\n- Condiciones comerciales\n\nGracias por su atención.\n\nSaludos cordiales,` : 
-                    `Dear Team,\n\nI am interested in obtaining more information about the ${cert.nameEn} certificate (${cert.certNumber}).\n\nPlease send me:\n- Copy of the certificate\n- Detailed technical information\n- Commercial conditions\n\nThank you for your attention.\n\nBest regards,`)}`}
-                  class={`w-full btn bg-${cert.color} hover:bg-${cert.color}/90 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center group`}
-                  onclick={`gtag && gtag('event', 'certificate_request', { event_label: '${cert.id}', custom_parameter_section: 'certifications' })`}
-                >
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  {lang === 'es' ? 'Solicitar Certificado' : 'Request Certificate'}
-                  <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-              </div>
-
-            </div>
-          </div>
+        {featuredCerts.map((cert: any) => (
+          <CertificationCard
+            certificate={cert}
+            lang={lang}
+            variant="featured"
+            products={products}
+            common={common}
+          />
         ))}
       </div>
     </div>
@@ -572,90 +116,28 @@ const categoryLabels = {
     {showDetails && (
       <div class="space-y-12">
         <h3 class="text-2xl font-bold text-neutral-900 text-center">
-          {lang === 'es' ? 'Certificaciones Adicionales' : 'Additional Certifications'}
+          {section.additional_title}
         </h3>
 
         {Object.entries(certsByCategory).map(([category, certs]) => {
-          const categoryData = certs.filter(cert => !featured.includes(cert.id));
+          const categoryData = (certs as any[]).filter((cert: any) => !featured.includes(cert.id));
           if (categoryData.length === 0) return null;
 
           return (
             <div class="space-y-6">
               <h4 class="text-xl font-semibold text-neutral-900 border-b-2 border-primary border-opacity-20 pb-2">
-                {categoryLabels[category as keyof typeof categoryLabels]}
+                {categories[category as keyof typeof categories]}
               </h4>
               
               <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {categoryData.map((cert) => (
-                  <div class="bg-white rounded-xl shadow-md p-6 border border-neutral-200 hover:shadow-lg transition-shadow">
-                    <div class="flex items-start space-x-4">
-                      <div class="w-12 h-12 bg-neutral-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <img
-                          src={cert.logo}
-                          alt={`${cert.name} logo`}
-                          class="w-8 h-8 object-contain"
-                          loading="lazy"
-                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-                        />
-                        <div class="hidden items-center justify-center text-lg">
-                          {cert.icon}
-                        </div>
-                      </div>
-                      
-                      <div class="flex-grow space-y-2">
-                        <h5 class="font-semibold text-neutral-900">
-                          {lang === 'es' ? cert.name : cert.nameEn}
-                        </h5>
-                        {cert.authorityUrl ? (
-                          <a 
-                            href={cert.authorityUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-sm text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
-                            onclick={`gtag && gtag('event', 'outbound_click', { event_label: '${cert.authority}', custom_parameter_section: 'certifications_additional' })`}
-                          >
-                            {lang === 'es' ? cert.authority : cert.authorityEn}
-                            <svg class="w-3 h-3 ml-1 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                          </a>
-                        ) : (
-                          <p class="text-sm text-neutral-600">
-                            {lang === 'es' ? cert.authority : cert.authorityEn}
-                          </p>
-                        )}
-                        <p class="text-xs text-neutral-500 mb-3">
-                          {lang === 'es' ? 'Válido hasta:' : 'Valid until:'} {new Date(cert.validUntil).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
-                        </p>
-                        
-                        <!-- CTA for additional certifications -->
-                        <a 
-                          href={`mailto:info@agracom.cl?subject=${encodeURIComponent(lang === 'es' ? `Consulta sobre Certificado: ${cert.name}` : `Inquiry about Certificate: ${cert.nameEn}`)}&body=${encodeURIComponent(lang === 'es' ? 
-                            `Estimados,\n\nDeseo consultar sobre el certificado ${cert.name}.\n\nPor favor, envíenme información detallada sobre:\n- Disponibilidad del certificado\n- Documentación técnica\n- Alcance de la certificación\n- Condiciones comerciales\n\nQuedo atento a su respuesta.\n\nSaludos cordiales,` : 
-                            `Dear Team,\n\nI would like to inquire about the ${cert.nameEn} certificate.\n\nPlease send me detailed information about:\n- Certificate availability\n- Technical documentation\n- Certification scope\n- Commercial conditions\n\nI look forward to your response.\n\nBest regards,`)}`}
-                          class="text-xs text-primary hover:text-primary hover:text-opacity-80 font-medium transition-colors inline-flex items-center group"
-                          onclick={`gtag && gtag('event', 'certificate_inquiry', { event_label: '${cert.id}', custom_parameter_section: 'certifications_additional' })`}
-                        >
-                          <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                          </svg>
-                          {lang === 'es' ? 'Consultar información' : 'Request information'}
-                          <svg class="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                          </svg>
-                        </a>
-
-                      </div>
-
-                      {cert.verified && (
-                        <div class="text-success">
-                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                {categoryData.map((cert: any) => (
+                  <CertificationCard
+                    certificate={cert}
+                    lang={lang}
+                    variant="compact"
+                    products={products}
+                    common={common}
+                  />
                 ))}
               </div>
             </div>
@@ -664,185 +146,104 @@ const categoryLabels = {
       </div>
     )}
 
-    <!-- Main CTA Section -->
-    <div class="mt-16 text-center">
-      <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 text-white">
-        <div class="max-w-3xl mx-auto space-y-6">
-          <h3 class="text-3xl font-bold">
-            {lang === 'es' ? '¿Necesita Nuestros Certificados?' : 'Need Our Certificates?'}
-          </h3>
-          <p class="text-xl text-white text-opacity-90 leading-relaxed">
-            {lang === 'es' 
-              ? 'Enviamos certificados personalizados por correo electrónico. Consulte por la documentación específica que necesita para su proyecto.'
-              : 'We send personalized certificates by email. Inquire about the specific documentation you need for your project.'
-            }
-          </p>
-          <div class="flex flex-wrap gap-4 justify-center">
-            <a 
-              href="mailto:info@agracom.cl?subject=${encodeURIComponent(lang === 'es' ? 'Solicitud de Certificados AgraCom' : 'AgraCom Certificates Request')}&body=${encodeURIComponent(lang === 'es' ? 
-                'Estimados,\n\nEstoy interesado en obtener certificados de AgraCom para mi proyecto.\n\nPor favor, envíenme información sobre:\n- Certificados disponibles\n- Documentación técnica\n- Procesos de solicitud\n- Condiciones comerciales\n\nEspero su pronta respuesta.\n\nSaludos cordiales,' : 
-                'Dear Team,\n\nI am interested in obtaining AgraCom certificates for my project.\n\nPlease send me information about:\n- Available certificates\n- Technical documentation\n- Request processes\n- Commercial conditions\n\nI look forward to your prompt response.\n\nBest regards,')}"
-              class="btn btn-lg bg-white text-primary hover:bg-white hover:bg-opacity-90 border-none shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center group"
-              onclick="gtag && gtag('event', 'main_certificate_cta', { event_label: 'general_request', custom_parameter_section: 'certifications' })"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              {lang === 'es' ? 'Solicitar Certificados' : 'Request Certificates'}
-              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-            <a 
-              href="tel:+56-2-XXXXXXX"
-              class="btn btn-lg bg-white bg-opacity-10 text-white hover:bg-white hover:bg-opacity-20 border-2 border-white border-opacity-50 hover:border-white shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center group"
-              onclick="gtag && gtag('event', 'phone_contact', { event_label: 'certifications_section', custom_parameter_section: 'certifications' })"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              {lang === 'es' ? 'Llamar Ahora' : 'Call Now'}
-            </a>
+    <!-- Unified CTA Section -->
+    <div class="mt-16 space-y-8">
+      <!-- Main CTA - Need Our Certificates -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-teal-600 p-1">
+        <!-- Gradient border -->
+        <div class="relative rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-teal-600 p-12 text-white">
+          <!-- Background pattern -->
+          <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;"></div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quality Assurance Process -->
-    <div class="mt-16 bg-gradient-to-r from-neutral-50 to-white rounded-2xl p-8 border border-neutral-200">
-      <div class="grid lg:grid-cols-2 gap-8 items-center">
-        <div class="space-y-6">
-          <h3 class="text-2xl font-bold text-neutral-900">
-            {lang === 'es' ? 'Proceso de Aseguramiento de Calidad' : 'Quality Assurance Process'}
-          </h3>
-          <p class="text-neutral-700 leading-relaxed">
-            {lang === 'es' 
-              ? 'Nuestro compromiso con la excelencia va más allá de las certificaciones. Implementamos un proceso integral de control de calidad en cada etapa.'
-              : 'Our commitment to excellence goes beyond certifications. We implement a comprehensive quality control process at every stage.'
-            }
-          </p>
           
-          <div class="space-y-4">
-            {[
-              {
-                step: '01',
-                title: lang === 'es' ? 'Selección de Proveedores' : 'Supplier Selection',
-                desc: lang === 'es' ? 'Evaluación rigurosa de productores' : 'Rigorous evaluation of producers'
-              },
-              {
-                step: '02',
-                title: lang === 'es' ? 'Control en Planta' : 'Plant Control',
-                desc: lang === 'es' ? 'Monitoreo continuo del procesamiento' : 'Continuous processing monitoring'
-              },
-              {
-                step: '03',
-                title: lang === 'es' ? 'Inspección Final' : 'Final Inspection',
-                desc: lang === 'es' ? 'Verificación antes del embarque' : 'Verification before shipment'
-              },
-              {
-                step: '04',
-                title: lang === 'es' ? 'Trazabilidad' : 'Traceability',
-                desc: lang === 'es' ? 'Seguimiento desde origen hasta destino' : 'Tracking from origin to destination'
-              }
-            ].map((item) => (
-              <div class="flex items-start space-x-4">
-                <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  {item.step}
-                </div>
-                <div>
-                  <h4 class="font-semibold text-neutral-900">{item.title}</h4>
-                  <p class="text-sm text-neutral-600">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div class="space-y-6">
-          <div class="bg-white rounded-xl p-6 shadow-md">
-            <h4 class="font-semibold text-neutral-900 mb-4">
-              {lang === 'es' ? 'Próximas Renovaciones' : 'Upcoming Renewals'}
-            </h4>
-            <div class="space-y-3">
-              {certificationsData
-                .filter(cert => new Date(cert.renewalDate) > new Date())
-                .sort((a, b) => new Date(a.renewalDate).getTime() - new Date(b.renewalDate).getTime())
-                .slice(0, 3)
-                .map((cert) => (
-                  <div class="flex items-center justify-between py-2 border-b border-neutral-100 last:border-b-0">
-                    <div class="flex items-center space-x-3">
-                      <span class="text-lg">{cert.icon}</span>
-                      <span class="text-sm font-medium text-neutral-900">
-                        {lang === 'es' ? cert.name : cert.nameEn}
-                      </span>
-                    </div>
-                    <span class="text-xs text-neutral-600">
-                      {new Date(cert.renewalDate).toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US')}
-                    </span>
-                  </div>
-                ))
-              }
+          <!-- Content -->
+          <div class="relative z-10 max-w-4xl mx-auto text-center space-y-8">
+            <div class="space-y-4">
+              <h3 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                {section.cta.main_title}
+              </h3>
+              <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                {section.cta.main_subtitle}
+              </p>
             </div>
-          </div>
 
-          <div class="bg-success bg-opacity-10 rounded-xl p-6 border border-success border-opacity-20">
-            <div class="flex items-start space-x-3">
-              <div class="w-8 h-8 bg-success text-white rounded-full flex items-center justify-center flex-shrink-0">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <!-- Primary Actions -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <a 
+                href={generateMainEmailContent()}
+                class="group relative overflow-hidden rounded-2xl bg-white text-blue-700 font-semibold px-8 py-4 shadow-xl hover:shadow-2xl transition-all duration-300 inline-flex items-center text-lg min-w-[200px] justify-center"
+                onclick="gtag && gtag('event', 'main_certificate_cta', { event_label: 'general_request', custom_parameter_section: 'certifications' })"
+              >
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-teal-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg class="w-6 h-6 mr-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-              </div>
-              <div>
-                <h4 class="font-semibold text-success mb-2">
-                  {lang === 'es' ? 'Garantía de Calidad' : 'Quality Guarantee'}
-                </h4>
-                <p class="text-sm text-neutral-700">
-                  {lang === 'es' 
-                    ? 'Todas nuestras certificaciones están vigentes y son verificables. Ofrecemos garantía total de cumplimiento.'
-                    : 'All our certifications are current and verifiable. We offer full compliance guarantee.'
-                  }
-                </p>
-              </div>
+                <span class="relative z-10">{section.cta.request_btn}</span>
+                <svg class="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+              
+              <a 
+                href="tel:+56-2-XXXXXXX"
+                class="group relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 border-2 border-white/30 hover:border-white/60 hover:bg-white/20 transition-all duration-300 inline-flex items-center text-lg min-w-[200px] justify-center"
+                onclick="gtag && gtag('event', 'phone_contact', { event_label: 'certifications_section', custom_parameter_section: 'certifications' })"
+              >
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>{section.cta.call_btn}</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Call to Action -->
-    <div class="text-center mt-16">
-      <div class="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 border border-primary border-opacity-20">
-        <h3 class="text-2xl font-bold text-neutral-900 mb-4">
-          {lang === 'es' ? '¿Necesitas certificaciones específicas?' : 'Need specific certifications?'}
-        </h3>
-        <p class="text-neutral-700 mb-6 max-w-2xl mx-auto">
-          {lang === 'es' 
-            ? 'Podemos obtener certificaciones adicionales según los requerimientos de tu mercado. Consulta con nuestros especialistas.'
-            : 'We can obtain additional certifications according to your market requirements. Consult with our specialists.'
-          }
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="#contacto"
-            class="btn btn-primary px-8 py-4 inline-flex items-center group"
-            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'certifications_contact', custom_parameter_section: 'certifications' })`}
-          >
-            {lang === 'es' ? 'Consultar Certificaciones' : 'Inquire About Certifications'}
-            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          
-          <a 
-            href="#certificaciones"
-            class="btn btn-secondary px-8 py-4 inline-flex items-center group"
-            onclick={`gtag && gtag('event', 'cta_click', { event_label: 'view_certifications', custom_parameter_section: 'certifications' })`}
-          >
-            {lang === 'es' ? 'Ver Certificaciones' : 'View Certifications'}
-            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+
+      <!-- Secondary CTA - Specific Certifications -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 border-2 border-blue-100 p-10">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-200/30 to-teal-200/30 rounded-full transform translate-x-16 -translate-y-16"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-teal-200/20 to-blue-200/20 rounded-full transform -translate-x-8 translate-y-8"></div>
+        
+        <!-- Content -->
+        <div class="relative z-10 max-w-3xl mx-auto text-center space-y-6">
+          <div class="space-y-3">
+            <h3 class="text-3xl md:text-4xl font-bold text-slate-900">
+              {section.cta.specific_title}
+            </h3>
+            <p class="text-lg md:text-xl text-slate-600 leading-relaxed">
+              {section.cta.specific_subtitle}
+            </p>
+          </div>
+
+          <!-- Secondary Actions -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <a 
+              href="#contacto"
+              class="group relative overflow-hidden rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center"
+              onclick={`gtag && gtag('event', 'cta_click', { event_label: 'certifications_contact', custom_parameter_section: 'certifications' })`}
+            >
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300"></div>
+              <span class="relative z-10">{section.cta.contact_btn}</span>
+              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            
+            <a 
+              href="#certificaciones"
+              class="group relative overflow-hidden rounded-xl bg-white border-2 border-blue-200 hover:border-blue-300 text-blue-700 hover:text-blue-800 font-semibold px-8 py-4 shadow-md hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center"
+              onclick={`gtag && gtag('event', 'cta_click', { event_label: 'view_certifications', custom_parameter_section: 'certifications' })`}
+            >
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-teal-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span class="relative z-10">{section.cta.view_btn}</span>
+              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -922,5 +323,82 @@ const categoryLabels = {
   .btn:focus {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
+  }
+
+  /* Enhanced CTA Styles */
+  .bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+  }
+
+  /* Gradient text support fallback */
+  @supports not (background-clip: text) {
+    .bg-clip-text {
+      background-clip: unset;
+      color: white;
+    }
+  }
+
+  /* Animation for decorative elements */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .w-40.h-40 {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .w-32.h-32 {
+    animation: float 6s ease-in-out infinite 3s;
+  }
+
+  /* Custom button hover effects */
+  .min-w-\[200px\] {
+    min-width: 200px;
+  }
+
+  /* Enhanced backdrop blur support */
+  @supports (backdrop-filter: blur(1px)) {
+    .backdrop-blur-sm {
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  /* Mobile responsive improvements */
+  @media (max-width: 640px) {
+    .text-4xl.md\:text-5xl {
+      font-size: 2.5rem;
+    }
+    
+    .text-xl.md\:text-2xl {
+      font-size: 1.25rem;
+    }
+    
+    .text-3xl.md\:text-4xl {
+      font-size: 2rem;
+    }
+    
+    .text-lg.md\:text-xl {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+    }
+    
+    .group-hover\:translate-x-1,
+    .group-hover\:from-blue-700,
+    .group-hover\:to-blue-800 {
+      transition: none;
+    }
   }
 </style>

@@ -1,0 +1,246 @@
+{
+  "section": {
+    "title": "Certificaciones que Garantizan Excelencia",
+    "subtitle": "Nuestros productos cumplen con los más altos estándares internacionales, respaldados por certificaciones de organismos reconocidos mundialmente.",
+    "stats": {
+      "certificates": "Certificaciones Activas",
+      "compliance": "Cumplimiento",
+      "experience": "Años de Experiencia"
+    },
+    "featured_title": "Certificaciones Principales",
+    "additional_title": "Certificaciones Adicionales",
+    "cta": {
+      "main_title": "¿Necesita Nuestros Certificados?",
+      "main_subtitle": "Enviamos certificados personalizados por correo electrónico. Consulte por la documentación específica que necesita para su proyecto.",
+      "request_btn": "Solicitar Certificados",
+      "call_btn": "Llamar Ahora",
+      "specific_title": "¿Necesitas certificaciones específicas?",
+      "specific_subtitle": "Podemos obtener certificaciones adicionales según los requerimientos de tu mercado. Consulta con nuestros especialistas.",
+      "contact_btn": "Consultar Certificaciones",
+      "view_btn": "Ver Certificaciones"
+    }
+  },
+  "categories": {
+    "religious": "Certificaciones Religiosas",
+    "governmental": "Certificaciones Gubernamentales",
+    "quality": "Certificaciones de Calidad",
+    "organic": "Certificaciones Orgánicas"
+  },
+  "products": {
+    "lupins": "Lupinos",
+    "cherries": "Cerezas",
+    "raisins": "Pasas"
+  },
+  "common": {
+    "verified": "Verificado",
+    "benefits": "Beneficios:",
+    "products": "Productos:",
+    "valid_until": "Válido hasta:",
+    "certificate_number": "Número de Certificado:",
+    "visit_official": "Visitar sitio oficial",
+    "request_certificate": "Solicitar Certificado",
+    "request_info": "Consultar información"
+  },
+  "certificates": [
+    {
+      "id": "kosher-ou",
+      "category": "religious",
+      "name": "Kosher Orthodox Union",
+      "authority": "Orthodox Union",
+      "authority_url": "https://oukosher.org/",
+      "logo": "/images/cert-kosher-orthodox-union.png",
+      "icon": "✡️",
+      "color": "accent",
+      "bg_color": "from-accent/10 to-accent/20",
+      "description": "Certificación Kosher para Pascua (Pesaj) más estricta del mundo, supervisada por la Orthodox Union.",
+      "benefits": [
+        "Acceso a mercados kosher globales",
+        "Supervisión rabínica estricta",
+        "Válido para Pascua (Pesaj)",
+        "Reconocimiento internacional"
+      ],
+      "products": ["cherries"],
+      "regions": ["us-east", "mediterranean"],
+      "valid_until": "2025-12-31",
+      "cert_number": "OU-P-2024-1234",
+      "featured": true,
+      "verified": true,
+      "renewal_date": "2025-10-01"
+    },
+    {
+      "id": "halal-cic",
+      "category": "religious",
+      "name": "Halal Centro Islámico",
+      "authority": "Centro Islámico de Chile",
+      "authority_url": "https://centroislamicodechile.cl/",
+      "logo": "/images/cert-halal-centro-islamico.png",
+      "icon": "☪️",
+      "color": "halal",
+      "bg_color": "from-halal/10 to-halal/20",
+      "description": "Certificación Halal completa supervisada por el Centro Islámico de Chile, reconocida internacionalmente.",
+      "benefits": [
+        "Acceso a mercados musulmanes",
+        "Supervisión islámica completa",
+        "Trazabilidad desde origen",
+        "Reconocimiento MUIS"
+      ],
+      "products": ["cherries"],
+      "regions": ["middle-east", "mediterranean"],
+      "valid_until": "2025-12-31",
+      "cert_number": "CIC-HAL-2024-567",
+      "featured": true,
+      "verified": true,
+      "renewal_date": "2025-11-15"
+    },
+    {
+      "id": "sag-chile",
+      "category": "governmental",
+      "name": "SAG Chile",
+      "authority": "Servicio Agrícola y Ganadero",
+      "authority_url": "https://www.sag.gob.cl/",
+      "logo": "/images/cert-sag-chile.png",
+      "icon": "🛡️",
+      "color": "secondary",
+      "bg_color": "from-secondary/10 to-secondary/20",
+      "description": "Certificación oficial del gobierno chileno que garantiza la calidad y seguridad alimentaria de nuestros productos.",
+      "benefits": [
+        "Garantía gubernamental",
+        "Trazabilidad completa",
+        "Inspecciones regulares",
+        "Reconocimiento internacional"
+      ],
+      "products": ["lupins", "cherries"],
+      "regions": ["us-east", "mediterranean", "middle-east"],
+      "valid_until": "2025-06-30",
+      "cert_number": "SAG-EXP-2024-890",
+      "featured": true,
+      "verified": true,
+      "renewal_date": "2025-05-01"
+    },
+    {
+      "id": "haccp",
+      "category": "quality",
+      "name": "HACCP",
+      "authority": "SGS Chile",
+      "authority_url": "https://www.sgs.cl/",
+      "logo": "/images/cert-haccp-sgs.png",
+      "icon": "🔬",
+      "color": "info",
+      "bg_color": "from-info/10 to-info/20",
+      "description": "Sistema de Análisis de Peligros y Puntos Críticos de Control para máxima seguridad alimentaria.",
+      "benefits": [
+        "Control de puntos críticos",
+        "Prevención de riesgos",
+        "Documentación completa",
+        "Mejora continua"
+      ],
+      "products": ["lupins", "cherries"],
+      "regions": ["us-east", "mediterranean", "middle-east"],
+      "valid_until": "2025-08-15",
+      "cert_number": "SGS-HACCP-2024-321",
+      "featured": false,
+      "verified": true,
+      "renewal_date": "2025-07-01"
+    },
+    {
+      "id": "iso22000",
+      "category": "quality",
+      "name": "ISO 22000",
+      "authority": "Bureau Veritas",
+      "authority_url": "https://www.bureauveritas.cl/",
+      "logo": "/images/cert-iso22000-bv.png",
+      "icon": "🏆",
+      "color": "accent",
+      "bg_color": "from-accent/10 to-accent/20",
+      "description": "Norma internacional de gestión de seguridad alimentaria que garantiza la inocuidad de nuestros productos.",
+      "benefits": [
+        "Gestión integral",
+        "Mejora continua",
+        "Reconocimiento global",
+        "Integración con HACCP"
+      ],
+      "products": ["lupins", "cherries"],
+      "regions": ["us-east", "mediterranean", "middle-east"],
+      "valid_until": "2026-03-20",
+      "cert_number": "BV-ISO22000-2024-789",
+      "featured": false,
+      "verified": true,
+      "renewal_date": "2026-01-15"
+    },
+    {
+      "id": "organic-usda",
+      "category": "organic",
+      "name": "USDA Organic",
+      "authority": "USDA",
+      "authority_url": "https://www.usda.gov/",
+      "logo": "/images/cert-usda-organic.png",
+      "icon": "🌱",
+      "color": "success",
+      "bg_color": "from-success/10 to-success/20",
+      "description": "Certificación orgánica del Departamento de Agricultura de EE.UU. para productos libres de químicos.",
+      "benefits": [
+        "Libre de químicos",
+        "Prácticas sostenibles",
+        "Premium en mercado US",
+        "Trazabilidad orgánica"
+      ],
+      "products": ["lupins"],
+      "regions": ["us-east"],
+      "valid_until": "2025-09-10",
+      "cert_number": "USDA-ORG-2024-456",
+      "featured": false,
+      "verified": true,
+      "renewal_date": "2025-08-01"
+    },
+    {
+      "id": "fda-bta",
+      "category": "governmental",
+      "name": "FDA BTA Certificate",
+      "authority": "FDA - Food and Drug Administration",
+      "authority_url": "https://www.fda.gov/",
+      "logo": "/images/cert-sag-chile.png",
+      "icon": "🏛️",
+      "color": "primary",
+      "bg_color": "from-primary/10 to-primary/20",
+      "description": "Prestigiosa certificación FDA de Estados Unidos que garantiza acceso al mercado norteamericano más exigente del mundo.",
+      "benefits": [
+        "Acceso premium al mercado US",
+        "Máximo estándar de seguridad",
+        "Reconocimiento internacional",
+        "Ventaja competitiva global"
+      ],
+      "products": ["lupins", "cherries"],
+      "regions": ["us-east"],
+      "valid_until": "2025-12-31",
+      "cert_number": "BTA-2216840",
+      "featured": true,
+      "verified": true,
+      "renewal_date": "2025-10-01"
+    },
+    {
+      "id": "brcgs-food",
+      "category": "quality",
+      "name": "BRCGS Food Certificate",
+      "authority": "BRC Global Standards",
+      "authority_url": "https://www.brcgs.com/",
+      "logo": "/images/cert-iso22000-bv.png",
+      "icon": "🏅",
+      "color": "secondary",
+      "bg_color": "from-secondary/10 to-secondary/20",
+      "description": "Certificación BRCGS Food para seguridad alimentaria global, reconocida mundialmente.",
+      "benefits": [
+        "Estándar global de seguridad",
+        "Reconocimiento en retail",
+        "Mejora continua",
+        "Acceso a mercados premium"
+      ],
+      "products": ["lupins", "cherries"],
+      "regions": ["us-east", "mediterranean", "middle-east"],
+      "valid_until": "2025-12-31",
+      "cert_number": "C0768160",
+      "featured": true,
+      "verified": true,
+      "renewal_date": "2025-09-15"
+    }
+  ]
+}

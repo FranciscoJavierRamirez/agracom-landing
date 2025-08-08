@@ -24,6 +24,8 @@ const productsDescription = await common('sections.products.description');
 // Product data
 const lupinsData = await import('../../data/products/lupins.json');
 const cherriesData = await import('../../data/products/cherries.json');
+// Temporalmente desactivado:
+// const raisinsData = await import('../../data/products/raisins.json');
 
 // Build product objects according to lang
 const lupinsProduct = {
@@ -44,9 +46,23 @@ const cherriesProduct = {
   description: lang === 'es' ? cherriesData.description : cherriesData.descriptionEn,
   specifications: lang === 'es' ? cherriesData.specifications : cherriesData.specificationsEn,
   certifications: cherriesData.certifications as any,
-  category: cherriesData.category as 'cherries',
+  category: cherriesData.subcategory as 'cherries',
   available: cherriesData.available
 };
+
+// Temporalmente desactivado:
+/*
+const raisinsProduct = {
+  id: raisinsData.id,
+  name: lang === 'es' ? raisinsData.name : raisinsData.nameEn,
+  image: raisinsData.image,
+  description: lang === 'es' ? raisinsData.description : raisinsData.descriptionEn,
+  specifications: lang === 'es' ? raisinsData.specifications : raisinsData.specificationsEn,
+  certifications: raisinsData.certifications as any,
+  category: raisinsData.subcategory as 'raisins',
+  available: raisinsData.available
+};
+*/
 ---
 
 <!-- Hero -->
@@ -87,6 +103,18 @@ const cherriesProduct = {
         showCertifications={true}
         showSpecifications={true}
       />
+
+      <!-- ProductCard de pasas temporalmente desactivada -->
+      <!--
+      <ProductCard 
+        product={raisinsProduct}
+        variant="default"
+        lang={lang}
+        showActions={true}
+        showCertifications={true}
+        showSpecifications={true}
+      />
+      -->
     </div>
   </div>
 </section>

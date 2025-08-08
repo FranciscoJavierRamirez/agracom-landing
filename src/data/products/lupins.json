@@ -2,24 +2,35 @@
   "id": "lupins-premium-chilean",
   "name": "Lupinos Premium Chilenos",
   "nameEn": "Premium Chilean Lupins",
-  "category": "lupins",
-  "image": "/images/lupins_02_ok.jpg",
-  "description": "Lupinos premium chilenos calibres 11-17mm, especialidad de Agracom con 270+ embarques exitosos a 17 países. Trazabilidad completa y certificación SAG garantizada.",
-  "descriptionEn": "Premium Chilean lupins 11-17mm caliber, Agracom's specialty with 270+ successful shipments to 17 countries. Complete traceability and SAG certification guaranteed.",
+  "category": "legumes",
+  "subcategory": "lupins",
+  "image": "/images/lupins_02_ok.webp",
+  "gallery": [
+    "/images/products/lupins-bitter.webp",
+    "/images/products/lupins-sweet.webp",
+    "/images/products/lupins-packaging.webp"
+  ],
+  
+  "description": "Lupinos chilenos de exportación, especialidad de Agracom desde 2001 con 270+ embarques exitosos a 17 países. Disponibles en variedades dulces y amargas, calibres 11-17mm.",
+  "descriptionEn": "Export-quality Chilean lupins, Agracom's specialty since 2001 with 270+ successful shipments to 17 countries. Available in sweet and bitter varieties, 11-17mm calibers.",
+  
   "specifications": [
-    "Calibres 11-17mm disponibles",
-    "Humedad: 12-14%",
-    "Proteína: 36-42%",
-    "Certificación SAG",
-    "Trazabilidad por lote"
+    "Calibres: 11-12mm, 12-13mm, 13-15mm, 15-17mm",
+    "Humedad máxima: 14%",
+    "Proteína: 32-40%",
+    "Pureza mínima: 99%",
+    "Certificación SAG vigente",
+    "Trazabilidad completa"
   ],
   "specificationsEn": [
-    "11-17mm calibers available",
-    "Humidity: 12-14%",
-    "Protein: 36-42%",
-    "SAG certification",
-    "Full batch traceability"
+    "Calibers: 11-12mm, 12-13mm, 13-15mm, 15-17mm",
+    "Maximum humidity: 14%",
+    "Protein: 32-40%",
+    "Minimum purity: 99%",
+    "Active SAG certification",
+    "Complete traceability"
   ],
+  
   "certifications": [
     {
       "id": "sag-chile",
@@ -27,35 +38,79 @@
       "logo": "/images/cert-sag-chile.png",
       "description": "Servicio Agrícola y Ganadero de Chile",
       "verified": true,
-      "type": "sag"
+      "type": "regulatory"
+    },
+    {
+      "id": "phytosanitary",
+      "name": "Fitosanitario",
+      "logo": "/images/cert-phyto.png",
+      "description": "Certificado fitosanitario por embarque",
+      "verified": true,
+      "type": "regulatory"
     }
   ],
+  
   "benefits": [
     "270+ embarques exitosos",
+    "20+ años de especialización",
     "Disponible todo el año",
-    "Empaque personalizado",
-    "Tiempos de entrega confiables"
+    "Múltiples calibres"
   ],
   "benefitsEn": [
     "270+ successful shipments",
-    "Available year-round",
-    "Customized packaging",
-    "Reliable delivery times"
+    "20+ years specialization",
+    "Year-round availability",
+    "Multiple calibers"
   ],
+  
   "available": true,
   "featured": true,
   "regions": ["us-east", "mediterranean", "middle-east"],
+  
   "packaging": {
-    "options": ["25kg bags", "50kg bags", "1000kg big bags"],
-    "customizable": true
+    "standard": "25kg PP bags",
+    "options": ["25kg bags", "50kg bags", "Big bags 1000kg"],
+    "customizable": true,
+    "special": "Fumigated pre-shipment"
   },
+  
   "nutritionalInfo": {
-    "protein": "36-42%",
-    "fat": "9-13%",
-    "fiber": "15-20%",
+    "protein": "32-40%",
+    "fat": "6-10%",
+    "fiber": "15-18%",
     "carbohydrates": "40-45%"
   },
-  "origin": "Valle Central, Chile",
+  
+  "origin": "La Araucanía, Chile",
   "harvestSeason": "February - April",
-  "shelfLife": "24 months"
+  "availability": "Year-round",
+  "shelfLife": "12-18 months",
+  
+  "technicalSheet": "/docs/lupins-technical-sheet.pdf",
+  
+  "variants": [
+    {
+      "id": "lupins-bitter",
+      "type": "Amargo",
+      "typeEn": "Bitter",
+      "specifications": ["13-15mm", "15-17mm"],
+      "application": "Consumo humano",
+      "applicationEn": "Human consumption"
+    },
+    {
+      "id": "lupins-sweet",
+      "type": "Dulce",
+      "typeEn": "Sweet",
+      "specifications": ["11-12mm", "12-13mm"],
+      "application": "Uso industrial",
+      "applicationEn": "Industrial use"
+    }
+  ],
+  
+  "metadata": {
+    "priority": 1,
+    "coreProduct": true,
+    "lastUpdated": "2024-01-15",
+    "tags": ["lupins", "legumes", "protein", "export"]
+  }
 }
