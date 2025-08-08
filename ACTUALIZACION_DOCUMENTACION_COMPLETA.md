@@ -16,7 +16,9 @@ Actualizar toda la documentación del proyecto para reflejar:
 
 ---
 
-## 📚 **Documentos Actualizados**
+## 📚 **Documentos Actualizados** 
+
+
 
 ### **🆕 NUEVOS DOCUMENTOS CREADOS**
 1. **[ESTADO_ACTUAL_PROYECTO.md](./ESTADO_ACTUAL_PROYECTO.md)**
