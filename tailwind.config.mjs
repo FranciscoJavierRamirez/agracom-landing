@@ -18,7 +18,14 @@ export default {
           600: '#2e7d32'
         },
         kosher: 'var(--color-kosher)',
-        halal: 'var(--color-halal)',
+        halal: {
+          DEFAULT: 'var(--color-halal)',
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          500: 'var(--color-halal)',
+          600: '#16a34a',
+          700: '#15803d'
+        },
         accent: {
           DEFAULT: 'var(--color-accent)',
           500: 'var(--color-accent)'

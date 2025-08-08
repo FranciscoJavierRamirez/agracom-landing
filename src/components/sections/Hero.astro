@@ -70,7 +70,7 @@ const stats = [
 const certifications = [
   { name: 'Kosher', class: 'certification-badge--kosher' },
   { name: 'Halal', class: 'certification-badge--halal' },
-  { name: 'SAG', class: 'certification-badge--sag' }
+  { name: 'FDA', class: 'certification-badge--fda' }
 ];
 
 // Default vertical hero image optimized for design (WebP)
@@ -87,6 +87,7 @@ const defaultHeroImage: ImageAsset = {
 ---
 
 <section 
+  id="hero"
   class={`section--hero bg-gradient-to-br from-primary/5 to-secondary/5 relative overflow-hidden mt-6 md:mt-8 lg:mt-10 ${className}`}
   role="banner"
   aria-label={lang === 'es' ? 'Sección principal' : 'Main hero section'}

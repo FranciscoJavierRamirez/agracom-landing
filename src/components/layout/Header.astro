@@ -276,9 +276,9 @@ const options = headerConfig.options || { showRegionIndicator: true };
       navItems.forEach(item => {
         const href = item.getAttribute('href');
         if (href === `#${activeSection}`) {
-          item.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
+          item.classList.add('nav-link--active');
         } else {
-          item.classList.remove('text-primary', 'bg-primary', 'bg-opacity-10');
+          item.classList.remove('nav-link--active');
         }
       });
     }
@@ -321,10 +321,25 @@ const options = headerConfig.options || { showRegionIndicator: true };
     background-color: rgba(21, 101, 192, 0.1);
   }
   
+  /* Estado activo del nav-link */
+  .nav-link.nav-link--active {
+    color: white !important;
+    background-color: var(--color-primary) !important;
+  }
+  
+  .nav-link.nav-link--active:hover {
+    color: white !important;
+    background-color: var(--color-primary-600, var(--color-primary)) !important;
+  }
+  
   .nav-link span {
     position: relative;
     z-index: 2;
     color: inherit;
+  }
+  
+  .nav-link.nav-link--active span {
+    color: white !important;
   }
   
   .mobile-nav-link {

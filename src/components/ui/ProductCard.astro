@@ -76,7 +76,7 @@ const formatSpecification = (spec: string) => {
 ---
 
 <article 
-  class={`${variantClasses[variant]} ${sizeClasses[size]} rounded-xl overflow-hidden border border-neutral-200 transition-all duration-300 group ${className}`}
+  class={`${variantClasses[variant]} ${sizeClasses[size]} rounded-xl overflow-hidden border border-neutral-200 transition-all duration-300 group h-full flex flex-col ${className}`}
   itemscope
   itemtype="https://schema.org/Product"
   data-product-id={product.id}
@@ -144,121 +144,126 @@ const formatSpecification = (spec: string) => {
     <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-black group-hover:bg-opacity-10 transition-colors duration-300"></div>
   </div>
 
-  <!-- Product Content -->
-  <div class="p-6 space-y-4">
-    <!-- Product Title -->
-    <div class="space-y-2">
-      <h3 
-        class="text-xl font-bold text-neutral-900 group-hover:text-primary transition-colors"
-        itemprop="name"
-      >
-        {product.name}
-      </h3>
-      
-      <!-- Product Description -->
-      <p 
-        class="text-neutral-700 text-sm leading-relaxed"
-        itemprop="description"
-      >
-        {product.description}
-      </p>
+  <!-- Product Content - Grows to fill available space -->
+  <div class="flex-grow p-6 flex flex-col">
+    <!-- Content Container - Grows to fill available space -->
+    <div class="flex-grow space-y-4">
+      <!-- Product Title -->
+      <div class="space-y-2">
+        <h3 
+          class="text-xl font-bold text-neutral-900 group-hover:text-primary transition-colors"
+          itemprop="name"
+        >
+          {product.name}
+        </h3>
+        
+        <!-- Product Description -->
+        <p 
+          class="text-neutral-700 text-sm leading-relaxed"
+          itemprop="description"
+        >
+          {product.description}
+        </p>
+      </div>
+
+      <!-- Certifications -->
+      {showCertifications && product.certifications.length > 0 && (
+        <div class="space-y-2">
+          <h4 class="text-sm font-semibold text-neutral-800">
+            {lang === 'es' ? 'Certificaciones:' : 'Certifications:'}
+          </h4>
+          <div class="flex flex-wrap gap-2">
+            {product.certifications.slice(0, 3).map((cert) => (
+              <span 
+                class={`certification-badge ${getCertificationClass(cert.type)} text-xs`}
+                title={cert.description}
+                itemprop="certification"
+              >
+                {cert.name}
+              </span>
+            ))}
+            {product.certifications.length > 3 && (
+              <span class="text-xs text-neutral-500 px-2 py-1">
+                +{product.certifications.length - 3} {lang === 'es' ? 'más' : 'more'}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      <!-- Specifications -->
+      {showSpecifications && product.specifications.length > 0 && (
+        <div class="space-y-2">
+          <h4 class="text-sm font-semibold text-neutral-800">
+            {lang === 'es' ? 'Especificaciones:' : 'Specifications:'}
+          </h4>
+          <ul class="space-y-1">
+            {product.specifications.slice(0, 4).map((spec) => (
+              <li class="flex items-start text-sm text-neutral-600">
+                <span class="text-success mr-2 flex-shrink-0" aria-hidden="true">✓</span>
+                <span itemprop="feature">{formatSpecification(spec)}</span>
+              </li>
+            ))}
+            {product.specifications.length > 4 && (
+              <li class="text-xs text-neutral-500 ml-5">
+                +{product.specifications.length - 4} {lang === 'es' ? 'especificaciones más' : 'more specifications'}
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+
+      <!-- Additional Info (Featured variant only) -->
+      {variant === 'featured' && (
+        <div class="bg-accent bg-opacity-5 rounded-lg p-3 border border-accent border-opacity-20">
+          <div class="flex items-center space-x-2">
+            <span class="text-accent text-lg" aria-hidden="true">⭐</span>
+            <span class="text-sm font-medium text-accent-dark">
+              {lang === 'es' ? 'Producto Destacado' : 'Featured Product'}
+            </span>
+          </div>
+          {product.region && (
+            <p class="text-xs text-neutral-600 mt-1">
+              {lang === 'es' ? 'Especial para' : 'Special for'} {product.region}
+            </p>
+          )}
+        </div>
+      )}
     </div>
 
-    <!-- Certifications -->
-    {showCertifications && product.certifications.length > 0 && (
-      <div class="space-y-2">
-        <h4 class="text-sm font-semibold text-neutral-800">
-          {lang === 'es' ? 'Certificaciones:' : 'Certifications:'}
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          {product.certifications.slice(0, 3).map((cert) => (
-            <span 
-              class={`certification-badge ${getCertificationClass(cert.type)} text-xs`}
-              title={cert.description}
-              itemprop="certification"
-            >
-              {cert.name}
-            </span>
-          ))}
-          {product.certifications.length > 3 && (
-            <span class="text-xs text-neutral-500 px-2 py-1">
-              +{product.certifications.length - 3} {lang === 'es' ? 'más' : 'more'}
-            </span>
-          )}
-        </div>
-      </div>
-    )}
-
-    <!-- Specifications -->
-    {showSpecifications && product.specifications.length > 0 && (
-      <div class="space-y-2">
-        <h4 class="text-sm font-semibold text-neutral-800">
-          {lang === 'es' ? 'Especificaciones:' : 'Specifications:'}
-        </h4>
-        <ul class="space-y-1">
-          {product.specifications.slice(0, 4).map((spec) => (
-            <li class="flex items-start text-sm text-neutral-600">
-              <span class="text-success mr-2 flex-shrink-0" aria-hidden="true">✓</span>
-              <span itemprop="feature">{formatSpecification(spec)}</span>
-            </li>
-          ))}
-          {product.specifications.length > 4 && (
-            <li class="text-xs text-neutral-500 ml-5">
-              +{product.specifications.length - 4} {lang === 'es' ? 'especificaciones más' : 'more specifications'}
-            </li>
-          )}
-        </ul>
-      </div>
-    )}
-
-    <!-- Actions -->
+    <!-- Actions - Fixed at bottom -->
     {showActions && (
-      <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-neutral-100">
-        <!-- Primary CTA -->
-        <a 
-          href={`#contacto?product=${product.id}`}
-          class="btn btn-primary flex-1 text-center text-sm py-3 group/cta"
-          onclick={`gtag && gtag('event', 'product_inquiry', { event_label: '${product.id}', custom_parameter_category: '${product.category}' })`}
-        >
-          {lang === 'es' ? 'Cotizar' : 'Get Quote'}
-          <svg class="w-4 h-4 ml-2 group-hover/cta:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-        
-        <!-- Secondary CTA -->
-        <a 
-          href={product.category === 'cherries' 
-            ? '/documents/datasheets/ficha-tecnica-cerezas-agracom.pdf'
-            : product.category === 'raisins'
-            ? '/docs/DR01-raisins-technical.pdf'
-            : `/documents/agracom-ficha-tecnica-lupinos-${lang}.pdf`}
-          class="btn btn-secondary flex-1 text-center text-sm py-3 group/cta"
-          download
-          onclick={`gtag && gtag('event', 'resource_download', { event_label: '${product.id}_technical_sheet', custom_parameter_category: '${product.category}' })`}
-        >
-          {lang === 'es' ? 'Ficha Técnica' : 'Technical Sheet'}
-          <svg class="w-4 h-4 ml-2 group-hover/cta:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </a>
-      </div>
-    )}
-
-    <!-- Additional Info (Featured variant only) -->
-    {variant === 'featured' && (
-      <div class="bg-accent bg-opacity-5 rounded-lg p-3 border border-accent border-opacity-20">
-        <div class="flex items-center space-x-2">
-          <span class="text-accent text-lg" aria-hidden="true">⭐</span>
-          <span class="text-sm font-medium text-accent-dark">
-            {lang === 'es' ? 'Producto Destacado' : 'Featured Product'}
-          </span>
+      <div class="flex-shrink-0 pt-6 mt-auto border-t border-neutral-100">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <!-- Primary CTA -->
+          <a 
+            href={`#contacto?product=${product.id}`}
+            class="btn btn-primary flex-1 text-center text-sm py-3 group/cta"
+            onclick={`gtag && gtag('event', 'product_inquiry', { event_label: '${product.id}', custom_parameter_category: '${product.category}' })`}
+          >
+            {lang === 'es' ? 'Cotizar' : 'Get Quote'}
+            <svg class="w-4 h-4 ml-2 group-hover/cta:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          
+          <!-- Secondary CTA -->
+          <a 
+            href={product.category === 'cherries' 
+              ? '/documents/datasheets/ficha-tecnica-cerezas-agracom.pdf'
+              : product.category === 'raisins'
+              ? '/docs/DR01-raisins-technical.pdf'
+              : `/documents/agracom-ficha-tecnica-lupinos-${lang}.pdf`}
+            class="btn btn-secondary flex-1 text-center text-sm py-3 group/cta"
+            download
+            onclick={`gtag && gtag('event', 'resource_download', { event_label: '${product.id}_technical_sheet', custom_parameter_category: '${product.category}' })`}
+          >
+            {lang === 'es' ? 'Ficha Técnica' : 'Technical Sheet'}
+            <svg class="w-4 h-4 ml-2 group-hover/cta:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </a>
         </div>
-        {product.region && (
-          <p class="text-xs text-neutral-600 mt-1">
-            {lang === 'es' ? 'Especial para' : 'Special for'} {product.region}
-          </p>
-        )}
       </div>
     )}
   </div>
@@ -377,6 +382,26 @@ const formatSpecification = (spec: string) => {
     .certification-badge {
       border: 2px solid currentColor;
     }
+  }
+
+  /* Flexbox improvements for height consistency */
+  .group {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .group .flex-grow {
+    flex: 1;
+  }
+
+  .group .flex-shrink-0 {
+    flex-shrink: 0;
+  }
+
+  /* Ensure product cards maintain consistent button alignment */
+  .group .mt-auto {
+    margin-top: auto;
   }
 
   /* Reduced motion support */
