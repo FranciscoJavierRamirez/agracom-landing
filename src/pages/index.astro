@@ -1,129 +1,23 @@
 ---
-// Agracom Internacional S.A. - Página Principal (Multi-idioma)
+// Agracom Internacional S.A. - Página Principal (ES)
 import Layout from '../components/layout/Layout.astro';
 import Header from '../components/layout/Header.astro';
-import Hero from '../components/sections/Hero.astro';
-import ProductCard from '../components/ui/ProductCard.astro';
-import Certifications from '../components/sections/Certifications.astro';
-import Regions from '../components/sections/Regions.astro';
-import ContactForm from '../components/forms/ContactForm.astro';
 import Footer from '../components/layout/Footer.astro';
-import { createTranslator } from '../utils/i18n';
-// Removed unused import
+import Home from '../components/pages/Home.astro';
 
-// Language is fixed to ES on this route; EN version lives under /en/
 const lang = 'es' as const;
 
-// Títulos y descripciones según idioma
 const seoData = {
-  es: {
-    title: 'Lupinos Premium y Cerezas Certificadas desde Chile',
-    description: 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas deshidratadas Santina con certificaciones Kosher y Halal. 20+ años de experiencia.',
-    canonicalURL: 'https://agracom-internacional.com/'
-  },
-  en: {
-    title: 'Premium Lupins and Certified Cherries from Chile',
-    description: 'Specialized exporters of premium lupins 11-17mm caliber and Santina dried cherries with Kosher and Halal certifications. 20+ years of experience.',
-    canonicalURL: 'https://agracom-internacional.com/en/'
-  }
+  title: 'Lupinos Premium y Cerezas Certificadas desde Chile',
+  description: 'Exportadores especializados en lupinos premium calibres 11-17mm y cerezas deshidratadas Santina con certificaciones Kosher y Halal. 20+ años de experiencia.',
+  canonicalURL: 'https://agracom-internacional.com/'
 };
 
-const { title, description, canonicalURL } = seoData[lang];
-
-// i18n JSON para contenidos de secciones (ruta ES)
-const { common } = await createTranslator(lang);
-const productsId = 'productos';
-const productsTitle = await common('sections.products.title');
-const productsDescription = await common('sections.products.description');
-
-// Load product data
-const lupinsData = await import('../data/products/lupins.json');
-const cherriesData = await import('../data/products/cherries.json');
-
-// Create product objects (ruta ES)
-const lupinsProduct = {
-  id: lupinsData.id,
-  name: lupinsData.name,
-  image: lupinsData.image,
-  description: lupinsData.description,
-  specifications: lupinsData.specifications,
-  certifications: lupinsData.certifications as any,
-  category: lupinsData.category as 'lupins',
-  available: lupinsData.available
-};
-
-const cherriesProduct = {
-  id: cherriesData.id,
-  name: cherriesData.name,
-  image: cherriesData.image,
-  description: cherriesData.description,
-  specifications: cherriesData.specifications,
-  certifications: cherriesData.certifications as any,
-  category: cherriesData.category as 'cherries',
-  available: cherriesData.available
-};
-
-// Contenido de secciones desde JSON (common.sections)
+const { title, description, canonicalURL } = seoData;
 ---
 
-<Layout 
-  title={title}
-  description={description}
-  lang={lang}
-  canonicalURL={canonicalURL}
->
-  <!-- Header -->
+<Layout title={title} description={description} lang={lang} canonicalURL={canonicalURL}>
   <Header slot="header" currentLang={lang} />
-
-  <!-- Hero Section -->
-  <Hero lang={lang} />
-
-  <!-- Products Section -->
-  <section id={productsId} class="section bg-white">
-    <div class="container mx-auto px-4">
-      <div class="text-center space-y-6 mb-12">
-        <h2 class="text-h2 font-bold text-neutral-900" data-products-title>
-          {productsTitle}
-        </h2>
-        <p class="text-xl text-neutral-700 max-w-3xl mx-auto" data-products-description>
-          {productsDescription}
-        </p>
-      </div>
-      
-      <div class="product-grid">
-        <!-- Lupinos Product Card -->
-        <ProductCard 
-          product={lupinsProduct}
-          variant="featured"
-          lang={lang}
-          showActions={true}
-          showCertifications={true}
-          showSpecifications={true}
-        />
-        
-        <!-- Cerezas Product Card -->
-        <ProductCard 
-          product={cherriesProduct}
-          variant="featured"
-          lang={lang}
-          showActions={true}
-          showCertifications={true}
-          showSpecifications={true}
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- Certifications Section -->
-  <Certifications lang={lang} />
-
-  <!-- Regions Section -->
-  <Regions lang={lang} />
-
-  <!-- Contact Section -->
-  <ContactForm lang={lang} />
-
-  <!-- Footer -->
+  <Home lang={lang} />
   <Footer slot="footer" lang={lang} showSocial={true} />
-
 </Layout>

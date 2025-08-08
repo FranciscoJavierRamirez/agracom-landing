@@ -1,0 +1,91 @@
+---
+// Home.astro - Unified home page for ES/EN
+// Receives `lang` prop and renders the homepage main content using i18n-aware data
+
+import type { Locale } from '../../types/global';
+import Hero from '../sections/Hero.astro';
+import ProductCard from '../ui/ProductCard.astro';
+import Certifications from '../sections/Certifications.astro';
+import Regions from '../sections/Regions.astro';
+import ContactForm from '../forms/ContactForm.astro';
+import { createTranslator } from '../../utils/i18n';
+
+export interface Props { lang: Locale }
+
+const { lang } = Astro.props;
+
+// Translations for section titles/descriptions
+const { common } = await createTranslator(lang);
+const productsId = lang === 'es' ? 'productos' : 'products';
+const productsTitle = await common('sections.products.title');
+const productsDescription = await common('sections.products.description');
+
+// Product data
+const lupinsData = await import('../../data/products/lupins.json');
+const cherriesData = await import('../../data/products/cherries.json');
+
+// Build product objects according to lang
+const lupinsProduct = {
+  id: lupinsData.id,
+  name: lang === 'es' ? lupinsData.name : lupinsData.nameEn,
+  image: lupinsData.image,
+  description: lang === 'es' ? lupinsData.description : lupinsData.descriptionEn,
+  specifications: lang === 'es' ? lupinsData.specifications : lupinsData.specificationsEn,
+  certifications: lupinsData.certifications as any,
+  category: lupinsData.category as 'lupins',
+  available: lupinsData.available
+};
+
+const cherriesProduct = {
+  id: cherriesData.id,
+  name: lang === 'es' ? cherriesData.name : cherriesData.nameEn,
+  image: cherriesData.image,
+  description: lang === 'es' ? cherriesData.description : cherriesData.descriptionEn,
+  specifications: lang === 'es' ? cherriesData.specifications : cherriesData.specificationsEn,
+  certifications: cherriesData.certifications as any,
+  category: cherriesData.category as 'cherries',
+  available: cherriesData.available
+};
+---
+
+<!-- Hero -->
+<Hero lang={lang} />
+
+<!-- Products Section -->
+<section id={productsId} class="section bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center space-y-6 mb-12">
+      <h2 class="text-h2 font-bold text-neutral-900" data-products-title>
+        {productsTitle}
+      </h2>
+      <p class="text-xl text-neutral-700 max-w-3xl mx-auto" data-products-description>
+        {productsDescription}
+      </p>
+    </div>
+
+    <div class="product-grid">
+      <ProductCard 
+        product={lupinsProduct}
+        variant="featured"
+        lang={lang}
+        showActions={true}
+        showCertifications={true}
+        showSpecifications={true}
+      />
+
+      <ProductCard 
+        product={cherriesProduct}
+        variant="featured"
+        lang={lang}
+        showActions={true}
+        showCertifications={true}
+        showSpecifications={true}
+      />
+    </div>
+  </div>
+</section>
+
+<!-- Other sections -->
+<Certifications lang={lang} />
+<Regions lang={lang} />
+<ContactForm lang={lang} />
