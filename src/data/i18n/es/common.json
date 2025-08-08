@@ -51,6 +51,12 @@
     "view": "Ver",
     "download": "Descargar"
   },
+  "sections": {
+    "products": {
+      "title": "Nuestros Productos Especializados",
+      "description": "Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, con 20+ años de experiencia exportando a mercados exigentes."
+    }
+  },
   "time": {
     "days": "días",
     "weeks": "semanas",

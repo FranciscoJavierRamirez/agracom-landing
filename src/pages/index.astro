@@ -8,6 +8,7 @@ import Certifications from '../components/sections/Certifications.astro';
 import Regions from '../components/sections/Regions.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
 import Footer from '../components/layout/Footer.astro';
+import { createTranslator } from '../utils/i18n';
 // Removed unused import
 
 // Detect language from URL (?lang=en|es), fallback to 'es'
@@ -29,6 +30,12 @@ const seoData = {
 };
 
 const { title, description, canonicalURL } = seoData[lang];
+
+// i18n JSON para contenidos de secciones
+const { common } = await createTranslator(lang);
+const productsId = lang === 'es' ? 'productos' : 'products';
+const productsTitle = await common('sections.products.title');
+const productsDescription = await common('sections.products.description');
 
 // Load product data
 const lupinsData = await import('../data/products/lupins.json');
@@ -57,21 +64,7 @@ const cherriesProduct = {
   available: cherriesData.available
 };
 
-// Contenido de secciones según idioma
-const sectionContent = {
-  es: {
-    productsId: 'productos',
-    productsTitle: 'Nuestros Productos Especializados',
-    productsDescription: 'Especialistas boutique en lupinos premium y cerezas deshidratadas certificadas, con 20+ años de experiencia exportando a mercados exigentes.'
-  },
-  en: {
-    productsId: 'products',
-    productsTitle: 'Our Specialized Products',
-    productsDescription: 'Boutique specialists in premium lupins and certified dried cherries, with 20+ years of experience exporting to demanding markets.'
-  }
-};
-
-const content = sectionContent[lang];
+// Contenido de secciones desde JSON (common.sections)
 ---
 
 <Layout 
@@ -87,14 +80,14 @@ const content = sectionContent[lang];
   <Hero lang={lang} />
 
   <!-- Products Section -->
-  <section id={content.productsId} class="section bg-white">
+  <section id={productsId} class="section bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center space-y-6 mb-12">
         <h2 class="text-h2 font-bold text-neutral-900" data-products-title>
-          {content.productsTitle}
+          {productsTitle}
         </h2>
         <p class="text-xl text-neutral-700 max-w-3xl mx-auto" data-products-description>
-          {content.productsDescription}
+          {productsDescription}
         </p>
       </div>
       
