@@ -11,19 +11,19 @@ const { variant = 'header', currentLang = 'es' } = Astro.props;
 
 // Determinar las clases según la variante
 const containerClasses = variant === 'header'
-  ? 'flex items-center bg-neutral-100 rounded-lg p-1 border border-neutral-200'
-  : 'flex items-center space-x-2 bg-neutral-800 rounded-lg p-1';
+  ? 'flex items-center bg-neutral-100 rounded-xl p-1.5 border border-neutral-200 shadow-sm'
+  : 'flex items-center space-x-2 bg-neutral-800 rounded-xl p-1.5';
 
 const activeClasses = variant === 'header'
-  ? 'px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105'
-  : 'px-3 py-1 rounded-md text-sm font-semibold transition-all bg-primary text-white';
+  ? 'px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all duration-200 bg-primary text-white shadow-sm scale-105'
+  : 'px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all bg-primary text-white';
 
 const inactiveClasses = variant === 'header'
-  ? 'px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 text-neutral-500 hover:text-neutral-700 hover:bg-white'
-  : 'px-3 py-1 rounded-md text-sm font-semibold transition-all text-neutral-400 hover:text-white';
+  ? 'px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all duration-200 text-neutral-600 hover:text-neutral-800 hover:bg-white'
+  : 'px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all text-neutral-300 hover:text-white';
 
 const dividerClasses = variant === 'header'
-  ? 'w-px h-4 bg-neutral-300 mx-1'
+  ? 'w-px h-5 bg-neutral-300 mx-1.5'
   : 'text-neutral-600';
 
 const dividerContent = variant === 'header' ? '' : '|';
