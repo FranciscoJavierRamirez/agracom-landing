@@ -3,7 +3,7 @@
 // Navegación principal con logo, menú y cambio de idioma
 
 import type { Locale } from '../../types/global';
-import { createTranslator, getLocalizedURL } from '../../utils/i18n';
+import { getLocalizedURL } from '../../utils/i18n';
 import LanguageSwitcher from '../ui/LanguageSwitcher.astro';
 
 export interface Props {
@@ -20,42 +20,16 @@ const {
   class: className = ''
 } = Astro.props;
 
-// Load translations
-const { common } = await createTranslator(currentLang);
-
-// Navigation items with dynamic IDs based on language
-const navigation = [
-  { 
-    key: 'products', 
-    href: currentLang === 'es' ? '#productos' : '#products' 
-  },
-  { 
-    key: 'certifications', 
-    href: currentLang === 'es' ? '#certificaciones' : '#certifications' 
-  },
-  { 
-    key: 'regions', 
-    href: currentLang === 'es' ? '#regiones' : '#regions' 
-  },
-  { 
-    key: 'contact', 
-    href: currentLang === 'es' ? '#contacto' : '#contact' 
-  }
-];
-
-// Resolve navigation labels once
-const navigationWithLabels = await Promise.all(
-  navigation.map(async (item) => ({
-    ...item,
-    label: await common(`navigation.${item.key}`)
-  }))
-);
-
-// Resolve CTA label
-const ctaLabel = await common('cta.inquire');
-
-// Get alternate language URL
-// Alternate language functionality handled via URL parameters
+// Load header configuration (content) from JSON per locale
+const headerConfigModule = await import(`../../data/i18n/${currentLang}/header.json`);
+const headerConfig = headerConfigModule.default as any;
+const brandTitle: string = headerConfig.brand?.title || 'Agracom Internacional';
+const brandTagline: string | undefined = headerConfig.brand?.tagline;
+const navItems: Array<{ key: string; href: string; label: string }> = headerConfig.nav || [];
+const cta = headerConfig.cta || { text: '', href: '#' };
+const aria = headerConfig.aria || { home: 'Home', open_menu: 'Open menu', region_info: 'Region information' };
+const regionLabels: Record<string, string> = headerConfig.regionLabels || {};
+const options = headerConfig.options || { showRegionIndicator: true };
 ---
 
 <header 
@@ -86,21 +60,23 @@ const ctaLabel = await common('cta.inquire');
             />
           </div>
           
-          <!-- Brand Text simplificado -->
+          <!-- Brand Text dinámico desde JSON -->
           <div class="hidden md:block">
             <h1 class="text-2xl lg:text-3xl font-bold text-neutral-900 group-hover:text-primary transition-colors duration-200 leading-tight tracking-tight">
-              Agracom Internacional
+              {brandTitle}
             </h1>
-            <p class="text-sm lg:text-base text-neutral-500 font-semibold hidden lg:block">
-              {currentLang === 'es' ? 'Exportadores Premium' : 'Premium Exporters'}
-            </p>
+            {brandTagline && (
+              <p class="text-sm lg:text-base text-neutral-500 font-semibold hidden lg:block">
+                {brandTagline}
+              </p>
+            )}
           </div>
         </a>
       </div>
 
       <!-- Desktop Navigation - Mejorado y Corregido -->
       <nav class="hidden lg:flex items-center space-x-3" role="navigation" aria-label="Main navigation">
-        {navigationWithLabels.map((item) => (
+        {navItems.map((item) => (
           <a
             href={item.href}
             class="relative px-5 py-3 text-neutral-800 hover:text-primary font-semibold text-base transition-all duration-200 rounded-xl hover:bg-primary hover:bg-opacity-10 group nav-link"
@@ -118,15 +94,17 @@ const ctaLabel = await common('cta.inquire');
       <div class="flex items-center space-x-3">
         
         <!-- CTA Button - Más prominente -->
-        <a 
-          href={currentLang === 'es' ? '#contacto' : '#contact'}
-          class="hidden md:inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-primary-600 text-white text-base font-semibold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
-        >
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          {await common('cta.inquire')}
-        </a>
+        {cta?.text && (
+          <a 
+            href={cta.href}
+            class="hidden md:inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-primary-600 text-white text-base font-semibold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            {cta.text}
+          </a>
+        )}
 
         <!-- Language Switcher Component -->
         <LanguageSwitcher variant="header" currentLang={currentLang} />
@@ -135,7 +113,7 @@ const ctaLabel = await common('cta.inquire');
         <button
           type="button"
           class="lg:hidden p-2.5 text-neutral-600 hover:text-primary hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-30 rounded-lg transition-all duration-200"
-          aria-label={currentLang === 'es' ? 'Abrir menú' : 'Open menu'}
+          aria-label={aria.open_menu}
           data-mobile-menu-trigger
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +131,7 @@ const ctaLabel = await common('cta.inquire');
       aria-label="Mobile navigation"
     >
       <div class="px-4 py-6 space-y-2">
-        {navigationWithLabels.map((item) => (
+        {navItems.map((item) => (
           <a
             href={item.href}
             class="flex items-center justify-between py-3 px-4 text-neutral-800 hover:text-primary hover:bg-primary hover:bg-opacity-10 font-semibold rounded-lg transition-all duration-200 group mobile-nav-link"
@@ -170,13 +148,13 @@ const ctaLabel = await common('cta.inquire');
         <!-- Mobile CTA - Prominente -->
         <div class="pt-6 border-t border-neutral-200">
           <a 
-            href={currentLang === 'es' ? '#contacto' : '#contact'}
+            href={cta.href}
             class="flex items-center justify-center w-full py-4 bg-gradient-to-r from-primary to-primary-600 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5"
           >
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            {ctaLabel}
+            {cta.text}
           </a>
         </div>
       </div>
@@ -184,21 +162,16 @@ const ctaLabel = await common('cta.inquire');
   </div>
 
   <!-- Region Indicator (if region is set) -->
-  {currentRegion && (
-    <div class="bg-gradient-to-r from-accent from-opacity-10 to-accent to-opacity-5 border-b border-accent border-opacity-20" role="complementary" aria-label={currentLang === 'es' ? 'Información de región' : 'Region information'}>
+  {options.showRegionIndicator && currentRegion && (
+    <div class="bg-gradient-to-r from-accent from-opacity-10 to-accent to-opacity-5 border-b border-accent border-opacity-20" role="complementary" aria-label={aria.region_info}>
       <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-center text-sm">
           <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <span class="font-semibold text-accent-dark">
-            {currentLang === 'es' ? 'Región seleccionada:' : 'Selected region:'} 
-          </span>
           <span class="ml-2 px-2 py-1 bg-accent bg-opacity-20 text-accent-dark font-medium rounded-full text-xs">
-            {currentRegion === 'us-east' && (currentLang === 'es' ? 'Costa Este EE.UU.' : 'US East Coast')}
-            {currentRegion === 'mediterranean' && (currentLang === 'es' ? 'Mediterráneo' : 'Mediterranean')}
-            {currentRegion === 'middle-east' && (currentLang === 'es' ? 'Medio Oriente' : 'Middle East')}
+            {regionLabels[currentRegion]}
           </span>
         </div>
       </div>

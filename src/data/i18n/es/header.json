@@ -1,0 +1,31 @@
+{
+  "brand": {
+    "title": "Agracom Internacional",
+    "tagline": "Exportadores Premium"
+  },
+  "nav": [
+    { "key": "products", "href": "#productos", "label": "Productos" },
+    { "key": "certifications", "href": "#certificaciones", "label": "Certificaciones" },
+    { "key": "regions", "href": "#regiones", "label": "Regiones" },
+    { "key": "contact", "href": "#contacto", "label": "Contacto" }
+  ],
+  "cta": {
+    "text": "Consulte disponibilidad y precios",
+    "href": "#contacto"
+  },
+  "aria": {
+    "home": "Ir al inicio",
+    "open_menu": "Abrir menú",
+    "region_info": "Información de región"
+  },
+  "regionLabels": {
+    "us-east": "Costa Este EE.UU.",
+    "mediterranean": "Mediterráneo",
+    "middle-east": "Medio Oriente"
+  },
+  "options": {
+    "showRegionIndicator": true
+  }
+}
+
+
