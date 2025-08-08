@@ -3,6 +3,7 @@
 // Componente reutilizable para mostrar productos (lupinos y cerezas)
 
 import type { Product, Locale, ComponentVariant, ComponentSize } from '../../types/global';
+import { getAssetURL } from '../../utils/i18n';
 // import { createTranslator } from '../../utils/i18n'; // Comentado hasta uso futuro
 
 export interface Props {
@@ -87,7 +88,7 @@ const formatSpecification = (spec: string) => {
     {product.image ? (
       <!-- Actual Product Image -->
       <img
-        src={product.image}
+        src={getAssetURL(product.image)}
         alt={product.name}
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         loading="lazy"
@@ -274,7 +275,7 @@ const formatSpecification = (spec: string) => {
     "@type": "Product",
     "name": product.name,
     "description": product.description,
-    "image": product.image || `/images/agracom-${product.category}-premium.webp`,
+    "image": getAssetURL(product.image || `/images/agracom-${product.category}-premium.webp`),
     "brand": {
       "@type": "Brand",
       "name": "Agracom Internacional S.A."

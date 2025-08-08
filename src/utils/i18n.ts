@@ -117,12 +117,23 @@ export function formatDate(date: Date, locale: Locale, options?: Intl.DateTimeFo
  */
 export function getLocalizedURL(path: string, locale: Locale): string {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const baseURL = typeof import.meta.env !== 'undefined' && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : '/';
+  
+  let localizedPath;
   // Use directory-based routing for English
   if (locale === 'en') {
-    return normalizedPath === '/' ? '/en/' : `/en${normalizedPath}`;
+    localizedPath = normalizedPath === '/' ? '/en/' : `/en${normalizedPath}`;
+  } else {
+    // Spanish as default without prefix
+    localizedPath = normalizedPath;
   }
-  // Spanish as default without prefix
-  return normalizedPath;
+  
+  // Add base URL if we're in a subpath deployment (like GitHub Pages)
+  if (baseURL !== '/') {
+    return `${baseURL.replace(/\/$/, '')}${localizedPath}`;
+  }
+  
+  return localizedPath;
 }
 
 /**
@@ -178,11 +189,13 @@ export function getAssetURL(path: string): string {
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
-  // In development or when base is not set, use root-relative paths
-  if (typeof import.meta.env !== 'undefined' && import.meta.env.BASE_URL) {
-    return `${import.meta.env.BASE_URL}${cleanPath}`;
-  }
+  // Get base URL from Astro's environment
+  const baseURL = typeof import.meta.env !== 'undefined' && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : '/';
   
-  // Fallback for any other environment
-  return `/${cleanPath}`;
+  // Always use base URL + clean path
+  if (baseURL === '/') {
+    return `/${cleanPath}`;
+  } else {
+    return `${baseURL.replace(/\/$/, '')}/${cleanPath}`;
+  }
 }

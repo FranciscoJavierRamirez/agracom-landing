@@ -3,7 +3,7 @@
 // Sección principal con propuesta de valor, CTAs y imagen hero
 
 import type { Locale, Region, CTAButton, ImageAsset } from '../../types/global';
-import { createTranslator } from '../../utils/i18n';
+import { createTranslator, getAssetURL } from '../../utils/i18n';
 
 export interface Props {
   title?: string;
@@ -75,7 +75,7 @@ const certifications = [
 
 // Default vertical hero image optimized for design (WebP)
 const defaultHeroImage: ImageAsset = {
-  src: '/images/agracom_herosection_bodegon.webp?v=1',
+  src: getAssetURL('/images/agracom_herosection_bodegon.webp?v=1'),
   alt: lang === 'es'
     ? 'Bodegón vertical de productos Agracom: lupinos, pasas y nueces'
     : 'Vertical still life of Agracom products: lupins, raisins and walnuts',
@@ -187,7 +187,7 @@ const defaultHeroImage: ImageAsset = {
         <div class="rounded-2xl shadow-2xl ring-1 ring-neutral-200 overflow-hidden bg-neutral-100 relative flex items-start justify-center w-full lg:max-w-[560px] xl:max-w-[600px] mx-auto">
           <picture class="block w-full">
             <source 
-              srcset="/images/agracom_herosection_bodegon.webp?v=1 1200w, /images/agracom_herosection_bodegon.webp?v=1 800w, /images/agracom_herosection_bodegon.webp?v=1 600w" 
+              srcset={`${getAssetURL('/images/agracom_herosection_bodegon.webp?v=1')} 1200w, ${getAssetURL('/images/agracom_herosection_bodegon.webp?v=1')} 800w, ${getAssetURL('/images/agracom_herosection_bodegon.webp?v=1')} 600w`}
               sizes="(min-width: 1280px) 560px, (min-width: 1024px) 520px, 90vw" 
               type="image/webp" 
             />

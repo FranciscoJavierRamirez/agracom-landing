@@ -3,7 +3,7 @@
 // Carrusel horizontal automático de imágenes entre el Hero y la sección de productos
 
 import type { Locale } from '../../types/global';
-import { createTranslator } from '../../utils/i18n';
+import { createTranslator, getAssetURL } from '../../utils/i18n';
 
 export interface Props {
   lang: Locale;
@@ -24,29 +24,29 @@ const ariaLabel = lang === 'es'
 // Slide data with enhanced presentation
 const slides = [
   {
-    webp: '/images/agracom_productos.webp',
-    fallback: '/images/agracom_todos_productos2.png',
+    webp: getAssetURL('/images/agracom_productos.webp'),
+    fallback: getAssetURL('/images/agracom_todos_productos2.png'),
     alt: altLineup,
     title: lang === 'es' ? 'Nuestra Línea de Productos' : 'Our Product Line',
     subtitle: lang === 'es' ? 'Cerezas, Lupinos y Pasas Premium' : 'Premium Cherries, Lupins & Raisins'
   },
   {
-    webp: '/images/agracom-personal-planta-caja.webp',
-    fallback: '/images/agracom-personal-planta-caja.jpg',
+    webp: getAssetURL('/images/agracom-personal-planta-caja.webp'),
+    fallback: getAssetURL('/images/agracom-personal-planta-caja.jpg'),
     alt: altPlantBox,
     title: lang === 'es' ? 'Proceso de Empaque' : 'Packing Process',
     subtitle: lang === 'es' ? 'Control de Calidad en Planta' : 'Quality Control at Plant'
   },
   {
-    webp: '/images/agracom-Personal-Planta-Pick.webp',
-    fallback: '/images/agracom-Personal-Planta-Pick.jpg',
+    webp: getAssetURL('/images/agracom-Personal-Planta-Pick.webp'),
+    fallback: getAssetURL('/images/agracom-Personal-Planta-Pick.jpg'),
     alt: altPlantPick,
     title: lang === 'es' ? 'Cosecha Manual' : 'Hand Picking',
     subtitle: lang === 'es' ? 'Selección Cuidadosa de Productos' : 'Careful Product Selection'
   },
   {
-    webp: '/images/Lupino-Amargo-scaled-2550x1434.webp',
-    fallback: '/images/Lupino-Amargo-scaled-2550x1434.jpg',
+    webp: getAssetURL('/images/Lupino-Amargo-scaled-2550x1434.webp'),
+    fallback: getAssetURL('/images/Lupino-Amargo-scaled-2550x1434.jpg'),
     alt: lang === 'es' ? 'Campo de lupinos' : 'Lupin field',
     title: lang === 'es' ? 'Campos de Cultivo' : 'Cultivation Fields',
     subtitle: lang === 'es' ? 'Origen Natural de Nuestros Productos' : 'Natural Origin of Our Products'
@@ -462,32 +462,32 @@ const slides = [
 
     let currentModalIndex = 0;
 
-    // Define slides data for modal
+    // Define slides data for modal - using the same getAssetURL paths
     const slidesData = [
       {
-        webp: '/images/agracom_productos.webp',
-        fallback: '/images/agracom_todos_productos2.png',
+        webp: document.querySelector('[data-slide-index="0"] picture source')?.getAttribute('srcset') || '',
+        fallback: document.querySelector('[data-slide-index="0"] img')?.getAttribute('src') || '',
         alt: document.querySelector('[data-slide-index="0"] img')?.getAttribute('alt') || 'Productos Agracom',
         title: 'Nuestra Línea de Productos',
         subtitle: 'Cerezas, Lupinos y Pasas Premium'
       },
       {
-        webp: '/images/agracom-personal-planta-caja.webp',
-        fallback: '/images/agracom-personal-planta-caja.jpg',
+        webp: document.querySelector('[data-slide-index="1"] picture source')?.getAttribute('srcset') || '',
+        fallback: document.querySelector('[data-slide-index="1"] img')?.getAttribute('src') || '',
         alt: document.querySelector('[data-slide-index="1"] img')?.getAttribute('alt') || 'Personal planta',
         title: 'Proceso de Empaque',
         subtitle: 'Control de Calidad en Planta'
       },
       {
-        webp: '/images/agracom-Personal-Planta-Pick.webp',
-        fallback: '/images/agracom-Personal-Planta-Pick.jpg',
+        webp: document.querySelector('[data-slide-index="2"] picture source')?.getAttribute('srcset') || '',
+        fallback: document.querySelector('[data-slide-index="2"] img')?.getAttribute('src') || '',
         alt: document.querySelector('[data-slide-index="2"] img')?.getAttribute('alt') || 'Personal cosecha',
         title: 'Cosecha Manual',
         subtitle: 'Selección Cuidadosa de Productos'
       },
       {
-        webp: '/images/Lupino-Amargo-scaled-2550x1434.webp',
-        fallback: '/images/Lupino-Amargo-scaled-2550x1434.jpg',
+        webp: document.querySelector('[data-slide-index="3"] picture source')?.getAttribute('srcset') || '',
+        fallback: document.querySelector('[data-slide-index="3"] img')?.getAttribute('src') || '',
         alt: document.querySelector('[data-slide-index="3"] img')?.getAttribute('alt') || 'Campo de lupinos',
         title: 'Campos de Cultivo',
         subtitle: 'Origen Natural de Nuestros Productos'
