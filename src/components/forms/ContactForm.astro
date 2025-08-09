@@ -670,7 +670,14 @@ const currentExecutive = region ? regionalExecutives[region] : null;
     updateBusinessStatus();
     
     // Update every minute to keep it current
-    setInterval(updateBusinessStatus, 60000);
+    const businessStatusInterval = setInterval(updateBusinessStatus, 60000);
+    
+    // Clean up interval when page is unloaded
+    window.addEventListener('beforeunload', function() {
+      if (businessStatusInterval) {
+        clearInterval(businessStatusInterval);
+      }
+    });
     const form = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
     const formStatus = document.getElementById('form-status');
@@ -681,37 +688,61 @@ const currentExecutive = region ? regionalExecutives[region] : null;
 
     // Validation patterns
     const validators = {
-      required: (value) => value.trim() !== '',
-      email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-      phone: (value) => value === '' || /^[\+]?[1-9][\d]{0,15}$/.test(value.replace(/\s/g, '')),
-      select: (value) => value !== '',
-      checkbox: (checked) => checked
+      required: (value) => {
+        if (typeof value !== 'string') return false;
+        return value.trim() !== '';
+      },
+      email: (value) => {
+        if (typeof value !== 'string') return false;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value.trim());
+      },
+      phone: (value) => {
+        if (typeof value !== 'string') return true; // Optional field
+        if (value.trim() === '') return true; // Empty is allowed
+        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+        return phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''));
+      },
+      select: (value) => {
+        if (typeof value !== 'string') return false;
+        return value.trim() !== '';
+      },
+      checkbox: (checked) => {
+        return Boolean(checked);
+      }
     };
 
     // Error messages
     const errorMessages = {
-      required: '{lang === "es" ? "Este campo es requerido" : "This field is required"}',
-      email: '{lang === "es" ? "Ingresa un email válido" : "Please enter a valid email"}',
-      phone: '{lang === "es" ? "Ingresa un teléfono válido" : "Please enter a valid phone number"}',
-      select: '{lang === "es" ? "Por favor selecciona una opción" : "Please select an option"}',
-      checkbox: '{lang === "es" ? "Debes aceptar la política de privacidad" : "You must accept the privacy policy"}'
+      required: currentLang === 'es' ? 'Este campo es requerido' : 'This field is required',
+      email: currentLang === 'es' ? 'Ingresa un email válido' : 'Please enter a valid email',
+      phone: currentLang === 'es' ? 'Ingresa un teléfono válido' : 'Please enter a valid phone number',
+      select: currentLang === 'es' ? 'Por favor selecciona una opción' : 'Please select an option',
+      checkbox: currentLang === 'es' ? 'Debes aceptar la política de privacidad' : 'You must accept the privacy policy'
     };
 
     // Validate field
     function validateField(field) {
+      if (!field || !field.dataset) return true;
+      
       const validateType = field.dataset.validate;
       if (!validateType) return true;
 
       const value = field.type === 'checkbox' ? field.checked : field.value;
-      const isValid = validators[validateType](value);
+      const validator = validators[validateType];
+      if (!validator) return true;
       
+      const isValid = validator(value);
       const errorDiv = document.querySelector(`[data-error="${field.name}"]`);
       
       if (!isValid) {
         field.classList.add('form-input--error');
         if (errorDiv) {
-          errorDiv.textContent = errorMessages[validateType];
-          errorDiv.classList.remove('hidden');
+          const errorMessage = errorMessages[validateType];
+          if (errorMessage) {
+            errorDiv.textContent = errorMessage;
+            errorDiv.classList.remove('hidden');
+          }
         }
         return false;
       } else {
@@ -725,6 +756,8 @@ const currentExecutive = region ? regionalExecutives[region] : null;
 
     // Validate entire form
     function validateForm() {
+      if (!form) return false;
+      
       const fields = form.querySelectorAll('[data-validate]');
       let isValid = true;
 
@@ -737,111 +770,149 @@ const currentExecutive = region ? regionalExecutives[region] : null;
       return isValid;
     }
 
-    // Real-time validation
-    form.addEventListener('input', function(e) {
-      if (e.target.dataset.validate) {
-        setTimeout(() => validateField(e.target), 300);
-      }
-    });
+    // Real-time validation with debouncing
+    let validationTimeouts = new Map();
+    
+    if (form) {
+      form.addEventListener('input', function(e) {
+        const target = e.target;
+        if (target && target.dataset && target.dataset.validate) {
+          // Clear existing timeout for this field
+          const fieldName = target.name;
+          if (validationTimeouts.has(fieldName)) {
+            clearTimeout(validationTimeouts.get(fieldName));
+          }
+          
+          // Set new timeout
+          const timeoutId = setTimeout(() => {
+            validateField(target);
+            validationTimeouts.delete(fieldName);
+          }, 300);
+          
+          validationTimeouts.set(fieldName, timeoutId);
+        }
+      });
 
-    form.addEventListener('change', function(e) {
-      if (e.target.dataset.validate) {
-        validateField(e.target);
-      }
-    });
+      form.addEventListener('change', function(e) {
+        const target = e.target;
+        if (target && target.dataset && target.dataset.validate) {
+          // Clear any pending timeout for immediate validation
+          const fieldName = target.name;
+          if (validationTimeouts.has(fieldName)) {
+            clearTimeout(validationTimeouts.get(fieldName));
+            validationTimeouts.delete(fieldName);
+          }
+          validateField(target);
+        }
+      });
+      
+      // Clean up timeouts when page is unloaded
+      window.addEventListener('beforeunload', function() {
+        validationTimeouts.forEach(timeoutId => {
+          clearTimeout(timeoutId);
+        });
+        validationTimeouts.clear();
+      });
+    }
 
     // Form submission
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      if (!validateForm()) {
-        return;
-      }
-
-      // Show loading state
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `
-        <span class="flex items-center justify-center">
-          <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          ${'{lang === "es" ? "Enviando..." : "Sending..."}'}
-        </span>
-      `;
-
-      try {
-        // Collect form data
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        // Add metadata
-        data.formType = form.dataset.formType;
-        data.region = form.dataset.region;
-        data.product = form.dataset.product;
-        data.timestamp = new Date().toISOString();
-        data.language = '{lang}';
-
-        // Track form submission
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'form_submit', {
-            event_category: 'Contact',
-            event_label: data.formType,
-            custom_parameter_region: data.region,
-            custom_parameter_product: data.product
-          });
+        if (!validateForm()) {
+          return;
         }
 
-        // Simulate API call (replace with actual endpoint)
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // For now, log the data (replace with actual API call)
-        console.log('Form submission data:', data);
-        
-        // Show success message
-        formStatus.classList.remove('hidden');
-        successMessage.classList.remove('hidden');
-        errorMessage.classList.add('hidden');
-        
-        // Reset form
-        form.reset();
-        
-        // Track successful submission
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'form_submit_success', {
-            event_category: 'Contact',
-            event_label: data.formType
-          });
+        // Show loading state
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `
+            <span class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              ${currentLang === 'es' ? 'Enviando...' : 'Sending...'}
+            </span>
+          `;
         }
 
-      } catch (error) {
-        console.error('Form submission error:', error);
-        
-        // Show error message
-        formStatus.classList.remove('hidden');
-        errorMessage.classList.remove('hidden');
-        successMessage.classList.add('hidden');
-        
-        // Track form error
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'form_submit_error', {
-            event_category: 'Contact',
-            event_label: 'submission_failed'
-          });
+        try {
+          // Collect form data
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+          
+          // Add metadata safely
+          data.formType = form.dataset?.formType || 'contact';
+          data.region = form.dataset?.region || '';
+          data.product = form.dataset?.product || '';
+          data.timestamp = new Date().toISOString();
+          data.language = currentLang;
+
+          // Track form submission (optional, only if gtag is available)
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', 'form_submit', {
+              event_category: 'Contact',
+              event_label: data.formType,
+              custom_parameter_region: data.region,
+              custom_parameter_product: data.product
+            });
+          }
+
+          // Simulate API call (replace with actual endpoint)
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // For now, log the data (replace with actual API call)
+          console.log('Form submission data:', data);
+          
+          // Show success message
+          if (formStatus) formStatus.classList.remove('hidden');
+          if (successMessage) successMessage.classList.remove('hidden');
+          if (errorMessage) errorMessage.classList.add('hidden');
+          
+          // Reset form
+          form.reset();
+          
+          // Track successful submission
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', 'form_submit_success', {
+              event_category: 'Contact',
+              event_label: data.formType
+            });
+          }
+
+        } catch (error) {
+          console.error('Form submission error:', error);
+          
+          // Show error message
+          if (formStatus) formStatus.classList.remove('hidden');
+          if (errorMessage) errorMessage.classList.remove('hidden');
+          if (successMessage) successMessage.classList.add('hidden');
+          
+          // Track form error
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', 'form_submit_error', {
+              event_category: 'Contact',
+              event_label: 'submission_failed'
+            });
+          }
+        } finally {
+          // Restore button
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+              <span class="flex items-center justify-center">
+                ${currentLang === 'es' ? 'Enviar consulta' : 'Send inquiry'}
+                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            `;
+          }
         }
-      } finally {
-        // Restore button
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `
-          <span class="flex items-center justify-center">
-            ${'{currentConfig.submitText}'}
-            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </span>
-        `;
-      }
-    });
+      });
+    }
   });
 </script>
 
