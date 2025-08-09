@@ -340,6 +340,9 @@ const currentYear = new Date().getFullYear();
               <h5 class="font-bold text-white text-lg">
                 {lang === 'es' ? 'Horario de Atención' : 'Business Hours'}
               </h5>
+              <span id="footer-business-status" class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ml-2">
+                <!-- Status will be updated by JavaScript -->
+              </span>
             </div>
             <div class="text-neutral-200">
               <p class="font-semibold text-lg">{lang === 'es' ? 'Lunes a Viernes' : 'Monday to Friday'}</p>
@@ -514,8 +517,45 @@ const currentYear = new Date().getFullYear();
 
 <!-- Footer JavaScript -->
 <script define:vars={{ currentLang: lang }}>
+  // Business Hours Status Logic for Footer
+  function updateFooterBusinessStatus() {
+    const statusElement = document.getElementById('footer-business-status');
+    if (!statusElement) return;
+
+    // Get current time in Chile (CLT/CLST)
+    const now = new Date();
+    const chileanTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Santiago"}));
+    
+    const currentDay = chileanTime.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const currentHour = chileanTime.getHours();
+    const currentMinute = chileanTime.getMinutes();
+    const currentTimeInMinutes = currentHour * 60 + currentMinute;
+    
+    // Business hours: Monday (1) to Friday (5), 9:00 to 18:00 CLT
+    const isWeekday = currentDay >= 1 && currentDay <= 5;
+    const startTime = 9 * 60; // 9:00 AM in minutes
+    const endTime = 18 * 60;  // 6:00 PM in minutes
+    const isBusinessHours = currentTimeInMinutes >= startTime && currentTimeInMinutes < endTime;
+    
+    const isOpen = isWeekday && isBusinessHours;
+    
+    // Update status badge
+    if (isOpen) {
+      statusElement.className = 'inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800 border border-green-200 ml-2';
+      statusElement.textContent = currentLang === 'es' ? 'Abierto' : 'Open';
+    } else {
+      statusElement.className = 'inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800 border border-red-200 ml-2';
+      statusElement.textContent = currentLang === 'es' ? 'Cerrado' : 'Closed';
+    }
+  }
+
   // Scroll to top functionality - Show when footer is visible
   document.addEventListener('DOMContentLoaded', function() {
+    // Update business status on load
+    updateFooterBusinessStatus();
+    
+    // Update every minute to keep it current
+    setInterval(updateFooterBusinessStatus, 60000);
     const scrollButton = document.getElementById('scroll-to-top');
     const footer = document.querySelector('footer');
     
